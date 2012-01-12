@@ -1,0 +1,25 @@
+# les lignes qui commencent par un # sont des lignes de commentaire
+
+# ignore les fichiers temporaires de emacs
+*~
+\#*\#
+.\#*
+
+# convention perso les fichiers qui commencent par _ ne sont pas track vous
+# pouvez ainsi creer les fichiers que vous voulez garder en local sans probleme
+_*
+
+# ignore le repertoire build qui sert a cmake
+build/
+
+# evident ^^
+a.out
+
+#no more object file
+*.o
+
+# QT
+qrc_*.cpp
+moc_*.cpp
+ui_*.h
+Makefile
