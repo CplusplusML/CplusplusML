@@ -49,3 +49,6 @@ add_executable(${PROJECT_NAME}
 							${${PROJECT_NAME}_SRCS}
 							${${PROJECT_NAME}_QTUI_HEADERS}
 							)
+
+#link section
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${QT_LIBRARIES})
