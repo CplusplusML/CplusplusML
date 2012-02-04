@@ -54,10 +54,20 @@ namespace AST
     BasicElement& operator<<(const C &c)
     {
       typedef CompileTimeError<TL::IndexOf<typename T::Result, C>::value != -1> IsAuthorized;
-      // if (
+
       return (*this);
       IsAuthorized invalid_type;
     }
+
+    // template <class C>
+    // C& operator>>(const C &c)
+    // {
+    //   typedef CompileTimeError<TL::IndexOf<typename T::Result, C>::value != -1> IsAuthorized;
+
+    //   std::cout << C.name() << std::endl;
+    //   return (C);
+    //   IsAuthorized invalid_type;
+    // }
 
   private:
     std::string _name;
