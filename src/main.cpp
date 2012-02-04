@@ -11,9 +11,9 @@ int main(void)
 
   AST::AST ast;
 
-  // ast.addElement("::", AST::Namespace);
-
   ast << AST::Namespace("toto");
+  (ast >> AST::Namespace("toto")) << AST::Class("titi");
+  (ast >> AST::Namespace("toto")) >> AST::Class("titi");
 
   // (ast >> AST::Namespace("::")) << AST::Class("toto");
 

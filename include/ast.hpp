@@ -6,6 +6,8 @@
 # include <vector>
 # include <utility>
 
+#include <boost/any.hpp>
+
 # include <loki/Typelist.h>
 # include <loki/static_check.h>
 
@@ -28,7 +30,8 @@ namespace AST
   class ASTPolicy;
   class ClassPolicy;
   class NamespacePolicy;
-  template <class T>
+  template <class T// , class Container=std::vector<boost::any> 
+	    >
   class BasicElement;
 
   typedef BasicElement<ASTPolicy> AST;
@@ -87,10 +90,13 @@ namespace AST
     {}
   };
 
-  template <class ElementPolicy>
+  template <class ElementPolicy// , class Container
+	    >
   class BasicElement : public ElementPolicy
   {
   public:
+    // using typename ElementPolicy::name;
+
     BasicElement()
     {
       typedef Loki::CompileTimeError<hasSameType<ElementPolicy, ASTPolicy>::value > CanBeUnnamed;
@@ -116,22 +122,42 @@ namespace AST
     {
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
+      // checker si on a pas une redeclaration
+      _elements.push_back(c);
       return (*this);
       IsAuthorized invalid_type;
     }
 
-    // template <class C>
-    // C& operator>>(const C &c)
-    // {
-    //   typedef Loki::CompileTimeError<TL::IndexOf<typename T::Result, C>::value != -1> IsAuthorized;
+    template <class C>
+    C& operator>>(const C &c)
+    {
+      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
-    //   std::cout << C.name() << std::endl;
-    //   return (C);
-    //   IsAuthorized invalid_type;
-    // }
+      for (boost::any &p: _elements)
+	{
+	  if (p.type() == typeid(C) && c.name() == (boost::any_cast<C>(p)).name())
+	    {
+	      return (boost::any_cast<C&>(_elements[0]));
+	    }
+	}
+      // revoir la gestion d'erreurs xD
+      throw 1;
+    }
+
+    const std::string &name() const
+    {
+      return (_name);
+    }
+
+    void name(const std::string &name)
+    {
+      _name = name;
+    }
 
   private:
     std::string _name;
+    // Container _elements;
+    std::vector<boost::any> _elements;
   };
 
   class Template
