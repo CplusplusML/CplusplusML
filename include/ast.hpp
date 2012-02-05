@@ -154,6 +154,19 @@ namespace AST
       _name = name;
     }
 
+    template <class C>
+    bool canAdd(const C& c)
+    {
+      return (Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1);
+    }
+
+    // voir si y a pas une de ces 2 methodes canAdd qui est de trop
+    template <class C>
+    bool canAdd(void)
+    {
+      return (Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1);
+    }
+
   private:
     std::string _name;
     // Container _elements;
