@@ -30,17 +30,12 @@ namespace AST
   class ASTPolicy;
   class ClassPolicy;
   class NamespacePolicy;
-  template <class T// , class Container=std::vector<boost::any> 
-	    >
+  template <class T>
   class BasicElement;
 
   typedef BasicElement<ASTPolicy> AST;
   typedef BasicElement<ClassPolicy> Class;
   typedef BasicElement<NamespacePolicy> Namespace;
-
-  //   template <template<class, class> class C, class T> 
-  //   Template(const C<T, std::allocator<T> >
-
 
   class ASTPolicy
   {
@@ -50,9 +45,6 @@ namespace AST
     {}
 
   public:
-    // explicit AST(const std::string &filename)
-    // {}
-
 
     ~ASTPolicy()
     {}
@@ -90,13 +82,10 @@ namespace AST
     {}
   };
 
-  template <class ElementPolicy// , class Container
-	    >
+  template <class ElementPolicy>
   class BasicElement : public ElementPolicy
   {
   public:
-    // using typename ElementPolicy::name;
-
     BasicElement()
     {
       typedef Loki::CompileTimeError<hasSameType<ElementPolicy, ASTPolicy>::value > CanBeUnnamed;
@@ -110,19 +99,11 @@ namespace AST
     ~BasicElement()
     {}
 
-    // voir si on peut stocker une collection de types (pas forcement d'objets),
-    // et ainsi pouvoir savoir si le type qu'on a recu est dans la collection, sinon faire
-    // un static_assert, si possible :D 
-    // la collection de types serait initialisee par le constructeur, OU alors en parametre template
-    // ex :
-    //  . <int, char, long> est la collection
-    //  . si `class C` est un int, c'est bon, si c'est un double, c'est pas bon
     template <class C>
     BasicElement& operator<<(const C &c)
     {
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
-      // checker si on a pas une redeclaration
       _elements.push_back(c);
       return (*this);
       IsAuthorized invalid_type;
@@ -160,7 +141,6 @@ namespace AST
       return (Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1);
     }
 
-    // voir si y a pas une de ces 2 methodes canAdd qui est de trop
     template <class C>
     bool canAdd(void)
     {
@@ -169,7 +149,6 @@ namespace AST
 
   private:
     std::string _name;
-    // Container _elements;
     std::vector<boost::any> _elements;
   };
 
