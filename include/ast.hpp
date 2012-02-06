@@ -25,75 +25,15 @@ struct hasSameType<T, T>
 
 namespace AST
 {
-  class Template;
+  class AST;
+  class Namespace;
+  class Class;
 
-  class ASTPolicy;
-  class ClassPolicy;
-  class NamespacePolicy;
-  template <class T>
-  class BasicElement;
-
-  typedef BasicElement<ASTPolicy> AST;
-  typedef BasicElement<ClassPolicy> Class;
-  typedef BasicElement<NamespacePolicy> Namespace;
-
-  class ASTPolicy
-  {
-  protected:
-    typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
-    ASTPolicy()
-    {}
-
-  public:
-
-    ~ASTPolicy()
-    {}
-  };
-
-  class ClassPolicy
-  {
-  protected:
-    typedef Loki::TL::MakeTypelist<Class> AuthorizedTypes;
-    ClassPolicy()
-    {}
-
-  public:
-    enum Visibility
-      {
-  	PUBLIC,
-  	PROTECTED,
-  	PRIVATE
-      };
-
-    ~ClassPolicy()
-    {}
-  };
-
-  class NamespacePolicy
-  {
-  protected:
-    NamespacePolicy()
-    {}
-    typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
-
-  public:
-
-    ~NamespacePolicy()
-    {}
-  };
-
-  template <class ElementPolicy>
-  class BasicElement : public ElementPolicy
+  template <class Element>
+  class BasicElement
   {
   public:
-    BasicElement()
-    {
-      typedef Loki::CompileTimeError<hasSameType<ElementPolicy, ASTPolicy>::value > CanBeUnnamed;
-      return ;
-      CanBeUnnamed canBeUnnamed;
-    }
-
-    explicit BasicElement(const std::string &name) : _name(name)
+    BasicElement(const std::string &name = "") : _name(name)
     {}
 
     ~BasicElement()
@@ -102,7 +42,7 @@ namespace AST
     template <class C>
     BasicElement& operator<<(const C &c)
     {
-      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
+      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
       _elements.push_back(c);
       return (*this);
@@ -112,7 +52,7 @@ namespace AST
     template <class C>
     C& operator>>(const C &c)
     {
-      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
+      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
       for (boost::any &p: _elements)
 	{
@@ -135,21 +75,74 @@ namespace AST
       _name = name;
     }
 
-    template <class C>
-    bool canAdd(const C& c)
-    {
-      return (Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1);
-    }
+    // template <class C>
+    // bool canAdd(const C& c)
+    // {
+    //   return (Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1);
+    // }
 
-    template <class C>
-    bool canAdd(void)
-    {
-      return (Loki::TL::IndexOf<typename ElementPolicy::AuthorizedTypes::Result, C>::value != -1);
-    }
+    // template <class C>
+    // bool canAdd(void)
+    // {
+    //   return (Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1);
+    // }
 
   private:
     std::string _name;
     std::vector<boost::any> _elements;
+  };
+
+  class AST : public BasicElement<AST>
+  {
+  public:
+    typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
+
+    using BasicElement::operator<<;
+    using BasicElement::operator>>;
+    using BasicElement::name;
+
+    AST(const std::string &name = "") : BasicElement<AST>(name)
+    {}
+    ~AST()
+    {}
+  };
+
+  class Class : public BasicElement<Class>
+  {
+  public:
+    typedef Loki::TL::MakeTypelist<Class> AuthorizedTypes;
+
+    using BasicElement::operator<<;
+    using BasicElement::operator>>;
+    using BasicElement::name;
+
+    enum Visibility
+      {
+  	PUBLIC,
+  	PROTECTED,
+  	PRIVATE
+      };
+
+    Class(const std::string &name) : BasicElement<Class>(name)
+    {}
+
+    ~Class()
+    {}
+  };
+
+  class Namespace : public BasicElement<Namespace>
+  {
+  public:
+    typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
+
+    using BasicElement::operator<<;
+    using BasicElement::operator>>;
+    using BasicElement::name;
+
+    Namespace(const std::string &name) : BasicElement<Namespace>(name)
+    {}
+    ~Namespace()
+    {}
   };
 
   class Template
