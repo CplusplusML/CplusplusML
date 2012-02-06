@@ -53,12 +53,11 @@ namespace AST
     C& operator>>(const C &c)
     {
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
-
-      for (boost::any &p: _elements)
+      for (std::vector<boost::any>::iterator b(_elements.begin()), e(_elements.end()); b != e; ++b)
 	{
-	  if (p.type() == typeid(C) && c.name() == (boost::any_cast<C>(p)).name())
+	  if (b->type() == typeid(C) && c.name() == (boost::any_cast<C>(*b)).name())
 	    {
-	      return (boost::any_cast<C&>(_elements[0]));
+	      return (boost::any_cast<C&>(*b));
 	    }
 	}
       // revoir la gestion d'erreurs xD
