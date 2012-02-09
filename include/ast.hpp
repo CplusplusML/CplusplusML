@@ -11,6 +11,10 @@
 # include <loki/Typelist.h>
 # include <loki/static_check.h>
 
+# include <boost/shared_ptr.hpp>
+
+using boost::shared_ptr;
+
 template <class T, class U>
 struct hasSameType
 {
@@ -44,9 +48,11 @@ namespace AST
     {
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
 
-      _elements.push_back(c);
+      shared_ptr<C> p(new C(c));
+      _elements.push_back(p);
       return (*this);
       IsAuthorized invalid_type;
+      (void)invalid_type;
     }
 
     template <class C>
@@ -55,13 +61,15 @@ namespace AST
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
       for (std::vector<boost::any>::iterator b(_elements.begin()), e(_elements.end()); b != e; ++b)
 	{
-	  if (b->type() == typeid(C) && c.name() == (boost::any_cast<C>(*b)).name())
+	  if (b->type() == typeid(shared_ptr<C>) && c.name() == (boost::any_cast<shared_ptr<C> >(*b))->name())
 	    {
-	      return (boost::any_cast<C&>(*b));
+	      return (*(boost::any_cast<shared_ptr<C> >(*b)));
 	    }
 	}
       // revoir la gestion d'erreurs xD
       throw 1;
+      IsAuthorized invalid_type;
+      (void)invalid_type;
     }
 
     const std::string &name() const
