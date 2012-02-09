@@ -15,23 +15,12 @@
 
 using boost::shared_ptr;
 
-template <class T, class U>
-struct hasSameType
-{
-  enum { value = false };
-};
-
-template <class T>
-struct hasSameType<T, T>
-{
-  enum { value = true };
-};
-
 namespace AST
 {
   class AST;
   class Namespace;
   class Class;
+  class Value;
 
   template <class Element>
   class BasicElement
@@ -117,7 +106,7 @@ namespace AST
   class Class : public BasicElement<Class>
   {
   public:
-    typedef Loki::TL::MakeTypelist<Class> AuthorizedTypes;
+    typedef Loki::TL::MakeTypelist<Class, Value> AuthorizedTypes;
 
     using BasicElement::operator<<;
     using BasicElement::operator>>;
@@ -163,10 +152,10 @@ namespace AST
   	     &collection)
     {
       std::cout << "Begin template" << std::endl;
-      for (const Parameter &p: collection)
-  	{
-  	  std::cout << "first " << p.first << " ; second " << p.second << std::endl;
-  	}
+      // for (const Parameter &p: collection)
+      // 	{
+      // 	  std::cout << "first " << p.first << " ; second " << p.second << std::endl;
+      // 	}
       std::cout << "End template" << std::endl;
     }
 
