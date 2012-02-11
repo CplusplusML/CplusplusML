@@ -45,7 +45,7 @@ namespace AST
     }
 
     template <class C>
-    C& operator>>(const C &c)
+    C& Get(const C &c)
     {
       typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
       for (std::vector<boost::any>::iterator b(_elements.begin()), e(_elements.end()); b != e; ++b)
@@ -94,7 +94,7 @@ namespace AST
     typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
 
     using BasicElement::operator<<;
-    using BasicElement::operator>>;
+    using BasicElement::Get;
     using BasicElement::name;
 
     AST(const std::string &name = "") : BasicElement<AST>(name)
@@ -106,10 +106,13 @@ namespace AST
   class Class : public BasicElement<Class>
   {
   public:
+    // trouver le moyen de faire une iteration sur une type list correspondant
+    // aux types de values qu'on pourra avoir, et ensuite les inserer
+    // dans l'AuthorizedTypes, a base de Value<TypeValue>
     typedef Loki::TL::MakeTypelist<Class, Value> AuthorizedTypes;
 
     using BasicElement::operator<<;
-    using BasicElement::operator>>;
+    using BasicElement::Get;
     using BasicElement::name;
 
     enum Visibility
@@ -132,7 +135,7 @@ namespace AST
     typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
 
     using BasicElement::operator<<;
-    using BasicElement::operator>>;
+    using BasicElement::Get;
     using BasicElement::name;
 
     Namespace(const std::string &name) : BasicElement<Namespace>(name)
@@ -162,6 +165,22 @@ namespace AST
   public:
     ~Template()
     {}
+  };
+
+  // a faire
+  class Value
+  {
+  public:
+    template <class C>
+    Value(const C& c, const std::string &value) : _element(c), _value(value)
+    {}
+
+    ~Value()
+    {}
+
+  private:
+    boost::any _element;
+    std::string _value;
   };
 
 }
