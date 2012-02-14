@@ -1,5 +1,16 @@
 #set gcc version first
-SET(CMAKE_CXX_COMPILER g++-4.6)
+SET(CMAKE_CXX_COMPILER g++)
+
+## Compiler version check.
+## Calling directly g++-x.y is a bad solution since some distros lack symlinks with version number.
+execute_process(COMMAND         g++ -dumpversion
+                COMMAND         tr -d .
+                OUTPUT_VARIABLE GCC_VERSION
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+IF(${GCC_VERSION} LESS "460")
+        MESSAGE(SEND_ERROR "gcc version must be >= 4.6")
+ENDIF()
 
 PROJECT(c++ml)
 
