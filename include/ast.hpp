@@ -9,11 +9,10 @@
 #include <boost/any.hpp>
 
 # include <loki/Typelist.h>
-# include <loki/static_check.h>
 
 # include <boost/shared_ptr.hpp>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 namespace AST
 {
@@ -35,19 +34,17 @@ namespace AST
     template <class C>
     BasicElement& operator<<(const C &c)
     {
-      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
+      static_assert(Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1, "Invalid type");
 
       shared_ptr<C> p(new C(c));
       _elements.push_back(p);
       return (*this);
-      IsAuthorized invalid_type;
-      (void)invalid_type;
     }
 
     template <class C>
     C& Get(const C &c)
     {
-      typedef Loki::CompileTimeError<Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1> IsAuthorized;
+      static_assert(Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1, "Invalid type");
       for (std::vector<boost::any>::iterator b(_elements.begin()), e(_elements.end()); b != e; ++b)
 	{
 	  if (b->type() == typeid(shared_ptr<C>) && c.name() == (boost::any_cast<shared_ptr<C> >(*b))->name())
@@ -57,8 +54,6 @@ namespace AST
 	}
       // revoir la gestion d'erreurs xD
       throw 1;
-      IsAuthorized invalid_type;
-      (void)invalid_type;
     }
 
     const std::string &name() const
@@ -175,12 +170,25 @@ namespace AST
     Value(const C& c, const std::string &value) : _element(c), _value(value)
     {}
 
+    Value(const std::string &value) : _value(value)
+    {}
+
     ~Value()
     {}
 
   private:
     boost::any _element;
     std::string _value;
+  };
+
+  class Pointer
+  {
+  public:
+    Pointer()
+    {}
+
+    ~Pointer()
+    {}
   };
 
 }
