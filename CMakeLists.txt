@@ -32,12 +32,14 @@ INCLUDE_DIRECTORIES(
 									 ${CMAKE_CURRENT_BINARY_DIR}
 									 )
 #Headers QT
-INCLUDE(${QT_USE_FILE})
+INCLUDE(${QT_USE_FILE}
+        )
 
 
 #UI QT
 SET(${PROJECT_NAME}_QTUI
-				ui/MainWindow.ui)
+				ui/MainWindow.ui
+        ui/AboutWindow.ui)
 
 #UI RESSOURCES
 # SET(${PROJECT_NAME}_RESOURCES
@@ -47,6 +49,7 @@ SET(${PROJECT_NAME}_QTUI
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
 		)
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
@@ -55,10 +58,16 @@ SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
 QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 				${${PROJECT_NAME}_QTUI})
 
+#QT Compilation
+QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
+				${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h)
+
+
 #Compilation Section
 add_executable(${PROJECT_NAME}
 							${${PROJECT_NAME}_SRCS}
-							${${PROJECT_NAME}_QTUI_HEADERS}
+              ${${PROJECT_NAME}_QT_HEADERS_MOC}
+              ${${PROJECT_NAME}_QTUI_HEADERS}
 							)
 
 #link section
