@@ -13,6 +13,8 @@
 
 # include <boost/shared_ptr.hpp>
 
+# include <cstdint>
+
 using std::shared_ptr;
 
 namespace AST
@@ -21,6 +23,7 @@ namespace AST
   class Namespace;
   class Class;
   class Value;
+  class Array;
   class Template;
 
   class Template
@@ -184,7 +187,7 @@ namespace AST
     // trouver le moyen de faire une iteration sur une type list correspondant
     // aux types de values qu'on pourra avoir, et ensuite les inserer
     // dans l'AuthorizedTypes, a base de Value<TypeValue>
-    typedef Loki::TL::MakeTypelist<Class, Value> AuthorizedTypes;
+    typedef Loki::TL::MakeTypelist<Class, Value, Array> AuthorizedTypes;
 
     using BasicElement::operator<<;
     using BasicElement::Get;
@@ -225,10 +228,10 @@ namespace AST
   {
   public:
     template <class C>
-    Value(const C& c, const std::string &value) : _element(c), _value(value)
+    Value(const C& c, const std::string &name) : _element(c), _name(name)
     {}
 
-    Value(const std::string &value) : _value(value)
+    Value(const std::string &name) : _name(name)
     {}
 
     ~Value()
@@ -236,7 +239,7 @@ namespace AST
 
   private:
     boost::any _element;
-    std::string _value;
+    std::string _name;
   };
 
   class Pointer
@@ -247,6 +250,49 @@ namespace AST
 
     ~Pointer()
     {}
+  };
+
+  class Array
+  {
+  public:
+    template <class C>
+    Array(const C&c, const std::string &name, const size_t size) : // _element(size),
+      _name(name),
+      _size(size),
+      _type(c)
+    {}
+
+    Array(const std::string &name) : _name(name)
+    {}
+
+    ~Array()
+    {}
+
+    size_t getSize(void) const
+    {
+      return (_size);
+    }
+
+    bool operator==(const Array& cmp) const
+    {
+      return (_name == cmp._name);
+    }
+
+    const std::string &name() const
+    {
+      return (_name);
+    }
+
+    // const C& getType(void) const
+    // {
+    //   return (_type);
+    // }
+
+  private:
+    // std::vector<C> _element;
+    std::string _name;
+    size_t _size;
+    boost::any _type;
   };
 
 }
