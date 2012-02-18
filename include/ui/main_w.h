@@ -15,8 +15,12 @@ namespace CplusplusML
     ~Main_W();
   public slots:
     void About();
+    void WebSite();
+    void Help();
   private:
     QDialog aboutWindow_;
+    QDialog webSiteWindow_;
+    QDialog helpWindow_;
   };
 }
 
