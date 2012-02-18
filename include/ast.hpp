@@ -6,7 +6,8 @@
 # include <vector>
 # include <utility>
 
-#include <boost/any.hpp>
+# include <boost/any.hpp>
+# include <boost/variant.hpp>
 
 # include <loki/Typelist.h>
 
@@ -20,6 +21,85 @@ namespace AST
   class Namespace;
   class Class;
   class Value;
+  class Template;
+
+  class Template
+  {
+  public:
+    struct Type
+    {
+      Type()
+      {}
+
+      Type(const std::string &name) : _name(name)
+      {}
+
+      ~Type()
+      {}
+
+    private:
+      std::string _name;
+    };
+
+    // template <typename T>
+    struct TypeNumeric
+    {
+      TypeNumeric()
+      {}
+
+      TypeNumeric(const std::string &name) : _name(name)
+      {
+	// static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
+      }
+
+      ~TypeNumeric()
+      {}
+
+    private:
+      typedef Loki::TL::MakeTypelist<int, long> AuthorizedNumericTypes;
+      std::string _name;
+    };
+
+    struct Variadic
+    {
+      Variadic()
+      {}
+
+      Variadic(const std::string &name) : _name(name)
+      {}
+
+      ~Variadic()
+      {}
+
+    private:
+      std::string _name;
+    };
+  };
+
+  class Templateable
+  {
+    typedef Loki::TL::MakeTypelist<Template::Type,
+				   Template::Variadic,
+				   Template::TypeNumeric>
+    AuthorizedTemplates;
+  public:
+    template <typename T, typename ...Rest>
+    void Templates(const T &t, const Rest&... rest)
+    {
+      Templates(t);
+      Templates(rest...);
+    }
+
+    template <typename T>
+    void Templates(const T &t)
+    {
+      static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
+      _templates.push_back(t);
+    }
+
+  private:
+    std::vector<boost::variant<Template::Type, Template::Variadic, Template::TypeNumeric> > _templates;
+  };
 
   template <class Element>
   class BasicElement
@@ -98,7 +178,7 @@ namespace AST
     {}
   };
 
-  class Class : public BasicElement<Class>
+  class Class : public BasicElement<Class>, public Templateable
   {
   public:
     // trouver le moyen de faire une iteration sur une type list correspondant
@@ -109,6 +189,7 @@ namespace AST
     using BasicElement::operator<<;
     using BasicElement::Get;
     using BasicElement::name;
+    using Templateable::Templates;
 
     enum Visibility
       {
@@ -136,29 +217,6 @@ namespace AST
     Namespace(const std::string &name) : BasicElement<Namespace>(name)
     {}
     ~Namespace()
-    {}
-  };
-
-  class Template
-  {
-    typedef std::pair<std::string, std::string> Parameter;
-  public:
-
-  public:
-    template <template<class, class> class C, class T> 
-    Template(const C<T, std::allocator<T> >
-  	     &collection)
-    {
-      std::cout << "Begin template" << std::endl;
-      // for (const Parameter &p: collection)
-      // 	{
-      // 	  std::cout << "first " << p.first << " ; second " << p.second << std::endl;
-      // 	}
-      std::cout << "End template" << std::endl;
-    }
-
-  public:
-    ~Template()
     {}
   };
 
