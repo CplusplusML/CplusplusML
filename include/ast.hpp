@@ -26,6 +26,14 @@ namespace AST
   class Array;
   class Template;
 
+  enum class Visibility
+  {
+    PRIVATE,
+      PROTECTED,
+      PUBLIC,
+      NotAvailable
+  };
+
   class Template
   {
   public:
@@ -183,29 +191,69 @@ namespace AST
 
   class Class : public BasicElement<Class>, public Templateable
   {
+    template <class C>
+    class Member : public C
+    {
+    public:
+      using typename C::name;
+
+      Member() = delete;
+
+      Member(const C& m, Visibility v) : C(m), _visibility(v)
+      {}
+
+    private:
+      Visibility _visibility;
+    };
+
   public:
     // trouver le moyen de faire une iteration sur une type list correspondant
     // aux types de values qu'on pourra avoir, et ensuite les inserer
     // dans l'AuthorizedTypes, a base de Value<TypeValue>
-    typedef Loki::TL::MakeTypelist<Class, Value, Array> AuthorizedTypes;
 
-    using BasicElement::operator<<;
-    using BasicElement::Get;
+    //    typedef Loki::TL::MakeTypelist<Class, Value, Array> AuthorizedTypes;
+
+    typedef Loki::TL::MakeTypelist<Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
+
+
+    // ecrire une sous-classe/structure ou un tuple qui rassemble a la fois
+    // la Visibility et le membre
+
+    // using BasicElement::Get;
+
     using BasicElement::name;
     using Templateable::Templates;
 
-    enum Visibility
-      {
-  	PUBLIC,
-  	PROTECTED,
-  	PRIVATE
-      };
-
-    Class(const std::string &name) : BasicElement<Class>(name)
+    Class(const std::string &name, const Visibility default_visibility = Visibility::PRIVATE) : BasicElement<Class>(name), _default_visibility(default_visibility)
     {}
 
     ~Class()
     {}
+
+    Class& operator<<(const Visibility v)
+    {
+      _visibility = v;
+      // Segfault si on decommente la ligne suivante, sinon tout va bien pour valgrind
+      // std::cout << "toto" << std::endl;
+    }
+
+    template <class C>
+    Class &operator<<(const C& c)
+    {
+      BasicElement::operator<<(Member<C>(c, _visibility));
+      _visibility = _default_visibility;
+    }
+
+    template <class C>
+    C &Get(const C& c)
+    {
+      return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
+    }
+    
+  private:
+    // ce _default_visibility pue du cul car ne devrait pas etre la (10 classes creees => 10 _default_visibility xD )
+    Visibility _default_visibility;
+    Visibility _visibility;
   };
 
   class Namespace : public BasicElement<Namespace>
@@ -265,6 +313,9 @@ namespace AST
     Array(const std::string &name) : _name(name)
     {}
 
+    Array(const Array& cpy) : _name(cpy._name), _size(cpy._size), _type(cpy._type)
+    {}
+
     ~Array()
     {}
 
@@ -293,6 +344,15 @@ namespace AST
     std::string _name;
     size_t _size;
     boost::any _type;
+  };
+
+  class Function : public Templateable
+  {
+  public:
+    using Templateable::Templates;
+
+    Function()
+    {}
   };
 
 }
