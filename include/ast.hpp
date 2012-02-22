@@ -207,19 +207,7 @@ namespace AST
     };
 
   public:
-    // trouver le moyen de faire une iteration sur une type list correspondant
-    // aux types de values qu'on pourra avoir, et ensuite les inserer
-    // dans l'AuthorizedTypes, a base de Value<TypeValue>
-
-    //    typedef Loki::TL::MakeTypelist<Class, Value, Array> AuthorizedTypes;
-
     typedef Loki::TL::MakeTypelist<Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
-
-
-    // ecrire une sous-classe/structure ou un tuple qui rassemble a la fois
-    // la Visibility et le membre
-
-    // using BasicElement::Get;
 
     using BasicElement::name;
     using Templateable::Templates;
@@ -249,7 +237,7 @@ namespace AST
     {
       return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
     }
-    
+ 0   
   private:
     // ce _default_visibility pue du cul car ne devrait pas etre la (10 classes creees => 10 _default_visibility xD )
     Visibility _default_visibility;
