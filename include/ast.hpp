@@ -237,7 +237,7 @@ namespace AST
     {
       return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
     }
- 0   
+   
   private:
     // ce _default_visibility pue du cul car ne devrait pas etre la (10 classes creees => 10 _default_visibility xD )
     Visibility _default_visibility;
