@@ -8,6 +8,7 @@
 # include "Value.hpp"
 # include "Array.hpp"
 # include "Template.hpp"
+# include "Function.hpp"
 
 namespace AST
 {
@@ -18,6 +19,10 @@ namespace AST
       PUBLIC,
       NotAvailable
   };
+
+  enum class Constness { CONST };
+
+  enum class Staticness { STATIC };
 
   class Class : public BasicElement<Class>, public Templateable
   {
@@ -37,7 +42,7 @@ namespace AST
     };
 
   public:
-    typedef Loki::TL::MakeTypelist<Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
+    typedef Loki::TL::MakeTypelist<Member<Function>, Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
 
     using BasicElement::name;
     using Templateable::Templates;
