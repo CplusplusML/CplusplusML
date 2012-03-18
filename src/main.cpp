@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include "ast.hpp"
+#include "assed.hpp"
 
 int main(void)
 {
@@ -14,7 +14,7 @@ int main(void)
   ast.Get(AST::Namespace("::")) << AST::Class("class2");
 
   AST::Class &c = ast.Get(AST::Namespace("::")).Get(AST::Class("class1"));
-  // c.Templates(AST::Template::Type("T"), AST::Template::Variadic("vArgs"), AST::Template::TypeNumeric("V"));
+  c.Templates(AST::Template::Type("T"), AST::Template::Variadic("vArgs"), AST::Template::TypeNumeric("V"));
   c << AST::Visibility::PRIVATE << AST::Array(ast.Get(AST::Namespace("::")).Get(AST::Class("class2")), "_tab", 42);
   c.Get(AST::Array("_tab"));
 }
