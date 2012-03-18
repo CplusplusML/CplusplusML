@@ -2,8 +2,11 @@
 #ifndef BASICELEMENT_HPP_
 # define BASICELEMENT_HPP_
 
-# include <utility>
+# include <vector>
+# include <string>
+# include <memory>
 # include <loki/Typelist.h>
+# include <boost/any.hpp>
 
 using std::shared_ptr;
 

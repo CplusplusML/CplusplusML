@@ -4,6 +4,7 @@
 
 # include <string>
 # include <loki/Typelist.h>
+# include <boost/variant.hpp>
 
 namespace AST
 {
