@@ -45,6 +45,8 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/mainwindow.cpp
     )
 
+QT4_ADD_RESOURCES(${PROJECT_NAME}_RESOURCES_RCC ${${PROJECT_NAME}_RESOURCES})
+
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
 
 #Compilation Section
