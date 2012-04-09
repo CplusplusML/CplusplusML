@@ -35,7 +35,13 @@ SET(${PROJECT_NAME}_QTUI
 #Sources
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/arrow.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/diagramitem.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/diagramscene.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/diagramtextitem.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cpp
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/mainwindow.cpp
 		)
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
