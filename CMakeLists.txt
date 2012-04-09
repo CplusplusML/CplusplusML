@@ -29,8 +29,9 @@ SET(${PROJECT_NAME}_QTUI
 				ui/MainWindow.ui)
 
 #UI RESSOURCES
-# SET(${PROJECT_NAME}_RESOURCES
-#				ressource.qrc)
+SET(${PROJECT_NAME}_RESOURCES ui/diagramscene.qrc)
+
+QT4_ADD_RESOURCES(${PROJECT_NAME}_RESOURCES_SRCS ${${PROJECT_NAME}_RESOURCES})
 
 #Sources
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
@@ -54,6 +55,7 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 add_executable(${PROJECT_NAME}
 							${${PROJECT_NAME}_SRCS}
 							${${PROJECT_NAME}_QTUI_HEADERS}
+              ${${PROJECT_NAME}_RESOURCES_SRCS}
 							)
 
 #link section
