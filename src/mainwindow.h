@@ -67,6 +67,8 @@
  public:
     MainWindow();
 
+    virtual ~MainWindow();
+
  private slots:
      void backgroundButtonGroupClicked(QAbstractButton *button);
      void buttonGroupClicked(int id);

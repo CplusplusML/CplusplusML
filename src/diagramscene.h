@@ -61,6 +61,8 @@
      enum Mode { InsertItem, InsertLine, InsertText, MoveItem };
 
      DiagramScene(QMenu *itemMenu, QObject *parent = 0);
+     ~DiagramScene();
+
      QFont font() const
          { return myFont; }
      QColor textColor() const

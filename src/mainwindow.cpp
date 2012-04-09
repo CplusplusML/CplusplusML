@@ -49,55 +49,59 @@
 
  const int InsertTextButton = 10;
 
- MainWindow::MainWindow()
- {
-     createActions();
-     createToolBox();
-     createMenus();
+MainWindow::MainWindow()
+{
+  createActions();
+  createToolBox();
+  createMenus();
 
-     scene = new DiagramScene(itemMenu, this);
-     scene->setSceneRect(QRectF(0, 0, 5000, 5000));
-     connect(scene, SIGNAL(itemInserted(DiagramItem*)),
-             this, SLOT(itemInserted(DiagramItem*)));
-     connect(scene, SIGNAL(textInserted(QGraphicsTextItem*)),
-         this, SLOT(textInserted(QGraphicsTextItem*)));
-     connect(scene, SIGNAL(itemSelected(QGraphicsItem*)),
-         this, SLOT(itemSelected(QGraphicsItem*)));
-     createToolbars();
+  scene = new DiagramScene(itemMenu, this);
+  scene->setSceneRect(QRectF(0, 0, 5000, 5000));
+  connect(scene, SIGNAL(itemInserted(DiagramItem*)),
+          this, SLOT(itemInserted(DiagramItem*)));
+  connect(scene, SIGNAL(textInserted(QGraphicsTextItem*)),
+          this, SLOT(textInserted(QGraphicsTextItem*)));
+  connect(scene, SIGNAL(itemSelected(QGraphicsItem*)),
+          this, SLOT(itemSelected(QGraphicsItem*)));
+  createToolbars();
 
-     QHBoxLayout *layout = new QHBoxLayout;
-     layout->addWidget(toolBox);
-     view = new QGraphicsView(scene);
-     layout->addWidget(view);
+  QHBoxLayout *layout = new QHBoxLayout;
+  layout->addWidget(toolBox);
+  view = new QGraphicsView(scene);
+  layout->addWidget(view);
 
-     QWidget *widget = new QWidget;
-     widget->setLayout(layout);
+  QWidget *widget = new QWidget;
+  widget->setLayout(layout);
 
-     setCentralWidget(widget);
-     setWindowTitle(tr("Diagramscene"));
-     setUnifiedTitleAndToolBarOnMac(true);
- }
+  setCentralWidget(widget);
+  setWindowTitle(tr("Diagramscene"));
+  setUnifiedTitleAndToolBarOnMac(true);
+}
 
- void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
- {
-     QList<QAbstractButton *> buttons = backgroundButtonGroup->buttons();
-     foreach (QAbstractButton *myButton, buttons) {
-     if (myButton != button)
-         button->setChecked(false);
-     }
-     QString text = button->text();
-     if (text == tr("Blue Grid"))
-         scene->setBackgroundBrush(QPixmap(":/images/background1.png"));
-     else if (text == tr("White Grid"))
-         scene->setBackgroundBrush(QPixmap(":/images/background2.png"));
-     else if (text == tr("Gray Grid"))
-         scene->setBackgroundBrush(QPixmap(":/images/background3.png"));
-     else
-         scene->setBackgroundBrush(QPixmap(":/images/background4.png"));
+MainWindow::~MainWindow()
+{
+}
 
-     scene->update();
-     view->update();
- }
+void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
+{
+  QList<QAbstractButton *> buttons = backgroundButtonGroup->buttons();
+  foreach (QAbstractButton *myButton, buttons) {
+    if (myButton != button)
+      button->setChecked(false);
+  }
+  QString text = button->text();
+  if (text == tr("Blue Grid"))
+    scene->setBackgroundBrush(QPixmap(":/images/background1.png"));
+  else if (text == tr("White Grid"))
+    scene->setBackgroundBrush(QPixmap(":/images/background2.png"));
+  else if (text == tr("Gray Grid"))
+    scene->setBackgroundBrush(QPixmap(":/images/background3.png"));
+  else
+    scene->setBackgroundBrush(QPixmap(":/images/background4.png"));
+
+  scene->update();
+  view->update();
+}
 
  void MainWindow::buttonGroupClicked(int id)
  {
@@ -265,7 +269,6 @@
      qgraphicsitem_cast<DiagramTextItem *>(item);
 
      QFont font = textItem->font();
-     QColor color = textItem->defaultTextColor();
      fontCombo->setCurrentFont(font);
      fontSizeCombo->setEditText(QString().setNum(font.pointSize()));
      boldAction->setChecked(font.weight() == QFont::Bold);

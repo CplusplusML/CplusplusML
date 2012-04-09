@@ -56,6 +56,10 @@
      myLineColor = Qt::black;
  }
 
+DiagramScene::~DiagramScene()
+{
+}
+
  void DiagramScene::setLineColor(const QColor &color)
  {
      myLineColor = color;

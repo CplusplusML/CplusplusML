@@ -23,15 +23,15 @@ INCLUDE_DIRECTORIES(
 #Headers QT
 INCLUDE(${QT_USE_FILE})
 
-
-#UI QT
-SET(${PROJECT_NAME}_QTUI
-				ui/MainWindow.ui)
-
 #UI RESSOURCES
 SET(${PROJECT_NAME}_RESOURCES ui/diagramscene.qrc)
+SET(${PROJECT_NAME}_MOCS src/diagramscene.h
+                         src/diagramtextitem.h
+                         src/mainwindow.h
+                         )
 
 QT4_ADD_RESOURCES(${PROJECT_NAME}_RESOURCES_SRCS ${${PROJECT_NAME}_RESOURCES})
+QT4_WRAP_CPP(${PROJECT_NAME}_MOCS_SRCS ${${PROJECT_NAME}_MOCS})
 
 #Sources
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
@@ -43,20 +43,16 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/diagramtextitem.cpp
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cpp
     ${${PROJECT_NAME}_SRC_DIRECTORY}/mainwindow.cpp
-		)
+    )
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
 
-#QT Compilation
-QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
-				${${PROJECT_NAME}_QTUI})
-
 #Compilation Section
 add_executable(${PROJECT_NAME}
-							${${PROJECT_NAME}_SRCS}
-							${${PROJECT_NAME}_QTUI_HEADERS}
+              ${${PROJECT_NAME}_SRCS}
               ${${PROJECT_NAME}_RESOURCES_SRCS}
-							)
+              ${${PROJECT_NAME}_MOCS_SRCS}
+              )
 
 #link section
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${QT_LIBRARIES})
