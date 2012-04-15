@@ -29,7 +29,8 @@ SET(${PROJECT_NAME}_QTUI
 				ui/MainWindow.ui)
 
 #UI RESSOURCES
-SET(${PROJECT_NAME}_RESOURCES ui/diagramscene.qrc)
+SET(${PROJECT_NAME}_RESOURCES
+        ui/diagramscene.qrc)
 
 
 #Sources
@@ -44,7 +45,7 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/mainwindow.cpp
 		)
 
-QT4_ADD_RESOURCES(${PROJECT_NAME}_RESOURCES_RCC ${PROJECT_NAME}_RESOURCES)
+QT4_ADD_RESOURCES(${PROJECT_NAME}_RESOURCES_RCC ${${PROJECT_NAME}_RESOURCES})
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
 
@@ -56,7 +57,7 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 add_executable(${PROJECT_NAME}
 							${${PROJECT_NAME}_SRCS}
 							${${PROJECT_NAME}_QTUI_HEADERS}
-              ${PROJECT_NAME}_RESOURCES_RCC
+              ${${PROJECT_NAME}_RESOURCES_RCC}
 							)
 
 #link section
