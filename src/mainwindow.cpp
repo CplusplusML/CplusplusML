@@ -74,7 +74,7 @@ MainWindow::MainWindow()
   widget->setLayout(layout);
 
   setCentralWidget(widget);
-  setWindowTitle(tr("Diagramscene"));
+  setWindowTitle(tr("C++ML"));
   setUnifiedTitleAndToolBarOnMac(true);
 }
 
@@ -90,12 +90,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
       button->setChecked(false);
   }
   QString text = button->text();
-  if (text == tr("Blue Grid"))
-    scene->setBackgroundBrush(QPixmap(":/images/background1.png"));
-  else if (text == tr("White Grid"))
+  if (text == tr("White Grid"))
     scene->setBackgroundBrush(QPixmap(":/images/background2.png"));
-  else if (text == tr("Gray Grid"))
-    scene->setBackgroundBrush(QPixmap(":/images/background3.png"));
   else
     scene->setBackgroundBrush(QPixmap(":/images/background4.png"));
 
@@ -290,12 +286,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
      connect(buttonGroup, SIGNAL(buttonClicked(int)),
              this, SLOT(buttonGroupClicked(int)));
      QGridLayout *layout = new QGridLayout;
-     layout->addWidget(createCellWidget(tr("Conditional"),
-                                DiagramItem::Conditional), 0, 0);
-     layout->addWidget(createCellWidget(tr("Process"),
+     layout->addWidget(createCellWidget(tr("Class"),
                        DiagramItem::Step),0, 1);
-     layout->addWidget(createCellWidget(tr("Input/Output"),
-                       DiagramItem::Io), 1, 0);
 
      QToolButton *textButton = new QToolButton;
      textButton->setCheckable(true);
@@ -321,12 +313,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
              this, SLOT(backgroundButtonGroupClicked(QAbstractButton*)));
 
      QGridLayout *backgroundLayout = new QGridLayout;
-     backgroundLayout->addWidget(createBackgroundCellWidget(tr("Blue Grid"),
-                 ":/images/background1.png"), 0, 0);
      backgroundLayout->addWidget(createBackgroundCellWidget(tr("White Grid"),
                  ":/images/background2.png"), 0, 1);
-     backgroundLayout->addWidget(createBackgroundCellWidget(tr("Gray Grid"),
-                     ":/images/background3.png"), 1, 0);
      backgroundLayout->addWidget(createBackgroundCellWidget(tr("No Grid"),
                  ":/images/background4.png"), 1, 1);
 

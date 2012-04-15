@@ -67,9 +67,11 @@
                        << QPointF(-100, 0);
              break;
          case Step:
-             myPolygon << QPointF(-100, -100) << QPointF(100, -100)
-                       << QPointF(100, 100) << QPointF(-100, 100)
-                       << QPointF(-100, -100);
+           myPolygon << QPointF(-100, -80) << QPointF(-100, -100) << QPointF(100, -100)
+                     << QPointF(100, -80) << QPointF(-100, -80)
+                       << QPointF(-100, 100)
+                       << QPointF(100, 100)
+                       << QPointF(100, -80);
              break;
          default:
              myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
