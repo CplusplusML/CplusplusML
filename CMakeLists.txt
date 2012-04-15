@@ -29,8 +29,8 @@ SET(${PROJECT_NAME}_QTUI
 				ui/MainWindow.ui)
 
 #UI RESSOURCES
- SET(${PROJECT_NAME}_RESOURCES
-				ressource.qrc)
+SET(${PROJECT_NAME}_RESOURCES ui/diagramscene.qrc)
+
 
 #Sources
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
