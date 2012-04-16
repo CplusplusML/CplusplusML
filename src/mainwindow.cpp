@@ -274,9 +274,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 
  void MainWindow::about()
  {
-     QMessageBox::about(this, tr("About Diagram Scene"),
-                        tr("The <b>Diagram Scene</b> example shows "
-                           "use of the graphics framework."));
+     QMessageBox::about(this, tr("About C++ML"),
+                        tr("<b>C++ML</b> is an editor for C++ Modeling Language made by a group of seven students from Epitech."));
  }
 
  void MainWindow::createToolBox()
