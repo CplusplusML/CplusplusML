@@ -313,9 +313,9 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
              this, SLOT(backgroundButtonGroupClicked(QAbstractButton*)));
 
      QGridLayout *backgroundLayout = new QGridLayout;
-     backgroundLayout->addWidget(createBackgroundCellWidget(tr("White Grid"),
+     backgroundLayout->addWidget(createBackgroundCellWidget(tr("Afficher la grille"),
                  ":/images/background2.png"), 0, 1);
-     backgroundLayout->addWidget(createBackgroundCellWidget(tr("No Grid"),
+     backgroundLayout->addWidget(createBackgroundCellWidget(tr("Ne pas afficher la grille"),
                  ":/images/background4.png"), 1, 1);
 
      backgroundLayout->setRowStretch(2, 10);
@@ -327,8 +327,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
      toolBox = new QToolBox;
      toolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
      toolBox->setMinimumWidth(itemWidget->sizeHint().width());
-     toolBox->addItem(itemWidget, tr("Basic Flowchart Shapes"));
-     toolBox->addItem(backgroundWidget, tr("Backgrounds"));
+     toolBox->addItem(itemWidget, tr("Elements"));
+     toolBox->addItem(backgroundWidget, tr("Grille"));
  }
 
  void MainWindow::createActions()
