@@ -72,8 +72,7 @@
                      << QPointF(100, 100) << QPointF(-100, 100)
                      << QPointF(-100, -100)
                      << QPointF(-100, -80) << QPointF(100, -80)
-                     << QPointF(100, 0) << QPointF(-100, 0)
-             ;
+                     << QPointF(100, 0) << QPointF(-100, 0);
              break;
          default:
              myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
