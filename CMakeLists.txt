@@ -39,7 +39,9 @@ INCLUDE(${QT_USE_FILE}
 #UI QT
 SET(${PROJECT_NAME}_QTUI
 				ui/MainWindow.ui
-        ui/AboutWindow.ui)
+				ui/AboutWindow.ui
+				ui/WebSiteWindow.ui
+				ui/HelpWindow.ui)
 
 #UI RESSOURCES
 # SET(${PROJECT_NAME}_RESOURCES
