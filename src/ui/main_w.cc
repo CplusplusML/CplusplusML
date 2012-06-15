@@ -3,6 +3,7 @@
 #include "ui_AboutWindow.h"
 #include "ui_WebSiteWindow.h"
 #include "ui_HelpWindow.h"
+#include "ui_ToolsBar.h"
 
 namespace CplusplusML
 {
@@ -22,6 +23,12 @@ namespace CplusplusML
       Ui::HelpWindow	help_window_ui;
       help_window_ui.setupUi(&helpWindow_);
       connect(actionHelp, SIGNAL(triggered()), this, SLOT(Help()));
+
+
+      Ui::ToolsBar toolbar_ui;
+      toolbar_ = new QWidget(frame);
+      toolbar_ui.setupUi(toolbar_);
+      // toolbar_ = new QWidget(ui->frame);
     }
   }
 

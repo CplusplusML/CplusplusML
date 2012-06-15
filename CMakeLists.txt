@@ -8,7 +8,7 @@ execute_process(COMMAND         g++ -dumpversion
                 OUTPUT_VARIABLE GCC_VERSION
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-IF(${GCC_VERSION} LESS "460")
+IF(${GCC_VERSION} LESS "46")
         MESSAGE(SEND_ERROR "gcc version must be >= 4.6")
 ENDIF()
 
@@ -41,6 +41,7 @@ SET(${PROJECT_NAME}_QTUI
 				ui/MainWindow.ui
 				ui/AboutWindow.ui
 				ui/WebSiteWindow.ui
+				ui/ToolsBar.ui
 				ui/HelpWindow.ui)
 
 #UI RESSOURCES
