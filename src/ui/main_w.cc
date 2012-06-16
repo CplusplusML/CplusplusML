@@ -24,13 +24,22 @@ namespace CplusplusML
       help_window_ui.setupUi(&helpWindow_);
       connect(actionHelp, SIGNAL(triggered()), this, SLOT(Help()));
 
-      Ui::ToolsBar toolbar_ui;
-      toolbar_ = new QDockWidget(frame);
-      toolbar_ui.setupUi(toolbar_);
-      this->addDockWidget(Qt::LeftDockWidgetArea,
-                          toolbar_);
-
       connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
+
+      toolBar->addAction(actionCursor);
+      toolBar->addAction(actionNamespace);
+      toolBar->addAction(actionClass);
+      toolBar->addAction(actionStruct);
+      toolBar->addAction(actionTypedef);
+      toolBar->addAction(actionEnum);
+      toolBar->addAction(actionUnion);
+      toolBar->addAction(actionAggregation);
+      toolBar->addAction(actionDependency);
+      toolBar->addAction(actionComposition);
+      toolBar->addAction(actionInheritance);
+      toolBar->addAction(actionFreeFunction);
+      toolBar->addAction(actionTemplate);
+      toolBar->addAction(actionLibrary);
     }
   }
 

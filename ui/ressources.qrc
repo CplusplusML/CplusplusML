@@ -13,5 +13,6 @@
     <file>icons/ToolTemplate.png</file>
     <file>icons/ToolLibrary.png</file>
     <file>icons/ToolInheritance.png</file>
+    <file>icons/ToolCursor.png</file>
   </qresource>
 </RCC>
