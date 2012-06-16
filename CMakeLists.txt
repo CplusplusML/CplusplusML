@@ -22,15 +22,15 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #Libraries Section
 SET(${PROJECT_NAME}_LIB_DIRECTORY lib)
 INCLUDE_DIRECTORIES(
-										)
+                    )
 
 
 #Headers
 SET(${PROJECT_NAME}_HEADER_DIRECTORY include/)
 INCLUDE_DIRECTORIES(
-									 ${${PROJECT_NAME}_HEADER_DIRECTORY}
-									 ${CMAKE_CURRENT_BINARY_DIR}
-									 )
+                   ${${PROJECT_NAME}_HEADER_DIRECTORY}
+                   ${CMAKE_CURRENT_BINARY_DIR}
+                   )
 #Headers QT
 INCLUDE(${QT_USE_FILE}
         )
@@ -38,40 +38,41 @@ INCLUDE(${QT_USE_FILE}
 
 #UI QT
 SET(${PROJECT_NAME}_QTUI
-				ui/MainWindow.ui
-				ui/AboutWindow.ui
-				ui/WebSiteWindow.ui
-				ui/ToolsBar.ui
-				ui/HelpWindow.ui)
+        ui/MainWindow.ui
+        ui/AboutWindow.ui
+        ui/WebSiteWindow.ui
+        ui/ToolsBar.ui
+        ui/HelpWindow.ui)
 
-#UI RESSOURCES
-# SET(${PROJECT_NAME}_RESOURCES
-#				ressource.qrc)
+# UI RESSOURCES
+SET(${PROJECT_NAME}_RESOURCES ui/ressources.qrc)
+
+QT4_ADD_RESOURCES(${PROJECT_NAME}_RCC ${${PROJECT_NAME}_RESOURCES})
 
 #Sources
 SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
-		)
+    )
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
 
 #QT Compilation
 QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
-				${${PROJECT_NAME}_QTUI})
+        ${${PROJECT_NAME}_QTUI})
 
 #QT Compilation
 QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
-				${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h)
-
+        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h)
 
 #Compilation Section
 add_executable(${PROJECT_NAME}
-							${${PROJECT_NAME}_SRCS}
+              ${${PROJECT_NAME}_SRCS}
               ${${PROJECT_NAME}_QT_HEADERS_MOC}
               ${${PROJECT_NAME}_QTUI_HEADERS}
-							)
+              ${${PROJECT_NAME}_RCC}
+              )
 
 #link section
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${QT_LIBRARIES})

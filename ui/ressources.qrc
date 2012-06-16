@@ -1,10 +1,17 @@
 <RCC>
   <qresource prefix="icons">
-    <file>icons/ToolAccess.png</file>
     <file>icons/ToolAggregation.png</file>
     <file>icons/ToolClass.png</file>
     <file>icons/ToolComposition.png</file>
     <file>icons/ToolDependency.png</file>
     <file>icons/ToolStruct.png</file>
+    <file>icons/ToolNamespace.png</file>
+    <file>icons/ToolEnum.png</file>
+    <file>icons/ToolUnion.png</file>
+    <file>icons/ToolTypedef.png</file>
+    <file>icons/ToolFunction.png</file>
+    <file>icons/ToolTemplate.png</file>
+    <file>icons/ToolLibrary.png</file>
+    <file>icons/ToolInheritance.png</file>
   </qresource>
 </RCC>

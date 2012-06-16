@@ -21,7 +21,7 @@ namespace CplusplusML
     QDialog aboutWindow_;
     QDialog webSiteWindow_;
     QDialog helpWindow_;
-    QWidget *toolbar_;
+    QDockWidget *toolbar_;
   };
 }
 

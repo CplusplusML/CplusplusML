@@ -24,11 +24,13 @@ namespace CplusplusML
       help_window_ui.setupUi(&helpWindow_);
       connect(actionHelp, SIGNAL(triggered()), this, SLOT(Help()));
 
-
       Ui::ToolsBar toolbar_ui;
-      toolbar_ = new QWidget(frame);
+      toolbar_ = new QDockWidget(frame);
       toolbar_ui.setupUi(toolbar_);
-      // toolbar_ = new QWidget(ui->frame);
+      this->addDockWidget(Qt::LeftDockWidgetArea,
+                          toolbar_);
+
+      connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
     }
   }
 
