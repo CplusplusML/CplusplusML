@@ -72,7 +72,7 @@ padding: 0px;</string>
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideRight</enum>
@@ -93,6 +93,17 @@ padding: 0px;</string>
           <attribute name="title">
            <string>Page</string>
           </attribute>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QGraphicsView" name="graphicsView"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
@@ -112,7 +123,7 @@ padding: 0px;</string>
      <x>0</x>
      <y>0</y>
      <width>1168</width>
-     <height>19</height>
+     <height>27</height>
     </rect>
    </property>
    <property name="sizePolicy">
