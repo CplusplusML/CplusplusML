@@ -26,20 +26,28 @@ namespace CplusplusML
 
       connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
-      toolBar->addAction(actionCursor);
-      toolBar->addAction(actionNamespace);
-      toolBar->addAction(actionClass);
-      toolBar->addAction(actionStruct);
-      toolBar->addAction(actionTypedef);
-      toolBar->addAction(actionEnum);
-      toolBar->addAction(actionUnion);
-      toolBar->addAction(actionAggregation);
-      toolBar->addAction(actionDependency);
-      toolBar->addAction(actionComposition);
-      toolBar->addAction(actionInheritance);
-      toolBar->addAction(actionFreeFunction);
-      toolBar->addAction(actionTemplate);
-      toolBar->addAction(actionLibrary);
+      QActionGroup* actionGroup = new QActionGroup(this);
+
+      actionGroup->setExclusive(true);
+
+      actionGroup->addAction(actionCursor);
+      actionGroup->addAction(actionNamespace);
+      actionGroup->addAction(actionClass);
+      actionGroup->addAction(actionStruct);
+      actionGroup->addAction(actionTypedef);
+      actionGroup->addAction(actionEnum);
+      actionGroup->addAction(actionUnion);
+      actionGroup->addAction(actionAggregation);
+      actionGroup->addAction(actionDependency);
+      actionGroup->addAction(actionComposition);
+      actionGroup->addAction(actionInheritance);
+      actionGroup->addAction(actionFreeFunction);
+      actionGroup->addAction(actionTemplate);
+      actionGroup->addAction(actionLibrary);
+      toolBar->addActions(actionGroup->actions());
+      toolBar->insertSeparator(actionNamespace);
+      toolBar->insertSeparator(actionAggregation);
+      toolBar->insertSeparator(actionFreeFunction);
     }
   }
 

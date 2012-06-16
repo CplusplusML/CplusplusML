@@ -69,7 +69,7 @@ padding: 0px;</string>
           <enum>QTabWidget::North</enum>
          </property>
          <property name="tabShape">
-          <enum>QTabWidget::Triangular</enum>
+          <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
           <number>1</number>
@@ -262,7 +262,7 @@ padding: 0px;</string>
     <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <action name="actionNew">
@@ -396,6 +396,9 @@ padding: 0px;</string>
    </property>
   </action>
   <action name="actionClass">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
      <normaloff>:/icons/icons/ToolClass.png</normaloff>:/icons/icons/ToolClass.png</iconset>
@@ -408,6 +411,9 @@ padding: 0px;</string>
    </property>
   </action>
   <action name="actionStruct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
      <normaloff>:/icons/icons/ToolStruct.png</normaloff>:/icons/icons/ToolStruct.png</iconset>
