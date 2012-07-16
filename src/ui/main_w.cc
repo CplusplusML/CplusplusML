@@ -57,7 +57,9 @@ namespace CplusplusML
     {
       QGraphicsScene *scene = new QGraphicsScene();
       QLabel *title = new QLabel("Class0Lol");
-      title->setFixedWidth(title->width() + 20);
+      // title->resize(title->width(), title->height());
+      title->setFixedWidth(200);
+      std::cout << title->width() << "))((" << title->height() << std::endl;
       title->setAlignment( Qt::AlignCenter );
       title->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
       QGraphicsProxyWidget *proxy = new QGraphicsProxyWidget();
