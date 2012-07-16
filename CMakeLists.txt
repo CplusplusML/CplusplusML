@@ -54,6 +54,8 @@ SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     )
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")

@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <iostream>
 
 #include "basic.hh"
 
@@ -12,10 +13,11 @@ namespace Object
   {
   public:
     Complex() { }
-    ~Complex() { }
-    virtual QGraphicsItem *View();
+    virtual ~Complex() { }
+    void Render(QGraphicsScene &scene);
   private:
     virtual char Label_() = 0;
+    std::string title_;
   };
 }
 

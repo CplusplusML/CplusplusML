@@ -8,6 +8,9 @@
 #include "ui_HelpWindow.h"
 #include "ui_ToolsBar.h"
 
+#include "object/class.hh"
+
+
 namespace CplusplusML
 {
   Main_W::Main_W()
@@ -56,35 +59,8 @@ namespace CplusplusML
     // scene
     {
       QGraphicsScene *scene = new QGraphicsScene();
-      QLabel *title = new QLabel("Class0Lol");
-      // title->resize(title->width(), title->height());
-      title->setFixedWidth(200);
-      std::cout << title->width() << "))((" << title->height() << std::endl;
-      title->setAlignment( Qt::AlignCenter );
-      title->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
-      QGraphicsProxyWidget *proxy = new QGraphicsProxyWidget();
-      proxy->setWidget(title);
-
-      // group->addToGroup (proxy)
-      // proxy->setFlag(QGraphicsItem::ItemIsMovable, true);
-
-
-      QRect titleBox(0, 0, title->width(), 50);
-
-      // QPainterPath path;
-      // path.moveTo(0, 0);
-      // path.arcTo(150, 0, 50, 50, 0, 90);
-      // path.arcTo(50, 0, 50, 50, 90, 90);
-      // path.arcTo(50, 50, 50, 50, 180, 90);
-      // path.arcTo(150, 50, 50, 50, 270, 90);
-      // path.lineTo(200, 25);
-      // QPolygonF myPolygon = path.toFillPolygon();
-      // QGraphicsPolygonItem *polygon = new QGraphicsPolygonItem(myPolygon);
-      QGraphicsPolygonItem *polygon = new QGraphicsPolygonItem(static_cast<const QRectF &>(titleBox));
-      QGraphicsItemGroup *group = scene->createItemGroup({proxy, polygon});
-      group->setFlag(QGraphicsItem::ItemIsMovable, true);
-      // scene->addItem(group);
-      // scene;
+      Object::Class test;
+      test.Render(*scene);
       graphicsView->setScene(scene);
     }
   }

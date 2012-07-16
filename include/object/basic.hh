@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <QApplication>
 #include <QtGui>
 
 namespace Object
@@ -12,7 +13,7 @@ namespace Object
   public:
     Basic_() { }
     virtual ~Basic_() { }
-    virtual QGraphicsItem *View() = 0;
+    virtual void Render(QGraphicsScene &scene) = 0;
   };
 }
 
