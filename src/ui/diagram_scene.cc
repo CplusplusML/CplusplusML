@@ -42,8 +42,8 @@ namespace			CplusplusML
           };
         if (item != NULL)
           {
-            addItem(item);
             item->setPos(mouseEvent->scenePos());
+            addItem(item);
           }
       }
 

@@ -62,6 +62,7 @@ namespace CplusplusML
 
     // scene
     {
+      scene_.setSceneRect(QRectF(0, 0, 2000, 2000));
       Object::Class test;
       scene_.addItem(&test);
 
