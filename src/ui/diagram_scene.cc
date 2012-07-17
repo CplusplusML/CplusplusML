@@ -13,13 +13,13 @@ namespace			CplusplusML
 
   DiagramScene::DiagramScene():
     currentItem_(Object::objectClass),
-    currentMode_(modeInsertItem)
+    currentMode_(modeMoveItem)
   {
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
-    Object::Basic_		*item;
+    Object::Basic_		*item = NULL;
 
     if (mouseEvent->button() != Qt::LeftButton)
       return;
@@ -41,8 +41,11 @@ namespace			CplusplusML
 	    break;
 	  };
     
-	addItem(item);
-	item->setPos(mouseEvent->scenePos());
+	if (item != NULL)
+	  {
+	    addItem(item);
+	    item->setPos(mouseEvent->scenePos());
+	  }
       }
 
     QGraphicsScene::mousePressEvent(mouseEvent);

@@ -36,7 +36,7 @@ namespace CplusplusML
 
       toolbarActionGroup->setExclusive(true);
 
-      actionClass->setChecked(true);
+      actionCursor->setChecked(true);
       toolbarActionGroup->addAction(actionCursor);
       toolbarActionGroup->addAction(actionNamespace);
       toolbarActionGroup->addAction(actionClass);
