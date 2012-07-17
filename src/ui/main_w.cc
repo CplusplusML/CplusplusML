@@ -6,7 +6,6 @@
 #include "ui_AboutWindow.h"
 #include "ui_WebSiteWindow.h"
 #include "ui_HelpWindow.h"
-#include "ui_ToolsBar.h"
 
 #include "object/class.hh"
 

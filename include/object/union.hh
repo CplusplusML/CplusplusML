@@ -5,7 +5,7 @@
 
 namespace Object
 {
-  class Union : public Complex
+  class Union : public Complex_
   {
   public:
     Union() { }

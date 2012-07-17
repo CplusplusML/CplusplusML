@@ -9,11 +9,11 @@
 
 namespace Object
 {
-  class Complex : public Basic_
+  class Complex_ : public Basic_
   {
   public:
-    Complex() { }
-    virtual ~Complex() { }
+    Complex_() { }
+    virtual ~Complex_() { }
     void Render(QGraphicsScene &scene);
   private:
     virtual char Label_() = 0;
