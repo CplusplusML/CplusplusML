@@ -8,6 +8,25 @@
 
 namespace Object
 {
+  enum ObjectType
+    {
+      objectCursor = 0,
+      objectNamespace,
+      objectClass,
+      objectStruct,
+      objectEnum,
+      objectUnion,
+      objectTypedef,
+      objectAggregation,
+      objectDependency,
+      objectComposition,
+      objectInheritance,
+      objectFreeFunction,
+      objectTemplate,
+      objectLibrary,
+      objectCount_
+    };
+
   class Basic_
   {
   public:

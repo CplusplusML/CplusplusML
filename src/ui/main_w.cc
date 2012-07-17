@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <QApplication>
 #include <QtGui>
 
@@ -32,28 +33,32 @@ namespace CplusplusML
 
       connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
-      QActionGroup* actionGroup = new QActionGroup(this);
+      QActionGroup* toolbarActionGroup = new QActionGroup(this);
 
-      actionGroup->setExclusive(true);
+      toolbarActionGroup->setExclusive(true);
 
-      actionGroup->addAction(actionCursor);
-      actionGroup->addAction(actionNamespace);
-      actionGroup->addAction(actionClass);
-      actionGroup->addAction(actionStruct);
-      actionGroup->addAction(actionTypedef);
-      actionGroup->addAction(actionEnum);
-      actionGroup->addAction(actionUnion);
-      actionGroup->addAction(actionAggregation);
-      actionGroup->addAction(actionDependency);
-      actionGroup->addAction(actionComposition);
-      actionGroup->addAction(actionInheritance);
-      actionGroup->addAction(actionFreeFunction);
-      actionGroup->addAction(actionTemplate);
-      actionGroup->addAction(actionLibrary);
-      toolBar->addActions(actionGroup->actions());
+      actionClass->setChecked(true);
+      toolbarActionGroup->addAction(actionCursor);
+      toolbarActionGroup->addAction(actionNamespace);
+      toolbarActionGroup->addAction(actionClass);
+      toolbarActionGroup->addAction(actionStruct);
+      toolbarActionGroup->addAction(actionTypedef);
+      toolbarActionGroup->addAction(actionEnum);
+      toolbarActionGroup->addAction(actionUnion);
+      toolbarActionGroup->addAction(actionAggregation);
+      toolbarActionGroup->addAction(actionDependency);
+      toolbarActionGroup->addAction(actionComposition);
+      toolbarActionGroup->addAction(actionInheritance);
+      toolbarActionGroup->addAction(actionFreeFunction);
+      toolbarActionGroup->addAction(actionTemplate);
+      toolbarActionGroup->addAction(actionLibrary);
+      connect(toolbarActionGroup, SIGNAL(selected(QAction *)), this, SLOT(manageToolbarActions(QAction *)));
+      
+      toolBar->addActions(toolbarActionGroup->actions());
       toolBar->insertSeparator(actionNamespace);
       toolBar->insertSeparator(actionAggregation);
       toolBar->insertSeparator(actionFreeFunction);
+
     }
 
     // scene
@@ -86,5 +91,41 @@ namespace CplusplusML
   {
     helpWindow_.show();
   }
+
+  void Main_W::manageToolbarActions(QAction *action)
+  {
+    static const std::map<QAction *, Object::ObjectType> objectMap = {
+      {actionCursor, Object::objectCursor},
+      {actionNamespace, Object::objectNamespace},
+      {actionClass, Object::objectClass},
+      {actionStruct, Object::objectStruct},
+      {actionEnum, Object::objectEnum},
+      {actionUnion, Object::objectUnion},
+      {actionTypedef, Object::objectTypedef},
+      {actionAggregation, Object::objectAggregation},
+      {actionDependency, Object::objectDependency},
+      {actionComposition, Object::objectComposition},
+      {actionInheritance, Object::objectInheritance},
+      {actionFreeFunction, Object::objectFreeFunction},
+      {actionTemplate, Object::objectTemplate},
+      {actionLibrary, Object::objectLibrary}
+    };
+
+    std::map<QAction *, Object::ObjectType>::const_iterator found;
+    found = objectMap.find(action);
+
+    if (found == objectMap.end())
+      {
+	std::cerr << "Action not found" << std::endl;
+	return;
+      }
+    if (found->second == Object::objectCursor)
+      scene_.setMode(DiagramScene::modeMoveItem);
+    else
+      {
+	scene_.setMode(DiagramScene::modeInsertItem);
+	scene_.setCurrentItem(found->second);
+      }
+  } 
 }
 

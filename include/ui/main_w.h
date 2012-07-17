@@ -5,6 +5,9 @@
 #include "ui_MainWindow.h"
 #include "ui_AboutWindow.h"
 
+#include "ui/diagram_scene.hh"
+#include "object/basic.hh"
+
 namespace CplusplusML
 {
   class Main_W : public QMainWindow, Ui::MainWindow
@@ -13,16 +16,19 @@ namespace CplusplusML
   public:
     Main_W();
     ~Main_W();
+
   public slots:
     void About();
     void WebSite();
     void Help();
+    void manageToolbarActions(QAction *action);
+
   private:
     QDialog aboutWindow_;
     QDialog webSiteWindow_;
     QDialog helpWindow_;
     QDockWidget *toolbar_;
-    QGraphicsScene scene_;
+    DiagramScene scene_;
   };
 }
 
