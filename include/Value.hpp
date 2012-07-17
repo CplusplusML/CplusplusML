@@ -27,6 +27,13 @@ namespace AST
       return (_name);
     }
 
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Value &v)
+    {
+      o << "/* Value */" << std::endl;
+      return (o);
+    }
+
   private:
     boost::any _element;
     std::string _name;

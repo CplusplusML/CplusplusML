@@ -3,7 +3,6 @@
 # define AST_HPP_
 
 # include <boost/mpl/vector.hpp>
-# include <loki/Typelist.h>
 
 # include "BasicElement.hpp"
 # include "Class.hpp"
@@ -21,8 +20,6 @@ namespace AST
   class AST : public BasicElement<AST>
   {
   public:
-    typedef Loki::TL::MakeTypelist<Namespace> AuthorizedTypes;
-
     using BasicElement::operator<<;
     using BasicElement::Get;
     using BasicElement::name;
@@ -31,7 +28,19 @@ namespace AST
     {}
     ~AST()
     {}
+
+    friend std::ostream& operator<<(std::ostream &o,
+				    const AST &ast);
   };
+
+  std::ostream& operator<<(std::ostream &o,
+			   const AST &ast)
+  {
+    o << "/* AST Begin */" << std::endl;
+    o << static_cast<BasicElement<AST> >(ast);
+    return (o);
+  }
+
 }
 
 #endif	// !AST_HPP_

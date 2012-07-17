@@ -25,6 +25,13 @@ namespace AST
       return (_name);
     }
 
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Function &c)
+    {
+      o << "/* function */" << std::endl;
+      return (o);
+    }
+
   private:
     // std::vector<C> _element;
     std::string _name;

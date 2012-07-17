@@ -5,7 +5,6 @@
 # include <vector>
 # include <string>
 # include <memory>
-# include <loki/Typelist.h>
 # include <boost/any.hpp>
 # include <boost/variant.hpp>
 
@@ -67,17 +66,13 @@ namespace AST
       _name = name;
     }
 
-    // template <class C>
-    // bool canAdd(const C& c)
-    // {
-    //   return (Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1);
-    // }
-
-    // template <class C>
-    // bool canAdd(void)
-    // {
-    //   return (Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1);
-    // }
+    friend std::ostream& operator<<(std::ostream &o,
+				    const BasicElement<Element>& b)
+    {
+      std::for_each(b._toto.begin(), b._toto.end(),
+		    [&o](shared_ptr<BasicElement<Element>::CACA> x){ o << (*x); });
+      return (o);
+    }
 
   private:
     std::string _name;

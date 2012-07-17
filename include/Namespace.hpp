@@ -30,6 +30,23 @@ namespace AST
     {}
     ~Namespace()
     {}
+
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Namespace &n)
+    {
+      if (n.name() != "::")
+	{
+	  o << "namespace " << n.name() << std::endl;
+	  o << "{" << std::endl;
+	  o << static_cast<BasicElement<Namespace> >(n);
+	  o << "}" << std::endl;
+	}
+      else
+	{
+	  o << static_cast<BasicElement<Namespace> >(n);	  
+	}
+      return (o);
+    }
   };
 }
 

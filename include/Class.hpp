@@ -32,8 +32,16 @@ namespace AST
 
     Member() = delete;
 
-    Member(const C& m, Visibility v) : C(m), _visibility(v)
+    explicit Member(const C& m, Visibility v) : C(m), _visibility(v)
     {}
+
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Member &m)
+    {
+      o << "/* Member */" << std::endl;
+      o << (static_cast<C>(m));
+      return (o);
+    }
 
   private:
     Visibility _visibility;
@@ -44,7 +52,8 @@ namespace AST
   template <>
   struct Traits<Class>
   {
-    typedef boost::mpl::vector<Member<Function>, Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array
+      > AuthorizedTypes;
   };
 
   class Class : public BasicElement<Class>, public Templateable
@@ -79,6 +88,16 @@ namespace AST
     C &Get(const C& c)
     {
       return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
+    }
+
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Class &c)
+    {
+      o << "class " << c.name() << std::endl;
+      o << "{" << std::endl;
+      o << static_cast<BasicElement<Class> >(c);
+      o << "};" << std::endl;
+      return (o);
     }
    
   private:

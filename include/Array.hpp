@@ -47,6 +47,13 @@ namespace AST
     //   return (_type);
     // }
 
+    friend std::ostream& operator<<(std::ostream &o,
+				    const Array &a)
+    {
+      o << "/* Array */" << std::endl;
+      return (o);
+    }
+
   private:
     // std::vector<C> _element;
     std::string _name;
