@@ -6,6 +6,8 @@
 
 #include	"object/basic.hh"
 
+#include	"ui/property_window.hh"
+
 namespace			CplusplusML
 {
   class				DiagramScene: public QGraphicsScene
@@ -46,6 +48,11 @@ namespace			CplusplusML
 
     void			itemInserted(QGraphicsItem *item);
 
+  private slots:
+
+    void			applyProperties();
+    void			myItemSelected();
+
   protected:
 
     void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
@@ -56,6 +63,7 @@ namespace			CplusplusML
 
     Object::ObjectType		currentItem_;
     Mode			currentMode_;
+    PropertyWindow		properties_;
   };
 }
 
