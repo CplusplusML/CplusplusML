@@ -27,6 +27,7 @@ namespace Object
   private:
     virtual char        Label_() = 0;
 
+  public:
     std::string         title_;
     std::list<std::string> datas_;
     std::list<std::string> functions_;
