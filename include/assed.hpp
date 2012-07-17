@@ -2,6 +2,7 @@
 #ifndef ASSED_HPP_
 # define ASSED_HPP_
 
+# include "Traits.hpp"
 # include "Namespace.hpp"
 # include "Class.hpp"
 # include "Value.hpp"

@@ -24,23 +24,31 @@ namespace AST
 
   enum class Staticness { STATIC };
 
+  template <class C>
+  class Member : public C
+  {
+  public:
+    using typename C::name;
+
+    Member() = delete;
+
+    Member(const C& m, Visibility v) : C(m), _visibility(v)
+    {}
+
+  private:
+    Visibility _visibility;
+  };
+
+  class Class;
+
+  template <>
+  struct Traits<Class>
+  {
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
+  };
+
   class Class : public BasicElement<Class>, public Templateable
   {
-    template <class C>
-    class Member : public C
-    {
-    public:
-      using typename C::name;
-
-      Member() = delete;
-
-      Member(const C& m, Visibility v) : C(m), _visibility(v)
-      {}
-
-    private:
-      Visibility _visibility;
-    };
-
   public:
     typedef Loki::TL::MakeTypelist<Member<Function>, Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
 

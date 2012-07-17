@@ -22,6 +22,11 @@ namespace AST
     ~Value()
     {}
 
+    const std::string& name() const
+    {
+      return (_name);
+    }
+
   private:
     boost::any _element;
     std::string _name;

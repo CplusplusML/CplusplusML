@@ -7,6 +7,7 @@
 # include <memory>
 # include <loki/Typelist.h>
 # include <boost/any.hpp>
+# include <boost/variant.hpp>
 
 using std::shared_ptr;
 
@@ -25,26 +26,35 @@ namespace AST
     template <class C>
     BasicElement& operator<<(const C &c)
     {
-      static_assert(Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1, "Invalid type");
-
-      shared_ptr<C> p(new C(c));
-      _elements.push_back(p);
+      shared_ptr<CACA> p4(new CACA(c));
+      _toto.push_back(p4);
       return (*this);
     }
 
+  private:
+    struct GetVisitor : public boost::static_visitor<const std::string&>
+    {
+      template <typename T>
+      const std::string& operator()(const T &t) const
+      {
+	return (t.name());
+      }
+    };
+
+  public:
     template <class C>
     C& Get(const C &c)
     {
-      static_assert(Loki::TL::IndexOf<typename Element::AuthorizedTypes::Result, C>::value != -1, "Invalid type");
-      for (std::vector<boost::any>::iterator b(_elements.begin()), e(_elements.end()); b != e; ++b)
-	{
-	  if (b->type() == typeid(shared_ptr<C>) && c.name() == (boost::any_cast<shared_ptr<C> >(*b))->name())
+      for (auto &b : _toto)
+      	{
+	  if (b->type() == typeid(C) && boost::apply_visitor(GetVisitor(), *b) == c.name())
 	    {
-	      return (*(boost::any_cast<shared_ptr<C> >(*b)));
+	      return (boost::get<C>(*b));
 	    }
 	}
       // revoir la gestion d'erreurs xD
       throw 1;
+      (void)_toto.push_back(shared_ptr<CACA>(new CACA(c)));
     }
 
     const std::string &name() const
@@ -71,7 +81,12 @@ namespace AST
 
   private:
     std::string _name;
-    std::vector<boost::any> _elements;
+    //    std::vector<boost::any> _elements;
+
+    typedef typename Traits<Element>::AuthorizedTypes types;
+    // pas super propre, vaudrait mieux un traits qui transforme une sequence de types MPL par une sequence de shared_ptr de chaque type, Redpist va raler s'il voit ca xD
+    typedef typename boost::make_variant_over< types >::type CACA;
+    std::vector<shared_ptr < CACA > > _toto;
   };
 
 }
