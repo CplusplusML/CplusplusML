@@ -56,6 +56,7 @@ namespace			CplusplusML
   protected:
 
     void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void			mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     
 

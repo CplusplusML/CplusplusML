@@ -18,6 +18,11 @@ namespace			CplusplusML
     connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
   }
 
+  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+  {
+    
+  }
+
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
     Object::Basic_		*item = NULL;
@@ -62,11 +67,12 @@ namespace			CplusplusML
 
   void				DiagramScene::applyProperties()
   {
-    Object::Basic_		*item;
+    Object::Complex_		*item;
 
     if (!selectedItems().empty())
       {
-	item = qgraphicsitem_cast<Object::Basic_ *>(selectedItems().first());
+	item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
+	
       }
   }
 
