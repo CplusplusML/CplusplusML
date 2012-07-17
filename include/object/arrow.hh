@@ -18,6 +18,10 @@ namespace Object
 
     virtual ~Arrow_() { }
     void Render(QGraphicsScene &scene);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                                QWidget *);
+
   private:
     virtual QGraphicsItem *Head() = 0;
     Complex_ &start_;

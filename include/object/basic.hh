@@ -5,6 +5,7 @@
 #include <string>
 #include <QApplication>
 #include <QtGui>
+#include <QGraphicsItem>
 
 namespace Object
 {
@@ -27,7 +28,7 @@ namespace Object
       objectCount_
     };
 
-  class Basic_
+  class Basic_ : public QGraphicsItem
   {
   public:
     Basic_() { }
