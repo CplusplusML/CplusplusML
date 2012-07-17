@@ -58,13 +58,13 @@ namespace CplusplusML
 
     // scene
     {
-      QGraphicsScene *scene = new QGraphicsScene();
       Object::Class test;
-      test.Render(*scene);
+      test.Render(scene_);
 
       Object::Class test2;
-      test2.Render(*scene);
-      graphicsView->setScene(scene);
+      test2.Render(scene_);
+
+      graphicsView->setScene(&scene_);
     }
   }
 
