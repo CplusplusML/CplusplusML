@@ -61,6 +61,11 @@ namespace CplusplusML
       Object::Class test;
       test.Render(scene_);
       graphicsView->setScene(&scene_);
+      test.Render(scene_);
+
+      Object::Class test2;
+      test2.Render(scene_);
+      graphicsView->setScene(&scene_);
     }
   }
 
