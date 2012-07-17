@@ -1,6 +1,6 @@
 #include "object/dependency.hh"
 
-QGraphicsItem *Object::Dependency_::Head()
+QGraphicsItem *Object::Dependency::Head()
 {
   return 0;
 }

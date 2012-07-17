@@ -1,4 +1,5 @@
 #include	<iostream>
+#include	<list>
 #include	<QtGui>
 
 #include	"ui/diagram_scene.hh"
@@ -6,6 +7,10 @@
 #include	"object/class.hh"
 #include	"object/struct.hh"
 #include	"object/union.hh"
+#include	"object/dependency.hh"
+
+#include	"assed.hpp"
+
 
 namespace			CplusplusML
 {
@@ -43,6 +48,9 @@ namespace			CplusplusML
           case (Object::objectUnion):
             item = new Object::Union();
             break;
+          // case (Object::objectDependency):
+          //   item = new Object::Dependency();
+          //   break;
           default:
             break;
           };

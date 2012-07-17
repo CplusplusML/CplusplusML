@@ -6,14 +6,14 @@
 
 namespace Object
 {
-  class Dependency_ : public Arrow_
+  class Dependency : public Arrow_
   {
   public:
-    Dependency_(Complex_ &start,
-                Complex_ &end) : Arrow_(start, end)
+    Dependency(Complex_ &start,
+               const QPointF &coord) : Arrow_(start, coord)
     {  }
 
-    virtual ~Dependency_() { }
+    virtual ~Dependency() { }
   private:
     QGraphicsItem *Head();
   };

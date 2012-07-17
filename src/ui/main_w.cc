@@ -9,6 +9,7 @@
 #include "ui_HelpWindow.h"
 
 #include "object/class.hh"
+#include "object/dependency.hh"
 
 
 namespace CplusplusML
@@ -63,11 +64,6 @@ namespace CplusplusML
     // scene
     {
       scene_.setSceneRect(QRectF(0, 0, 2000, 2000));
-      Object::Class test;
-      scene_.addItem(&test);
-
-      Object::Class test2;
-      scene_.addItem(&test2);
 
       graphicsView->setScene(&scene_);
     }
