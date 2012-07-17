@@ -9,8 +9,8 @@ void Object::Complex_::Render(void)
   titleLabel->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
   QGraphicsProxyWidget *proxy = new QGraphicsProxyWidget();
   proxy->setWidget(titleLabel);
+  titleLabel->setMinimumWidth(240);
   titleLabel->setFixedWidth(titleLabel->width() + 40);
-  // titleLabel->setMinimumWidth(240);
   QGraphicsPolygonItem *polygon;
   {
     QRect titleBox(0, 0, titleLabel->width(), 25);
