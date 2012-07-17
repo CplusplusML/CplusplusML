@@ -19,7 +19,7 @@ namespace			CplusplusML
   DiagramScene::DiagramScene():
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
-  x{
+  {
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

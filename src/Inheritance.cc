@@ -21,7 +21,8 @@ namespace AST
       o << "private";
     else if (inh._visibility == Visibility::PROTECTED)
       o << "protected";
-    o << " " << inh._class->name();  
+    o << " " << inh._class->name();
+    return o;
   }
 
   bool operator==(const Class &c, const Inheritance &inh)
