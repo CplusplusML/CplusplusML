@@ -28,12 +28,12 @@ namespace Object
       objectCount_
     };
 
-  class Basic_ : public QGraphicsItem
+  class Basic_ : public QGraphicsItemGroup
   {
   public:
     Basic_() { }
     virtual ~Basic_() { }
-    virtual void Render(QGraphicsScene &scene) = 0;
+    virtual void Render(void) = 0;
   };
 }
 

@@ -1,6 +1,6 @@
 #include "object/complex.hh"
 
-void Object::Complex_::Render(QGraphicsScene &scene)
+void Object::Complex_::Render(void)
 {
   title_ = "test";
   QLabel *titleLabel = new QLabel(title_.c_str());
@@ -31,8 +31,11 @@ void Object::Complex_::Render(QGraphicsScene &scene)
     polygon3->setBrush(QColor(250, 250, 250));
   }
 
-  QGraphicsItemGroup *group = scene.createItemGroup({polygon, proxy, polygon2, polygon3});
-  group->setFlag(QGraphicsItem::ItemIsMovable, true);
+  this->setFlag(QGraphicsItem::ItemIsMovable, true);
+  this->addToGroup(polygon);
+  this->addToGroup(polygon2);
+  this->addToGroup(polygon3);
+  this->addToGroup(proxy);
 }
 
 void    Object::Complex_::AddArrow(Arrow_ *arrow)
@@ -45,13 +48,3 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
   arrows_.erase(arrow);
 }
 
-
-void Object::Complex_::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
-                  QWidget *)
-{
-}
-
-QRectF Object::Complex_::boundingRect() const
-{
-  return QRectF(0, 0, 250, 2500);
-}
