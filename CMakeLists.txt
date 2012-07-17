@@ -41,7 +41,6 @@ SET(${PROJECT_NAME}_QTUI
         ui/MainWindow.ui
         ui/AboutWindow.ui
         ui/WebSiteWindow.ui
-        ui/ToolsBar.ui
         ui/HelpWindow.ui)
 
 # UI RESSOURCES
