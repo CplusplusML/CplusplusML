@@ -60,6 +60,8 @@ namespace			CplusplusML
 	    item->setSelected(true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
+	    properties_.clearAll();
+	    properties_.ui.name->setText("Test");
 	    properties_.show();
           }
       }

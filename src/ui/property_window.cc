@@ -45,13 +45,15 @@ void		PropertyWindow::checkApply(QAbstractButton *button)
     emit applied();
 }
 
-void		PropertyWindow::show()
+void		PropertyWindow::clearAll()
 {
-  // Clear before showing
   ui.funcedit->clear();
   ui.propedit->clear();
   ui.addfuncedit->clear();
   ui.addpropedit->clear();
+}
 
+void		PropertyWindow::show()
+{
   QDialog::show();
 }

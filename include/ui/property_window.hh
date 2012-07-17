@@ -8,6 +8,7 @@ public:
   PropertyWindow();
   ~PropertyWindow();
 
+  void		clearAll();
   void		show();
 
 signals:
