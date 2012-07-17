@@ -53,6 +53,7 @@ SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/diagram_scene.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc

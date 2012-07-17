@@ -12,6 +12,7 @@ namespace			CplusplusML
     Q_OBJECT
 
   public:
+    
     enum			Mode
       {
 	modeInsertItem,
@@ -37,6 +38,12 @@ namespace			CplusplusML
     {
       return (currentMode_);
     }
+
+  protected:
+
+    void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    
 
   private:
 
