@@ -21,6 +21,9 @@ namespace Object
     void        Render(QGraphicsScene &scene);
     void        AddArrow(Arrow_ *arrow);
     void        RemoveArrow(Arrow_ *arrow);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                                QWidget *);
 
   private:
     virtual char        Label_() = 0;

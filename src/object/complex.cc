@@ -44,3 +44,14 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 {
   arrows_.erase(arrow);
 }
+
+
+void Object::Complex_::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                  QWidget *)
+{
+}
+
+QRectF Object::Complex_::boundingRect() const
+{
+  return QRectF(0, 0, 250, 2500);
+}
