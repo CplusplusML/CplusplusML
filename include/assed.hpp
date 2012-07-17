@@ -9,5 +9,7 @@
 # include "AST.hpp"
 # include "Pointer.hpp"
 # include "Function.hpp"
+# include "Visibility.hpp"
+# include "Inheritance.hpp"
 
 #endif	// !ASSED_HPP_

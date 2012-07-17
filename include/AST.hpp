@@ -33,14 +33,6 @@ namespace AST
 				    const AST &ast);
   };
 
-  std::ostream& operator<<(std::ostream &o,
-			   const AST &ast)
-  {
-    o << "/* AST Begin */" << std::endl;
-    o << static_cast<BasicElement<AST> >(ast);
-    return (o);
-  }
-
 }
 
 #endif	// !AST_HPP_

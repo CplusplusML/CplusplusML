@@ -9,17 +9,11 @@
 # include "Array.hpp"
 # include "Template.hpp"
 # include "Function.hpp"
+# include "Visibility.hpp"
+# include "Inheritance.hpp"
 
 namespace AST
 {
-  enum class Visibility
-  {
-    PRIVATE,
-      PROTECTED,
-      PUBLIC,
-      NotAvailable
-  };
-
   enum class Constness { CONST };
 
   enum class Staticness { STATIC };
@@ -75,6 +69,13 @@ namespace AST
       _visibility = v;
       // Segfault si on decommente la ligne suivante, sinon tout va bien pour valgrind
       // std::cout << "toto" << std::endl;
+      return (*this);
+    }
+
+    Class &operator<<(const Inheritance &inh)
+    {
+      _inheritance.push_back(inh);
+      return (*this);
     }
 
     template <class C>
@@ -82,6 +83,7 @@ namespace AST
     {
       BasicElement::operator<<(Member<C>(c, _visibility));
       _visibility = _default_visibility;
+      return (*this);
     }
 
     template <class C>
@@ -93,7 +95,21 @@ namespace AST
     friend std::ostream& operator<<(std::ostream &o,
 				    const Class &c)
     {
-      o << "class " << c.name() << std::endl;
+      o << "class " << c.name();
+      if (c._inheritance.size() > 0)
+	{
+	  o << " : ";
+	  bool b = false;
+	  for (const auto &x : c._inheritance)
+	    {
+	      if (b)
+		o << ", ";
+	      else
+		b = true;
+	      o << x;
+	    }
+	}
+      o << std::endl;
       o << "{" << std::endl;
       o << static_cast<BasicElement<Class> >(c);
       o << "};" << std::endl;
@@ -104,6 +120,7 @@ namespace AST
     // ce _default_visibility pue du cul car ne devrait pas etre la (10 classes creees => 10 _default_visibility xD )
     Visibility _default_visibility;
     Visibility _visibility;
+    std::vector<Inheritance> _inheritance;
   };
 
 }
