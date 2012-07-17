@@ -20,8 +20,6 @@ namespace AST
   class Namespace : public BasicElement<Namespace>
   {
   public:
-    typedef Loki::TL::MakeTypelist<Namespace, Class> AuthorizedTypes;
-
     using BasicElement::operator<<;
     using BasicElement::Get;
     using BasicElement::name;

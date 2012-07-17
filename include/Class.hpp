@@ -2,8 +2,6 @@
 #ifndef CLASS_HPP_
 # define CLASS_HPP_
 
-# include <loki/Typelist.h>
-
 # include "BasicElement.hpp"
 # include "Value.hpp"
 # include "Array.hpp"
@@ -53,8 +51,6 @@ namespace AST
   class Class : public BasicElement<Class>, public Templateable
   {
   public:
-    typedef Loki::TL::MakeTypelist<Member<Function>, Member<Class>, Class, Member<Value>, Value, Member<Array>, Array> AuthorizedTypes;
-
     using BasicElement::name;
     using Templateable::Templates;
 
