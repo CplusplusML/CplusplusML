@@ -10,23 +10,26 @@ namespace Object
   {
   public:
     Arrow_(Complex_ &start,
-           Complex_ &end) : start_(start), end_(end)
+           const QPointF &coord) : start_(start)
     {
       start.AddArrow(this);
-      end.AddArrow(this);
+      std::cout << "start x=" << start.boundingRect().x() << std::endl;
+      std::cout << "start y=" << start.boundingRect().y() << std::endl;
+      // std::cout << "end x=" << end.boundingRect().x() << std::endl;
+      // std::cout << "end y=" << end.boundingRect().y() << std::endl;
+      // end.AddArrow(this);
     }
 
     virtual ~Arrow_() { }
-    void Render(QGraphicsScene &scene);
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,
-                                QWidget *);
+
+    void Render(void);
+    // QRectF boundingRect() const;
+    // void paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+    //                             QWidget *);
 
   private:
     virtual QGraphicsItem *Head() = 0;
     Complex_ &start_;
-    Complex_ &end_;
-
   };
 }
 

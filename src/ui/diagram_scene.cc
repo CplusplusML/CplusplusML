@@ -6,6 +6,7 @@
 #include	"object/class.hh"
 #include	"object/struct.hh"
 #include	"object/union.hh"
+#include	"object/dependency.hh"
 
 
 namespace			CplusplusML
@@ -37,6 +38,9 @@ namespace			CplusplusML
           case (Object::objectUnion):
             item = new Object::Union();
             break;
+          // case (Object::objectDependency):
+          //   item = new Object::Dependency();
+          //   break;
           default:
             break;
           };
