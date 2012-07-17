@@ -34,3 +34,13 @@ void Object::Complex_::Render(QGraphicsScene &scene)
   QGraphicsItemGroup *group = scene.createItemGroup({polygon, proxy, polygon2, polygon3});
   group->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
+
+void    Object::Complex_::AddArrow(Arrow_ *arrow)
+{
+  arrows_.insert(arrow);
+}
+
+void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
+{
+  arrows_.erase(arrow);
+}
