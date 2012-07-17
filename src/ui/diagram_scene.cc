@@ -7,7 +7,6 @@
 #include	"object/struct.hh"
 #include	"object/union.hh"
 
-
 namespace			CplusplusML
 {
 
@@ -15,6 +14,8 @@ namespace			CplusplusML
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
   {
+    connect(&properties_, SIGNAL(applied()), this, SLOT(applyProperties()));
+    connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -42,8 +43,11 @@ namespace			CplusplusML
           };
         if (item != NULL)
           {
+	    item->setFlag(Object::Basic_::ItemIsSelectable, true);
+	    item->setSelected(true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
+	    properties_.show();
           }
       }
 
@@ -55,4 +59,19 @@ namespace			CplusplusML
     if (currentMode_ == modeMoveItem)
       QGraphicsScene::mouseMoveEvent(mouseEvent);
   }
+
+  void				DiagramScene::applyProperties()
+  {
+    Object::Basic_		*item;
+
+    if (!selectedItems().empty())
+      {
+	item = qgraphicsitem_cast<Object::Basic_ *>(selectedItems().first());
+      }
+  }
+
+  void				DiagramScene::myItemSelected()
+  {
+  }
+
 }
