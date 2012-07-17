@@ -20,6 +20,8 @@ namespace			CplusplusML
 	modeMoveItem
       };
 
+    DiagramScene();
+
     inline void			setCurrentItem(Object::ObjectType item)
     {
       currentItem_ = item;

@@ -10,6 +10,13 @@
 
 namespace			CplusplusML
 {
+
+  DiagramScene::DiagramScene():
+    currentItem_(Object::objectClass),
+    currentMode_(modeInsertItem)
+  {
+  }
+
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
     Object::Basic_		*item;
