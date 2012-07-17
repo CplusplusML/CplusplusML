@@ -3,6 +3,11 @@
 
 #include	"ui/diagram_scene.hh"
 
+#include	"object/class.hh"
+#include	"object/struct.hh"
+#include	"object/union.hh"
+
+
 namespace			CplusplusML
 {
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -12,23 +17,26 @@ namespace			CplusplusML
     if (mouseEvent->button() != Qt::LeftButton)
       return;
 
-    // switch (currentItem_)
-    //   {
-    //   case (objectClass):
-    // 	item = new Object::Class();
-    // 	break;
-    //   case (objectStruct):
-    // 	item = new Object::Struct();
-    // 	break;
-    //   case (objectUnion):
-    // 	item = new Object::Union();
-    // 	break;
-    //   default:
-    // 	break;
-    //   };
+    if (currentMode_ == modeInsertItem)
+      {
+	switch (currentItem_)
+	  {
+	  case (Object::objectClass):
+	    item = new Object::Class();
+	    break;
+	  case (Object::objectStruct):
+	    item = new Object::Struct();
+	    break;
+	  case (Object::objectUnion):
+	    item = new Object::Union();
+	    break;
+	  default:
+	    break;
+	  };
     
-    // item->setPos(mouseEvent->scenePos());
-    // addItem(item);
+	addItem(item);
+	item->setPos(mouseEvent->scenePos());
+      }
 
     QGraphicsScene::mousePressEvent(mouseEvent);
   }

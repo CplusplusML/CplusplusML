@@ -2,6 +2,7 @@
 # define	_CPLUSPLUSML_UI_DIAGRAM_SCENE_HH_
 
 #include	<QGraphicsScene>
+#include	<QGraphicsItem>
 
 #include	"object/basic.hh"
 
@@ -38,6 +39,10 @@ namespace			CplusplusML
     {
       return (currentMode_);
     }
+
+  signals:
+
+    void			itemInserted(QGraphicsItem *item);
 
   protected:
 
