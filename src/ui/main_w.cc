@@ -52,7 +52,7 @@ namespace CplusplusML
       toolbarActionGroup->addAction(actionTemplate);
       toolbarActionGroup->addAction(actionLibrary);
       connect(toolbarActionGroup, SIGNAL(selected(QAction *)), this, SLOT(manageToolbarActions(QAction *)));
-      
+
       toolBar->addActions(toolbarActionGroup->actions());
       toolBar->insertSeparator(actionNamespace);
       toolBar->insertSeparator(actionAggregation);
@@ -63,10 +63,10 @@ namespace CplusplusML
     // scene
     {
       Object::Class test;
-      test.Render(scene_);
+      scene_.addItem(&test);
 
       Object::Class test2;
-      test2.Render(scene_);
+      scene_.addItem(&test2);
 
       graphicsView->setScene(&scene_);
     }
@@ -125,6 +125,6 @@ namespace CplusplusML
 	scene_.setMode(DiagramScene::modeInsertItem);
 	scene_.setCurrentItem(found->second);
       }
-  } 
+  }
 }
 
