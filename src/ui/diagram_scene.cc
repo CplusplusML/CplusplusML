@@ -48,19 +48,19 @@ namespace			CplusplusML
           case (Object::objectUnion):
             item = new Object::Union();
             break;
-          // case (Object::objectDependency):
-          //   item = new Object::Dependency();
-          //   break;
+            // case (Object::objectDependency):
+            //   item = new Object::Dependency();
+            //   break;
           default:
             break;
           };
         if (item != NULL)
           {
-	    item->setFlag(Object::Basic_::ItemIsSelectable, true);
-	    item->setSelected(true);
+            item->setFlag(Object::Basic_::ItemIsSelectable, true);
+            item->setSelected(true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
-	    properties_.show();
+            properties_.show();
           }
       }
 
@@ -81,22 +81,23 @@ namespace			CplusplusML
 
     if (!selectedItems().empty())
       {
-	item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
-	item->title_ = properties_.ui.name->text().toStdString();
-	item->functions_.clear();
-	for (row = 0; ; ++row)
-	  {
-	    if ((litem = properties_.ui.funcedit->item(row)) == 0)
-	      break;
-	    item->functions_.push_back(litem->text().toStdString());
-	  }
-	item->datas_.clear();
-	for (row = 0; ; ++row)
-	  {
-	    if ((litem = properties_.ui.propedit->item(row)) == 0)
-	      break;
-	    item->functions_.push_back(litem->text().toStdString());
-	  }
+        item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
+        item->title_ = properties_.ui.name->text().toStdString();
+        item->functions_.clear();
+        for (row = 0; ; ++row)
+          {
+            if ((litem = properties_.ui.funcedit->item(row)) == 0)
+              break;
+            item->functions_.push_back(litem->text().toStdString());
+          }
+        item->datas_.clear();
+        for (row = 0; ; ++row)
+          {
+            if ((litem = properties_.ui.propedit->item(row)) == 0)
+              break;
+            item->functions_.push_back(litem->text().toStdString());
+          }
+        item->update();
       }
   }
 
