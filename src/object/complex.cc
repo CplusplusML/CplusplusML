@@ -2,7 +2,6 @@
 
 void Object::Complex_::Render(void)
 {
-  title_ = "test";
   QLabel *titleLabel = new QLabel(title_.c_str());
   // titleLabel->setFixedWidth(200);
   titleLabel->setAlignment( Qt::AlignCenter );
