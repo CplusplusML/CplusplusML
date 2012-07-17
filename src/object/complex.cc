@@ -4,11 +4,13 @@ void Object::Complex_::Render(void)
 {
   title_ = "test";
   QLabel *titleLabel = new QLabel(title_.c_str());
-  titleLabel->setFixedWidth(200);
+  // titleLabel->setFixedWidth(200);
   titleLabel->setAlignment( Qt::AlignCenter );
   titleLabel->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
   QGraphicsProxyWidget *proxy = new QGraphicsProxyWidget();
   proxy->setWidget(titleLabel);
+  titleLabel->setFixedWidth(titleLabel->width() + 40);
+  // titleLabel->setMinimumWidth(240);
   QGraphicsPolygonItem *polygon;
   {
     QRect titleBox(0, 0, titleLabel->width(), 25);

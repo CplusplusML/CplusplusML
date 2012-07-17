@@ -26,26 +26,25 @@ namespace			CplusplusML
 
     if (currentMode_ == modeInsertItem)
       {
-	switch (currentItem_)
-	  {
-	  case (Object::objectClass):
-	    item = new Object::Class();
-	    break;
-	  case (Object::objectStruct):
-	    item = new Object::Struct();
-	    break;
-	  case (Object::objectUnion):
-	    item = new Object::Union();
-	    break;
-	  default:
-	    break;
-	  };
-    
-	if (item != NULL)
-	  {
-	    addItem(item);
-	    item->setPos(mouseEvent->scenePos());
-	  }
+        switch (currentItem_)
+          {
+          case (Object::objectClass):
+            item = new Object::Class();
+            break;
+          case (Object::objectStruct):
+            item = new Object::Struct();
+            break;
+          case (Object::objectUnion):
+            item = new Object::Union();
+            break;
+          default:
+            break;
+          };
+        if (item != NULL)
+          {
+            addItem(item);
+            item->setPos(mouseEvent->scenePos());
+          }
       }
 
     QGraphicsScene::mousePressEvent(mouseEvent);
