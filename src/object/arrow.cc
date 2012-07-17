@@ -2,7 +2,12 @@
 
 void Object::Arrow_::Render(void)
 {
-
+	QGraphicsLineItem *line = new QGraphicsLineItem(
+                                                  startPoint_.x(),
+                                                  startPoint_.y(),
+                                                  endPoint_.x(),
+                                                  endPoint_.y() );
+  this->addToGroup(line);
   // std::cout << "start (" << start_.x() << "," << start_.y() << ")" << std::endl;
   // std::cout << "end (" << end_.x() << "," << end_.y() << ")" << std::endl;
 }
