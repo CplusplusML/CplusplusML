@@ -1,4 +1,5 @@
 #include	<iostream>
+#include	<list>
 #include	<QtGui>
 
 #include	"ui/diagram_scene.hh"
@@ -8,6 +9,9 @@
 #include	"object/union.hh"
 #include	"object/dependency.hh"
 
+#include	"assed.hpp"
+
+
 
 namespace			CplusplusML
 {
@@ -15,7 +19,7 @@ namespace			CplusplusML
   DiagramScene::DiagramScene():
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
-  {
+  x{
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
