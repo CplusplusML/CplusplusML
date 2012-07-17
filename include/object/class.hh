@@ -5,7 +5,7 @@
 
 namespace Object
 {
-  class Class : public Complex
+  class Class : public Complex_
   {
   public:
     Class() { }

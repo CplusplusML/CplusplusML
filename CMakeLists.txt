@@ -41,7 +41,6 @@ SET(${PROJECT_NAME}_QTUI
         ui/MainWindow.ui
         ui/AboutWindow.ui
         ui/WebSiteWindow.ui
-        ui/ToolsBar.ui
         ui/HelpWindow.ui)
 
 # UI RESSOURCES
@@ -56,6 +55,9 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow.cc
     )
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")

@@ -1,6 +1,6 @@
 #include "object/complex.hh"
 
-void Object::Complex::Render(QGraphicsScene &scene)
+void Object::Complex_::Render(QGraphicsScene &scene)
 {
   title_ = "test";
   QLabel *titleLabel = new QLabel(title_.c_str());
