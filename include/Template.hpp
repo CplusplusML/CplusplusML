@@ -3,7 +3,7 @@
 # define TEMPLATE_HPP_
 
 # include <string>
-# include <loki/Typelist.h>
+//# include <loki/Typelist.h>
 # include <boost/variant.hpp>
 
 namespace AST
@@ -41,7 +41,7 @@ namespace AST
       {}
 
     private:
-      typedef Loki::TL::MakeTypelist<int, long> AuthorizedNumericTypes;
+      //      typedef Loki::TL::MakeTypelist<int, long> AuthorizedNumericTypes;
       std::string _name;
     };
 
@@ -63,10 +63,11 @@ namespace AST
 
   class Templateable
   {
-    typedef Loki::TL::MakeTypelist<Template::Type,
+    /*    typedef Loki::TL::MakeTypelist<Template::Type,
 				   Template::Variadic,
 				   Template::TypeNumeric>
     AuthorizedTemplates;
+				   */
   public:
     template <typename T, typename ...Rest>
     void Templates(const T &t, const Rest&... rest)
@@ -78,7 +79,7 @@ namespace AST
     template <typename T>
     void Templates(const T &t)
     {
-      static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
+      //      static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
       _templates.push_back(t);
     }
 
