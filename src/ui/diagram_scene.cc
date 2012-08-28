@@ -23,7 +23,7 @@ namespace			CplusplusML
     connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
   }
 
-  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *)
   {
     
   }
@@ -61,7 +61,7 @@ namespace			CplusplusML
             item->setPos(mouseEvent->scenePos());
             addItem(item);
 	    properties_.clearAll();
-	    properties_.ui.name->setText("Test");
+	    properties_.ui->name->setText("Test");
 	    properties_.show();
           }
       }
@@ -84,18 +84,18 @@ namespace			CplusplusML
     if (!selectedItems().empty())
       {
         item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
-        item->title_ = properties_.ui.name->text().toStdString();
+        item->title_ = properties_.ui->name->text().toStdString();
         item->functions_.clear();
         for (row = 0; ; ++row)
           {
-            if ((litem = properties_.ui.funcedit->item(row)) == 0)
+            if ((litem = properties_.ui->funcedit->item(row)) == 0)
               break;
             item->functions_.push_back(litem->text().toStdString());
           }
         item->datas_.clear();
         for (row = 0; ; ++row)
           {
-            if ((litem = properties_.ui.propedit->item(row)) == 0)
+            if ((litem = properties_.ui->propedit->item(row)) == 0)
               break;
             item->functions_.push_back(litem->text().toStdString());
           }

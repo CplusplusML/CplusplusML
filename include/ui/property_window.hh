@@ -20,5 +20,5 @@ private slots:
   void		addProp();
 
 public:
-  Ui::Property	ui;
+  Ui::Property	*ui;
 };
