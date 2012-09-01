@@ -1,4 +1,7 @@
-#include "ui_Property.h"
+#ifndef		_CPLUSPLUSML_UI_PROPERTY_WINDOW_HH_
+# define	_CPLUSPLUSML_UI_PROPERTY_WINDOW_HH_
+
+# include	"ui_Property.h"
 
 class		PropertyWindow: public QDialog
 {
@@ -22,3 +25,5 @@ private slots:
 public:
   Ui::Property	*ui;
 };
+
+#endif		// _CPLUSPLUSML_UI_PROPERTY_WINDOW_HH_
