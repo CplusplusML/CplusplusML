@@ -91,9 +91,18 @@ namespace			CplusplusML
 
   void				ComplexPropertyWindow::deleteAttr()
   {
+    int				row = ui->attrList->currentRow();
+
     delete ui->attrList->currentItem();
     clearAttrData();
-    if (!ui->attrList->count())
+    if (ui->attrList->count())
+      {
+	if (row == ui->attrList->count())
+	  ui->attrList->setCurrentRow(row - 1);
+	else
+	  ui->attrList->setCurrentRow(row);
+      }
+    else
       {
 	ui->attrGroupBox->setEnabled(false);
 	ui->attrDelButton->setEnabled(false);
