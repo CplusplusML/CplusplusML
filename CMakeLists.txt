@@ -42,7 +42,7 @@ SET(${PROJECT_NAME}_QTUI
         ui/AboutWindow.ui
         ui/WebSiteWindow.ui
         ui/HelpWindow.ui
-	ui/Property.ui)
+	ui/ComplexProperty.ui)
 
 # UI RESSOURCES
 SET(${PROJECT_NAME}_RESOURCES ui/ressources.qrc)
@@ -57,7 +57,7 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/AST.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/diagram_scene.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/property_window.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/complex_property_window.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
@@ -76,7 +76,7 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
         ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h
         ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/diagram_scene.hh
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/property_window.hh)
+        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/complex_property_window.hh)
 
 #Compilation Section
 add_executable(${PROJECT_NAME}
