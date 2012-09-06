@@ -15,18 +15,21 @@ namespace			CplusplusML
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)),
 	    this, SLOT(checkApply(QAbstractButton *)));
     // Connections for attributes
+    //   Buttons
     connect(ui->attrNewButton, SIGNAL(clicked()),
-	    this, SLOT(createNewAttr()));
+	    this, SLOT(createAttr()));
+    connect(ui->attrDelButton, SIGNAL(clicked()),
+	    this, SLOT(deleteAttr()));
     connect(ui->attrName, SIGNAL(editingFinished()),
-    	    this, SLOT(updateAttrItem()));
+    	    this, SLOT(updateAttrListItem()));
     connect(ui->attrType, SIGNAL(editingFinished()),
-    	    this, SLOT(updateAttrItem()));
+    	    this, SLOT(updateAttrListItem()));
     connect(ui->attrValue, SIGNAL(editingFinished()),
-    	    this, SLOT(updateAttrItem()));
+    	    this, SLOT(updateAttrListItem()));
     connect(ui->attrVisibility, SIGNAL(activated(int)),
-    	    this, SLOT(updateAttrItem()));
+    	    this, SLOT(updateAttrListItem()));
     connect(ui->attrIsStatic, SIGNAL(stateChanged(int)),
-    	    this, SLOT(updateAttrItem()));
+    	    this, SLOT(updateAttrListItem()));
     
   }
   // !CTORS
@@ -46,7 +49,7 @@ namespace			CplusplusML
       emit applied();
   }
 
-  void				ComplexPropertyWindow::updateAttrItem()
+  void				ComplexPropertyWindow::updateAttrListItem()
   {
     static char const * const	visibilities[3] = {"+", "#", "-"};
     QString			text;
@@ -67,7 +70,7 @@ namespace			CplusplusML
     item->setText(text);
   }
 
-  void				ComplexPropertyWindow::createNewAttr()
+  void				ComplexPropertyWindow::createAttr()
   {
     QListWidgetItem		*item;
 
@@ -84,6 +87,19 @@ namespace			CplusplusML
 	ui->attrDownButton->setEnabled(true);
       }
     ui->attrName->setFocus(Qt::OtherFocusReason);
+  }
+
+  void				ComplexPropertyWindow::deleteAttr()
+  {
+    delete ui->attrList->currentItem();
+    clearAttrData();
+    if (!ui->attrList->count())
+      {
+	ui->attrGroupBox->setEnabled(false);
+	ui->attrDelButton->setEnabled(false);
+	ui->attrUpButton->setEnabled(false);
+	ui->attrDownButton->setEnabled(false);
+      }
   }
 
   void				ComplexPropertyWindow::createNewOpe()
