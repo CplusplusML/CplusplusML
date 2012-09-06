@@ -507,6 +507,42 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>attrList</tabstop>
+  <tabstop>attrNewButton</tabstop>
+  <tabstop>attrDelButton</tabstop>
+  <tabstop>attrUpButton</tabstop>
+  <tabstop>attrDownButton</tabstop>
+  <tabstop>attrName</tabstop>
+  <tabstop>attrType</tabstop>
+  <tabstop>attrValue</tabstop>
+  <tabstop>attrVisibility</tabstop>
+  <tabstop>attrIsStatic</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>isOpeVisible</tabstop>
+  <tabstop>name</tabstop>
+  <tabstop>isAttrVisible</tabstop>
+  <tabstop>opeNewButton</tabstop>
+  <tabstop>opeDelButton</tabstop>
+  <tabstop>opeUpButton</tabstop>
+  <tabstop>opeDownButton</tabstop>
+  <tabstop>opeName</tabstop>
+  <tabstop>opeType</tabstop>
+  <tabstop>opeVisibility</tabstop>
+  <tabstop>opeIsStatic</tabstop>
+  <tabstop>opeIsConst</tabstop>
+  <tabstop>opeParamNewButton</tabstop>
+  <tabstop>opeParamDelButton</tabstop>
+  <tabstop>opeParamUpButton</tabstop>
+  <tabstop>opeParamDownButton</tabstop>
+  <tabstop>opeParamName</tabstop>
+  <tabstop>opeParamType</tabstop>
+  <tabstop>opeParamValue</tabstop>
+  <tabstop>isAbstract</tabstop>
+  <tabstop>opeList</tabstop>
+  <tabstop>opeParamList</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
