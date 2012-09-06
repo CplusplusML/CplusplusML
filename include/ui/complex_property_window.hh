@@ -21,10 +21,14 @@ namespace			CplusplusML
 
   private slots:
     void			checkApply(QAbstractButton *button);
+
     // Attributes slots
     void			createAttr();
     void			deleteAttr();
     void			updateAttrListItem();
+    void			selectUpAttrItem();
+    void			selectDownAttrItem();
+
     // Operations slots
     void			createNewOpe();
     void			createNewOpeParam();

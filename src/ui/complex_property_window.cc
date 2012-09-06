@@ -20,6 +20,11 @@ namespace			CplusplusML
 	    this, SLOT(createAttr()));
     connect(ui->attrDelButton, SIGNAL(clicked()),
 	    this, SLOT(deleteAttr()));
+    connect(ui->attrUpButton, SIGNAL(clicked()),
+	    this, SLOT(selectUpAttrItem()));
+    connect(ui->attrDownButton, SIGNAL(clicked()),
+	    this, SLOT(selectDownAttrItem()));
+    //   Edition
     connect(ui->attrName, SIGNAL(editingFinished()),
     	    this, SLOT(updateAttrListItem()));
     connect(ui->attrType, SIGNAL(editingFinished()),
@@ -47,6 +52,19 @@ namespace			CplusplusML
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Apply ||
 	ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok)
       emit applied();
+  }
+
+  void				ComplexPropertyWindow::selectUpAttrItem()
+  {
+    if (ui->attrList->count() > 1 && ui->attrList->currentRow() > 0)
+      ui->attrList->setCurrentRow(ui->attrList->currentRow() - 1);
+  }
+
+  void				ComplexPropertyWindow::selectDownAttrItem()
+  {
+    if (ui->attrList->count() > 1 &&
+	ui->attrList->currentRow() < (ui->attrList->count() - 1))
+      ui->attrList->setCurrentRow(ui->attrList->currentRow() + 1);
   }
 
   void				ComplexPropertyWindow::updateAttrListItem()
@@ -79,12 +97,15 @@ namespace			CplusplusML
     ui->attrList->addItem(item);
     ui->attrList->setCurrentItem(item);
 
+    if (ui->attrList->count() > 1)
+      {
+	ui->attrUpButton->setEnabled(true);
+	ui->attrDownButton->setEnabled(true);
+      }
     if (!ui->attrGroupBox->isEnabled())
       {
 	ui->attrGroupBox->setEnabled(true);
 	ui->attrDelButton->setEnabled(true);
-	ui->attrUpButton->setEnabled(true);
-	ui->attrDownButton->setEnabled(true);
       }
     ui->attrName->setFocus(Qt::OtherFocusReason);
   }
@@ -101,13 +122,16 @@ namespace			CplusplusML
 	  ui->attrList->setCurrentRow(row - 1);
 	else
 	  ui->attrList->setCurrentRow(row);
+	if (ui->attrList->count() < 2)
+	  {
+	    ui->attrUpButton->setEnabled(false);
+	    ui->attrDownButton->setEnabled(false);
+	  }
       }
     else
       {
 	ui->attrGroupBox->setEnabled(false);
 	ui->attrDelButton->setEnabled(false);
-	ui->attrUpButton->setEnabled(false);
-	ui->attrDownButton->setEnabled(false);
       }
   }
 
