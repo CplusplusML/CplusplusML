@@ -21,12 +21,18 @@ namespace			CplusplusML
 
   private slots:
     void			checkApply(QAbstractButton *button);
+    // Attributes slots
     void			createNewAttr();
+    void			updateAttrItem();
+    // Operations slots
     void			createNewOpe();
     void			createNewOpeParam();
 
   public:
     Ui::ComplexProperty		*ui;
+
+  private:
+    void			clearAttrData();
   };
 }
 

@@ -79,7 +79,7 @@ namespace			CplusplusML
   {
     Object::Complex_		*item;
     // QListWidgetItem		*litem;
-    int				row;
+    // int				row;
 
     if (!selectedItems().empty())
       {
