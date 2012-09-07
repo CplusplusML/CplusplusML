@@ -77,29 +77,18 @@ namespace			CplusplusML
 
   void				DiagramScene::applyProperties()
   {
-    Object::Complex_		*item;
-    // QListWidgetItem		*litem;
-    // int				row;
+    Object::Complex_		*complex;
 
     if (!selectedItems().empty())
       {
-        item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
-        item->title_ = complexProperties_.ui->name->text().toStdString();
-        item->functions_.clear();
-        // for (row = 0; ; ++row)
-        //   {
-        //     if ((litem = complexProperties_.ui->funcedit->item(row)) == 0)
-        //       break;
-        //     item->functions_.push_back(litem->text().toStdString());
-        //   }
-        // item->datas_.clear();
-        // for (row = 0; ; ++row)
-        //   {
-        //     if ((litem = properties_.ui->propedit->item(row)) == 0)
-        //       break;
-        //     item->functions_.push_back(litem->text().toStdString());
-        //   }
-        item->update();
+	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+	  {
+	    complex->title_ = complexProperties_.ui->name->text().toStdString();
+	    complex->isAbstract_ = complexProperties_.ui->isAbstract->checkState();
+	    complex->setAttrVisible(complexProperties_.ui->isAttrVisible->checkState());
+	    complex->setOpeVisible(complexProperties_.ui->isOpeVisible->checkState());
+	    complex->update();
+	  }
       }
   }
 
