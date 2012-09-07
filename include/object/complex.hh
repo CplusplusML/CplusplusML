@@ -38,14 +38,17 @@ namespace Object
     std::list<Members::Operation *> operations_;
 
     std::set<Arrow_*>   arrows_;
-    int x_;
-    int y_;
 
     // QT
   protected:
-    QLabel		titleLabel;
+    QLabel		titleLabel_;
+    QGraphicsRectItem	titleRect_;
+    QGraphicsRectItem	attrRect_;
+    QGraphicsRectItem	opeRect_;
 
   protected:
+    int x_;
+    int y_;
     bool		isAttrVisible_;
     bool		isOpeVisible_;
   };
