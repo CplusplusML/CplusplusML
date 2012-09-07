@@ -2,6 +2,7 @@
 # define	_CPLUSPLUSML_MEMBERS_HH_
 
 # include	<list>
+# include	<string>
 # include	<map>
 
 # include	<QtCore/QString>
@@ -40,14 +41,14 @@ namespace			Object
 
       inline void		updateLabel(void)
       {
-	label->setText(this->toString());
+	label->setText(this->toString().c_str());
       }
 
-      QString			toString(void) const;
+      std::string		toString(void) const;
 
-      QString			name;
-      QString			type;
-      QString			defaultValue;
+      std::string		name;
+      std::string		type;
+      std::string		defaultValue;
       Visibility		visibility;
       bool			isStatic;
 
@@ -71,13 +72,13 @@ namespace			Object
 
       inline void		updateLabel(void)
       {
-	label->setText(this->toString());
+	label->setText(this->toString().c_str());
       }
 
-      QString			toString(void) const;
+      std::string		toString(void) const;
 
-      QString			name;
-      QString			type;
+      std::string		name;
+      std::string		type;
       Visibility		visibility;
       bool			isStatic;
       bool			isConst;
@@ -91,11 +92,11 @@ namespace			Object
 	Parameter(Operation *parent);
 	~Parameter();
 
-	QString			toString(void) const;
+	std::string		toString(void) const;
 
-	QString			name;
-	QString			type;
-	QString			defValue;
+	std::string		name;
+	std::string		type;
+	std::string		defValue;
 
       private:
 	Operation		*parent_;

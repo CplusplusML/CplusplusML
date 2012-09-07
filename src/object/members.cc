@@ -1,6 +1,6 @@
 #include	<iostream> //DEBUG
 
-#include	<QtCore/QStringList>
+#include	<algorithm>
 #include	"object/members.hh"
 
 namespace				Object
@@ -23,20 +23,20 @@ namespace				Object
       delete label;
     }
 
-    QString				Attribute::toString(void) const
+    std::string				Attribute::toString(void) const
     {
-      QString				text;
+      std::string			text;
 
       text += visibilityName(visibility);
-      if (!name.isEmpty())
+      if (!name.empty())
 	text += name;
-      if (!type.isEmpty())
+      if (!type.empty())
 	{
-	  if (!name.isEmpty())
+	  if (!name.empty())
 	    text += ": ";
 	  text += type;
 	}
-      if (!defaultValue.isEmpty())
+      if (!defaultValue.empty())
 	text += " = " + defaultValue;
 
       return (text);
@@ -59,22 +59,31 @@ namespace				Object
       delete label;
     }
 
-    QString				Operation::toString(void) const
+    std::string				Operation::toString(void) const
     {
-      QString				text;
-      QStringList			stringList;
+      std::string			text;
 
       text += visibilityName(visibility);
-      if (!name.isEmpty())
+      if (!name.empty())
 	text += name;
       text += '(';
-      for (const Parameter *param: parameters)
-	stringList << param->toString();
-      text += stringList.join(",");
+      {
+	bool				coma = false;
+	std::list<Parameter *>::const_iterator it = parameters.begin();
+	for (; it != parameters.end(); ++it)
+	  {
+	    if (coma)
+	      {
+		text += ',';
+		coma = false;
+	      }
+	    text += (*it)->toString();
+	  }
+      }
       text += ')';
-      if (!type.isEmpty())
+      if (!type.empty())
 	{
-	  if (!name.isEmpty())
+	  if (!name.empty())
 	    text += ": ";
 	  text += type;
 	}
@@ -95,19 +104,19 @@ namespace				Object
       std::cerr << "Deleting param : " << this << std::endl; //DEBUG
     }
 
-    QString				Operation::Parameter::toString(void) const
+    std::string				Operation::Parameter::toString(void) const
     {
-      QString				text;
+      std::string			text;
 
-      if (!name.isEmpty())
+      if (!name.empty())
 	text += name;
-      if (!type.isEmpty())
+      if (!type.empty())
 	{
-	  if (!name.isEmpty())
+	  if (!name.empty())
 	    text += ": ";
 	  text += type;
 	}
-      if (!defValue.isEmpty())
+      if (!defValue.empty())
 	text += '=' + defValue;
 
       return (text);

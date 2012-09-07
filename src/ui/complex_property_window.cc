@@ -93,12 +93,12 @@ namespace			CplusplusML
 
     item = ui->attrList->currentItem();
     attr = attributes_[item];
-    attr->name = ui->attrName->text();
-    attr->type = ui->attrType->text();
-    attr->defaultValue = ui->attrValue->text();
+    attr->name = ui->attrName->text().toStdString();
+    attr->type = ui->attrType->text().toStdString();
+    attr->defaultValue = ui->attrValue->text().toStdString();
     attr->visibility = static_cast<Object::Members::Visibility>(ui->attrVisibility->currentIndex());
     attr->isStatic = static_cast<bool>(ui->attrIsStatic->checkState());
-    item->setText(attr->toString());
+    item->setText(attr->toString().c_str());
   }
 
   void				ComplexPropertyWindow::updateAttrData()
@@ -113,9 +113,9 @@ namespace			CplusplusML
     cerr << ui->attrList->count() << endl;
     item = ui->attrList->currentItem();
     attr = attributes_[item];
-    ui->attrName->setText(attr->name);
-    ui->attrType->setText(attr->type);
-    ui->attrValue->setText(attr->defaultValue);
+    ui->attrName->setText(attr->name.c_str());
+    ui->attrType->setText(attr->type.c_str());
+    ui->attrValue->setText(attr->defaultValue.c_str());
     ui->attrVisibility->setCurrentIndex(static_cast<int>(attr->visibility));
     ui->attrIsStatic->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(attr->isStatic) * 2));
     ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
