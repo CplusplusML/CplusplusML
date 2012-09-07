@@ -5,10 +5,11 @@
 # include <vector>
 # include <string>
 # include <memory>
+# include <type_traits>
 # include <boost/any.hpp>
 # include <boost/variant.hpp>
 
-using std::shared_ptr;
+# include "MakeEachMPLToSharedPtr.hpp"
 
 namespace AST
 {
@@ -25,19 +26,29 @@ namespace AST
     template <class C>
     BasicElement& operator<<(const C &c)
     {
-      shared_ptr<CACA> p4(new CACA(c));
-      _toto.push_back(p4);
+      _toto.push_back(std::shared_ptr<C>(new C(c)));
       return (*this);
     }
 
   private:
-    struct GetVisitor : public boost::static_visitor<const std::string&>
+    template <typename U>
+    struct GetVisitor : public boost::static_visitor<// bool
+    const std::string&
+						     >
     {
+      // template <typename T>
+      // bool operator()(const T &t) const
+      // {
+      // 	if (std::is_same<T, U> && t.name() == 
+      // }
+
       template <typename T>
       const std::string& operator()(const T &t) const
       {
-	return (t.name());
+      	return (t->name());
       }
+
+
     };
 
   public:
@@ -46,14 +57,22 @@ namespace AST
     {
       for (auto &b : _toto)
       	{
-	  if (b->type() == typeid(C) && boost::apply_visitor(GetVisitor(), *b) == c.name())
-	    {
-	      return (boost::get<C>(*b));
-	    }
+	  // on a un boost variant de shared_ptr
+	  // on veut donc apply visitor sur des visitor qui prennent des shared_ptr et qui forward a la version nue !
+
+	  // if (boost::apply_visitor(GetVisitor<std::shared_ptr<C> >(), b))
+	  //   {
+	  //     return (*(boost::get<std::shared_ptr<C>(b)));
+	  //   }
+
+	  // if (b->type() == typeid(C) && boost::apply_visitor(GetVisitor(), *b) == c.name())
+	  //   {
+	  //     return (boost::get<C>(*b));
+	  //   }
 	}
       // revoir la gestion d'erreurs xD
       throw 1;
-      (void)_toto.push_back(shared_ptr<CACA>(new CACA(c)));
+      (void)_toto.push_back(std::shared_ptr<C>(new C(c)));
     }
 
     const std::string &name() const
@@ -69,8 +88,8 @@ namespace AST
     friend std::ostream& operator<<(std::ostream &o,
 				    const BasicElement<Element>& b)
     {
-      std::for_each(b._toto.begin(), b._toto.end(),
-		    [&o](shared_ptr<BasicElement<Element>::CACA> x){ o << (*x); });
+      // std::for_each(b._toto.begin(), b._toto.end(),
+      // 		    [&o](std::shared_ptr<BasicElement<Element>::CACA> x){ o << (*x); });
       return (o);
     }
 
@@ -79,9 +98,8 @@ namespace AST
     //    std::vector<boost::any> _elements;
 
     typedef typename Traits<Element>::AuthorizedTypes types;
-    // pas super propre, vaudrait mieux un traits qui transforme une sequence de types MPL par une sequence de shared_ptr de chaque type, Redpist va raler s'il voit ca xD
-    typedef typename boost::make_variant_over< types >::type CACA;
-    std::vector<shared_ptr < CACA > > _toto;
+    typedef typename boost::make_variant_over< typename MakeEachMPLToSharedPtr<types, toSharedPtr>::type >::type CACA;
+    std::vector<CACA> _toto;
   };
 
 }

@@ -13,11 +13,13 @@ int main(void)
   ast.Get(AST::Namespace("::")) << AST::Class("class1");
   ast.Get(AST::Namespace("::")) << AST::Class("class2") << AST::Class("class42");
 
+  /*
   AST::Class &c = ast.Get(AST::Namespace("::")).Get(AST::Class("class1"));
 
   c << AST::Class("SubClass");
 
   c << AST::Inheritance(ast.Get(AST::Namespace("::")).Get(AST::Class("class2")));
+*/
 
   //  c.Get(AST::Namespace("Namespace42"));
 
