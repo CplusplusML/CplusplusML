@@ -2,25 +2,29 @@
 #ifndef MAKEEACHMPLTOSHAREDPTR_HPP_
 # define MAKEEACHMPLTOSHAREDPTR_HPP_
 
-# include <vector>
 # include <boost/mpl/vector.hpp>
 # include <boost/mpl/back.hpp>
 # include <boost/mpl/push_front.hpp>
 # include <boost/mpl/pop_back.hpp>
 # include <boost/mpl/empty.hpp>
-# include <boost/variant.hpp>
 # include <memory>
 
 template <typename T>
-struct ToPointer
+struct toPlainPtr
 {
   typedef T* type;
+};
+
+template <typename T>
+struct toSharedPtr
+{
+  typedef typename std::shared_ptr<T> type;
 };
 
 // take a MPL:
 // take the back, apply the shared_ptr to it, push it front on the new MPL, pop back the old MPL
 
-template <typename T>
+template <typename T, template <class> class Policy >
 struct MakeEachMPLToSharedPtr
 {
 private:
@@ -29,9 +33,9 @@ private:
   {
     typedef typename boost::mpl::push_front
     <
-      typename MakeEachMPLToSharedPtr<typename boost::mpl::pop_back<T2>::type>::type,
-      std::shared_ptr<
-	typename boost::mpl::back<T2>::type >
+      typename MakeEachMPLToSharedPtr<typename boost::mpl::pop_back<T2>::type, Policy>::type,
+      typename Policy<
+	typename boost::mpl::back<T2>::type >::type
       >::type type;
 
 };
