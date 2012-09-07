@@ -35,7 +35,7 @@ namespace			CplusplusML
     	    this, SLOT(updateAttrListItem()));
     connect(ui->attrIsStatic, SIGNAL(stateChanged(int)),
     	    this, SLOT(updateAttrListItem()));
-    connect(ui->attrList, SIGNAL(itemSelectionChanged()),
+    connect(ui->attrList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
 	    this, SLOT(updateAttrData()));
     
   }
@@ -66,6 +66,7 @@ namespace			CplusplusML
     QListWidgetItem * currentItem = ui->attrList->takeItem(currentRow);
     ui->attrList->insertItem(currentRow - 1, currentItem);
     ui->attrList->setCurrentRow(currentRow - 1);
+    ui->attrUpButton->setEnabled(currentRow - 1 > 0);
   }
 
   void				ComplexPropertyWindow::moveDownAttrItem()
@@ -78,6 +79,7 @@ namespace			CplusplusML
     QListWidgetItem * currentItem = ui->attrList->takeItem(currentRow);
     ui->attrList->insertItem(currentRow + 1, currentItem);
     ui->attrList->setCurrentRow(currentRow + 1);
+    ui->attrDownButton->setEnabled(currentRow + 2 < ui->attrList->count());
   }
 
   void				ComplexPropertyWindow::updateAttrListItem()
@@ -108,6 +110,7 @@ namespace			CplusplusML
       return;
 
     clearAttrData();
+    cerr << ui->attrList->count() << endl;
     item = ui->attrList->currentItem();
     attr = attributes_[item];
     ui->attrName->setText(attr->name);
@@ -115,6 +118,8 @@ namespace			CplusplusML
     ui->attrValue->setText(attr->defaultValue);
     ui->attrVisibility->setCurrentIndex(static_cast<int>(attr->visibility));
     ui->attrIsStatic->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(attr->isStatic) * 2));
+    ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
+    ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
   }
 
   void				ComplexPropertyWindow::createAttr()
@@ -129,11 +134,11 @@ namespace			CplusplusML
       {
 	ui->attrGroupBox->setEnabled(true);
 	ui->attrDelButton->setEnabled(true);
-	ui->attrUpButton->setEnabled(true);
-	ui->attrDownButton->setEnabled(true);
       }
     ui->attrName->setFocus(Qt::OtherFocusReason);
     ui->attrList->setCurrentItem(item);
+    ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
+    ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
   }
 
   void				ComplexPropertyWindow::deleteAttr()
@@ -141,25 +146,17 @@ namespace			CplusplusML
     int				row = ui->attrList->currentRow();
     QListWidgetItem		*item;
 
+    clearAttrData();
     item = ui->attrList->takeItem(row);
     attributes_.erase(item);
     delete item;
-    clearAttrData();
-    if (ui->attrList->count())
-      {
-	if (row == ui->attrList->count())
-	  ui->attrList->setCurrentRow(row - 1);
-	else
-	  ui->attrList->setCurrentRow(row);
-
-      }
-    else
+    if (!ui->attrList->count())
       {
 	ui->attrGroupBox->setEnabled(false);
 	ui->attrDelButton->setEnabled(false);
-	ui->attrUpButton->setEnabled(false);
-	ui->attrDownButton->setEnabled(false);
       }
+  ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
+  ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
   }
 
   void				ComplexPropertyWindow::createNewOpe()
