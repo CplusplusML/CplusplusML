@@ -110,7 +110,6 @@ namespace			CplusplusML
       return;
 
     clearAttrData();
-    cerr << ui->attrList->count() << endl;
     item = ui->attrList->currentItem();
     attr = attributes_[item];
     ui->attrName->setText(attr->name.c_str());
@@ -120,6 +119,7 @@ namespace			CplusplusML
     ui->attrIsStatic->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(attr->isStatic) * 2));
     ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
     ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
+    ui->attrName->setFocus(Qt::OtherFocusReason);    
   }
 
   void				ComplexPropertyWindow::createAttr()
