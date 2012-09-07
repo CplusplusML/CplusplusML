@@ -1,13 +1,19 @@
 #ifndef		_CPLUSPLUSML_UI_COMPLEX_PROPERTY_WINDOW_HH_
 # define	_CPLUSPLUSML_UI_COMPLEX_PROPERTY_WINDOW_HH_
 
+# include	<map>
+
 # include	"ui_ComplexProperty.h"
+# include	"object/members.hh"
 
 namespace			CplusplusML
 {
   class				ComplexPropertyWindow: public QDialog
   {
     Q_OBJECT
+
+    typedef std::map<QListWidgetItem *, Object::Members::Attribute *>	attributeList;
+    typedef std::map<QListWidgetItem *, Object::Members::Operation *>	operationList;
 
   public:
     ComplexPropertyWindow();
@@ -26,8 +32,9 @@ namespace			CplusplusML
     void			createAttr();
     void			deleteAttr();
     void			updateAttrListItem();
-    void			selectUpAttrItem();
-    void			selectDownAttrItem();
+    void			moveUpAttrItem();
+    void			moveDownAttrItem();
+    void			updateAttrData();
 
     // Operations slots
     void			createNewOpe();
@@ -38,6 +45,10 @@ namespace			CplusplusML
 
   private:
     void			clearAttrData();
+
+  private:
+    attributeList		attributes_;
+    operationList		operations_;
   };
 }
 
