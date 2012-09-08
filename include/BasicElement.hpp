@@ -31,7 +31,7 @@ namespace AST
     }
 
   private:
-    template <typename U>
+    //    template <typename U>
     struct GetVisitor : public boost::static_visitor<// bool
     const std::string&
 						     >
@@ -41,13 +41,28 @@ namespace AST
       // {
       // 	if (std::is_same<T, U> && t.name() == 
       // }
-
-      template <typename T>
-      const std::string& operator()(const T &t) const
+ 
+     template <typename T>
+     const std::string& operator()(const T &t) const
       {
       	return (t->name());
       }
 
+    };
+
+    template <typename T>
+    struct Foo
+    {};
+
+    template <typename U>
+    struct GetVisitor2 : public boost::static_visitor<bool>
+    {
+
+     template <typename T>
+     bool operator()(const T &t) const
+      {
+	return (std::is_same<typename T::element_type, U>::value);
+      }
 
     };
 
@@ -59,16 +74,12 @@ namespace AST
       	{
 	  // on a un boost variant de shared_ptr
 	  // on veut donc apply visitor sur des visitor qui prennent des shared_ptr et qui forward a la version nue !
-
-	  // if (boost::apply_visitor(GetVisitor<std::shared_ptr<C> >(), b))
-	  //   {
-	  //     return (*(boost::get<std::shared_ptr<C>(b)));
-	  //   }
-
-	  // if (b->type() == typeid(C) && boost::apply_visitor(GetVisitor(), *b) == c.name())
-	  //   {
-	  //     return (boost::get<C>(*b));
-	  //   }
+	  if (boost::apply_visitor(GetVisitor2<C>(), b)
+	      &&
+	      boost::apply_visitor(GetVisitor(), b) == c.name())
+	    {
+	      return (*(boost::get<std::shared_ptr<C> >(b)));
+	    }
 	}
       // revoir la gestion d'erreurs xD
       throw 1;
