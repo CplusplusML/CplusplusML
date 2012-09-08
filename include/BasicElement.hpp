@@ -96,21 +96,37 @@ namespace AST
       _name = name;
     }
 
+    // temp struct, waiting for better?
+    struct PrintVisitor : public boost::static_visitor<void>
+    {
+      PrintVisitor(std::ostream &o) : o_(o)
+      {}
+
+      template <typename T>
+      void operator()(const std::shared_ptr<T>& t)
+      {
+	o_ << *t;
+      }
+
+      std::ostream &o_;
+    };
+
     friend std::ostream& operator<<(std::ostream &o,
 				    const BasicElement<Element>& b)
     {
-      // std::for_each(b._toto.begin(), b._toto.end(),
-      // 		    [&o](std::shared_ptr<BasicElement<Element>::CACA> x){ o << (*x); });
+      PrintVisitor temp(o);
+      std::for_each(b._toto.begin(), b._toto.end(),
+      		    [&temp](type x){ 
+		      boost::apply_visitor(temp, x);
+		    });
       return (o);
     }
 
   private:
     std::string _name;
-    //    std::vector<boost::any> _elements;
 
-    typedef typename Traits<Element>::AuthorizedTypes types;
-    typedef typename boost::make_variant_over< typename MakeEachMPLToSharedPtr<types, toSharedPtr>::type >::type CACA;
-    std::vector<CACA> _toto;
+    typedef typename boost::make_variant_over< typename MakeEachMPLToSharedPtr<typename Traits<Element>::AuthorizedTypes, toSharedPtr>::type >::type type;
+    std::vector<type> _toto;
   };
 
 }
