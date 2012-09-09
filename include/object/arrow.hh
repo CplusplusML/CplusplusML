@@ -14,7 +14,7 @@ namespace Object
     {
       start.AddArrow(this);
 
-      std::cout << "test : " << (start.boundingRect().x()  - start.boundingRect().width() / 2) << std::endl;
+      //      std::cout << "test : " << (start.boundingRect().x()  - start.boundingRect().width() / 2) << std::endl;
       startPoint_.setX(start.boundingRect().x() - start.boundingRect().width() / 2);
       startPoint_.setY(start.boundingRect().y() + start.boundingRect().height() / 2);
 
