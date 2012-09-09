@@ -16,6 +16,37 @@ namespace AST
   template <class Element>
   class BasicElement
   {
+  private:
+
+    /* VISITORS */
+
+    template <typename U>
+    struct IsSameVisitor : public boost::static_visitor<bool>
+    {
+
+     template <typename T>
+     bool operator()(const T &t) const
+      {
+	return (std::is_same<typename T::element_type, U>::value);
+      }
+
+    };
+
+    // temp struct, waiting for better?
+    struct PrintVisitor : public boost::static_visitor<void>
+    {
+      PrintVisitor(std::ostream &o) : o_(o)
+      {}
+
+      template <typename T>
+      void operator()(const std::shared_ptr<T>& t)
+      {
+	o_ << *t;
+      }
+
+      std::ostream &o_;
+    };
+
   public:
     BasicElement(const std::string &name = "") : _name(name)
     {}
@@ -30,53 +61,13 @@ namespace AST
       return (*this);
     }
 
-  private:
-    //    template <typename U>
-    struct GetVisitor : public boost::static_visitor<// bool
-    const std::string&
-						     >
-    {
-      // template <typename T>
-      // bool operator()(const T &t) const
-      // {
-      // 	if (std::is_same<T, U> && t.name() == 
-      // }
- 
-     template <typename T>
-     const std::string& operator()(const T &t) const
-      {
-      	return (t->name());
-      }
-
-    };
-
-    template <typename T>
-    struct Foo
-    {};
-
-    template <typename U>
-    struct GetVisitor2 : public boost::static_visitor<bool>
-    {
-
-     template <typename T>
-     bool operator()(const T &t) const
-      {
-	return (std::is_same<typename T::element_type, U>::value);
-      }
-
-    };
-
-  public:
     template <class C>
     C& Get(const C &c)
     {
       for (auto &b : _toto)
       	{
-	  // on a un boost variant de shared_ptr
-	  // on veut donc apply visitor sur des visitor qui prennent des shared_ptr et qui forward a la version nue !
-	  if (boost::apply_visitor(GetVisitor2<C>(), b)
-	      &&
-	      boost::apply_visitor(GetVisitor(), b) == c.name())
+	  if (boost::apply_visitor(IsSameVisitor<C>(), b) &&
+	      boost::get<std::shared_ptr<C> >(b)->name() == c.name())
 	    {
 	      return (*(boost::get<std::shared_ptr<C> >(b)));
 	    }
@@ -95,21 +86,6 @@ namespace AST
     {
       _name = name;
     }
-
-    // temp struct, waiting for better?
-    struct PrintVisitor : public boost::static_visitor<void>
-    {
-      PrintVisitor(std::ostream &o) : o_(o)
-      {}
-
-      template <typename T>
-      void operator()(const std::shared_ptr<T>& t)
-      {
-	o_ << *t;
-      }
-
-      std::ostream &o_;
-    };
 
     friend std::ostream& operator<<(std::ostream &o,
 				    const BasicElement<Element>& b)
