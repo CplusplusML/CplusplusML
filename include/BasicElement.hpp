@@ -44,6 +44,7 @@ namespace AST
 	o_ << *t;
       }
 
+    private:
       std::ostream &o_;
     };
 
