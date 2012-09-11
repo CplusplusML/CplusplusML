@@ -11,19 +11,13 @@ namespace				Object
     AMember::AMember():
       visibility(PUBLIC),
       isStatic(false),
-      label(new QLabel()),
-      labelProxy(new QGraphicsProxyWidget()),
+      label(new QGraphicsSimpleTextItem()),
       deleted(false)
     {
-      label->setAlignment(Qt::AlignLeft);
-      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"
-					     "margin: 2 0;"));
-      labelProxy->setWidget(label);
     }
 
     AMember::~AMember()
     {
-      delete labelProxy;
     }
 
     //Attribute

@@ -5,10 +5,7 @@
 # include	<string>
 # include	<map>
 
-# include	<QString>
-# include	<QLabel>
-# include	<QGraphicsProxyWidget>
-# include	<QListWidgetItem>
+# include	<QGraphicsSimpleTextItem>
 
 
 class Complex_;
@@ -54,8 +51,7 @@ namespace			Object
       bool			isStatic;
 
       // Qt
-      QLabel			*label;
-      QGraphicsProxyWidget	*labelProxy;
+      QGraphicsSimpleTextItem	*label;
       bool			deleted;
     };
 

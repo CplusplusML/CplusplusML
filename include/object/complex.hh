@@ -1,9 +1,10 @@
 #ifndef _COMPLEX_H_
 # define _COMPLEX_H_
 
-# include <QtGui/QLabel>
-# include <QtGui/QGraphicsRectItem>
-# include <QtGui/QGraphicsProxyWidget>
+# include <QLabel>
+# include <QGraphicsRectItem>
+# include <QGraphicsProxyWidget>
+# include <QGraphicsSimpleTextItem>
 
 # include <set>
 # include <list>
@@ -54,8 +55,7 @@ namespace			Object
 
     // QT
   protected:
-    QLabel			*titleLabel_;
-    QGraphicsProxyWidget	*titleProxy_;
+    QGraphicsSimpleTextItem	*titleLabel_;
     QGraphicsRectItem		*titleRect_;
     QGraphicsRectItem		*attrRect_;
     QGraphicsRectItem		*opeRect_;
