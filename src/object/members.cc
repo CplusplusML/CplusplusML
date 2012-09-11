@@ -15,7 +15,8 @@ namespace				Object
       labelProxy(new QGraphicsProxyWidget())
     {
       label->setAlignment(Qt::AlignLeft);
-      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
+      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"
+					     "margin: 1 0;"));
       labelProxy->setWidget(label);
     }
 

@@ -21,7 +21,7 @@ void Object::Complex_::Render(void)
   titleLabel_ = new QLabel(title_.c_str());
   titleLabel_->setAlignment(Qt::AlignCenter);
   titleLabel_->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"
-					       "padding: 2 0;"));
+					       "margin: 2 0;"));
   titleLabel_->setFixedWidth(titleLabel_->width() + 40);
   titleLabel_->setMinimumWidth(240);
 
