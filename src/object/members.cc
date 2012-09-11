@@ -12,12 +12,14 @@ namespace				Object
       visibility(PUBLIC),
       isStatic(false),
       label(new QLabel()),
-      labelProxy(new QGraphicsProxyWidget())
+      labelProxy(new QGraphicsProxyWidget()),
+      deleted(false)
     {
       label->setAlignment(Qt::AlignLeft);
       label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"
-					     "margin: 1 0;"));
+					     "margin: 2 0;"));
       labelProxy->setWidget(label);
+      std::cerr << "pwet" << std::endl; //DEBUG
     }
 
     AMember::~AMember()
@@ -43,6 +45,7 @@ namespace				Object
       if (!defaultValue.empty())
 	text += " = " + defaultValue;
 
+      label->setText(text.c_str());
       return (text);
     }
 
@@ -86,6 +89,8 @@ namespace				Object
 	text += " const";
       if (inhType == PURE)
 	text += " = 0";
+
+      label->setText(text.c_str());
       return (text);
     }
 

@@ -36,8 +36,7 @@ void Object::Complex_::Render(void)
   x_ = titleProxy_->x() - width / 2;
   y_ = titleProxy_->y() - height / 2;
 
-  titleProxy_->setX(x_);
-  titleProxy_->setY(y_);
+  titleProxy_->setPos(x_, y_);
 
   // Title rectangle
   titleRect_ = new QGraphicsRectItem(x_, y_, width, titleHeight);
@@ -71,6 +70,11 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 
 void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
 {
+  int	rows;
+  QListWidgetItem	*item;
+
+  int width = titleLabel_->width();
+  int height = titleLabel_->height();
   // Get informations
   title_ = properties.ui->name->text().toStdString();
   isAbstract_ = properties.ui->isAbstract->checkState();
@@ -79,11 +83,26 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // Update labels
   titleLabel_->setText(properties.ui->name->text());
   {
-    int rows = properties.ui->attrList->count();
+    std::list<Members::Attribute *>::iterator it = attributes_.begin();
+    for (;it != attributes_.end();)
+      {
+	removeFromGroup((*it)->labelProxy);
+	if ((*it)->deleted)
+	  delete *it;
+	it = attributes_.erase(it);
+      }
+    rows = properties.attributes_.size();
+    attrRect_->setRect(x_, y_ + height, width, rows * height);
     for (int i = 0; i < rows; ++i)
       {
+    	item = properties.ui->attrList->item(i);
+    	attributes_.push_back(properties.attributes_.find(item)->second);
+	attributes_.back()->updateLabel();
+    	attributes_.back()->labelProxy->setPos(x() + x_, y() + y_ + (i + 1) * height);
+    	addToGroup(attributes_.back()->labelProxy);
       }
   }
+  opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
   // Update view
   update();
 }

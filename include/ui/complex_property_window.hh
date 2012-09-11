@@ -47,13 +47,13 @@ namespace			CplusplusML
 
   public:
     Ui::ComplexProperty		*ui;
+    attributeList		attributes_;
+    operationList		operations_;
 
   private:
     void			clearAttrData();
 
   private:
-    attributeList		attributes_;
-    operationList		operations_;
     Object::Complex_		*complex_;
   };
 }

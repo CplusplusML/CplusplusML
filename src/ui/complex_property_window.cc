@@ -151,6 +151,7 @@ namespace			CplusplusML
 
     clearAttrData();
     item = ui->attrList->takeItem(row);
+    attributes_[item]->deleted = true;
     attributes_.erase(item);
     delete item;
     if (!ui->attrList->count())

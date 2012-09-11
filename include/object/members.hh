@@ -8,6 +8,7 @@
 # include	<QString>
 # include	<QLabel>
 # include	<QGraphicsProxyWidget>
+# include	<QListWidgetItem>
 
 
 class Complex_;
@@ -55,6 +56,7 @@ namespace			Object
       // Qt
       QLabel			*label;
       QGraphicsProxyWidget	*labelProxy;
+      bool			deleted;
     };
 
     struct			Attribute: public AMember
