@@ -63,6 +63,7 @@ namespace			CplusplusML
 	    complexProperties_.clearAll();
 	    complexProperties_.ui->name->setText("Test");
 	    complexProperties_.show();
+	    complexProperties_.dumpObjectTree();
           }
       }
 

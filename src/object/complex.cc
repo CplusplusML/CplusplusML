@@ -1,12 +1,23 @@
-#include <iostream>
+#include <iostream> //DEBUG
 #include "object/complex.hh"
+
+Object::Complex_::~Complex_()
+{
+  this->removeFromGroup(titleProxy_);
+  this->removeFromGroup(titleRect_);
+  this->removeFromGroup(attrRect_);
+  this->removeFromGroup(opeRect_);
+  delete titleProxy_;
+  delete titleRect_;
+  delete attrRect_;
+  delete opeRect_;
+}
 
 void Object::Complex_::Render(void)
 {
   // Label
-  titleLabel_ = new QLabel();
-  titleLabel_->setText(title_.c_str());
-  titleLabel_->setAlignment( Qt::AlignCenter );
+  titleLabel_ = new QLabel(title_.c_str());
+  titleLabel_->setAlignment(Qt::AlignCenter);
   titleLabel_->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
   titleLabel_->setFixedWidth(titleLabel_->width() + 40);
   titleLabel_->setMinimumWidth(240);
@@ -16,7 +27,8 @@ void Object::Complex_::Render(void)
   titleProxy_->setWidget(titleLabel_);
 
   double width = titleLabel_->width();
-  double height = 125;
+  double titleHeight = titleLabel_->height();
+  double height = (titleHeight + 10) * 3;
 
   x_ = titleProxy_->x() - width / 2;
   y_ = titleProxy_->y() - height / 2;
@@ -25,18 +37,15 @@ void Object::Complex_::Render(void)
   titleProxy_->setY(y_ + 5);
 
   // Title rectangle
-  titleRect_ = new QGraphicsRectItem();
-  titleRect_->setRect(x_, y_, width, 25);
+  titleRect_ = new QGraphicsRectItem(x_, y_, width, titleHeight + 10);
   titleRect_->setBrush(QColor(250, 250, 250));
 
   // Attributes rectangle
-  attrRect_ = new QGraphicsRectItem();
-  attrRect_->setRect(x_, y_ + 25, width, 50);
+  attrRect_ = new QGraphicsRectItem(x_, y_ + titleHeight + 10, width, titleHeight + 10);
   attrRect_->setBrush(QColor(250, 250, 250));
 
   // Operations rectangle
-  opeRect_ = new QGraphicsRectItem();
-  opeRect_->setRect(x_, y_ + 75, width, 50);
+  opeRect_ = new QGraphicsRectItem(x_, y_ + 2 * titleHeight + 20, width, titleHeight + 10);
   opeRect_->setBrush(QColor(250, 250, 250));
 
   // Add all items to group
@@ -44,7 +53,6 @@ void Object::Complex_::Render(void)
   this->addToGroup(attrRect_);
   this->addToGroup(opeRect_);
   this->addToGroup(titleProxy_);
-
   this->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 

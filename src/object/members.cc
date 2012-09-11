@@ -1,6 +1,5 @@
 #include	<iostream> //DEBUG
 
-#include	<algorithm>
 #include	"object/members.hh"
 
 namespace				Object
@@ -9,12 +8,15 @@ namespace				Object
   {
     //Attribute
 
-    Attribute::Attribute(Complex_ *parent):
+    Attribute::Attribute():
       visibility(PUBLIC),
       isStatic(false),
       label(new QLabel()),
-      parent_(parent)
+      labelProxy(new QGraphicsProxyWidget())
     {
+      label->setAlignment(Qt::AlignLeft);
+      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
+      labelProxy->setWidget(label);
     }
 
     Attribute::~Attribute()
@@ -44,13 +46,16 @@ namespace				Object
 
     // Operation
 
-    Operation::Operation(Complex_ *parent):
+    Operation::Operation():
       visibility(PUBLIC),
       isStatic(false),
       isConst(false),
       label(new QLabel()),
-      parent_(parent)
+      labelProxy(new QGraphicsProxyWidget())
     {
+      label->setAlignment(Qt::AlignLeft);
+      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
+      labelProxy->setWidget(label);
     }
 
     Operation::~Operation()
@@ -92,16 +97,6 @@ namespace				Object
       if (inhType == PURE)
 	text += " = 0";
       return (text);
-    }
-
-    Operation::Parameter::Parameter(Operation *parent):
-      parent_(parent)
-    {
-    }
-
-    Operation::Parameter::~Parameter()
-    {
-      std::cerr << "Deleting param : " << this << std::endl; //DEBUG
     }
 
     std::string				Operation::Parameter::toString(void) const

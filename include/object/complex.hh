@@ -21,7 +21,7 @@ namespace			Object
   public:
 
     Complex_(): title_("Test") { Render(); }
-    virtual ~Complex_() { }
+    virtual ~Complex_();
 
     
     void			AddArrow(Arrow_ *arrow);

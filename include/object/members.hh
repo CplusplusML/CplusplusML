@@ -5,8 +5,9 @@
 # include	<string>
 # include	<map>
 
-# include	<QtCore/QString>
-# include	<QtGui/QLabel>
+# include	<QString>
+# include	<QLabel>
+# include	<QGraphicsProxyWidget>
 
 
 class Complex_;
@@ -36,7 +37,7 @@ namespace			Object
 
     struct			Attribute
     {
-      Attribute(Complex_ *parent = NULL);
+      Attribute();
       ~Attribute();
 
       inline void		updateLabel(void)
@@ -53,9 +54,7 @@ namespace			Object
       bool			isStatic;
 
       QLabel			*label;
-
-    private:
-      Complex_			*parent_;
+      QGraphicsProxyWidget	*labelProxy;
     };
 
     struct			Operation
@@ -67,7 +66,7 @@ namespace			Object
 	  PURE
 	};
 
-      Operation(Complex_ *parent = NULL);
+      Operation();
       ~Operation();
 
       inline void		updateLabel(void)
@@ -85,27 +84,19 @@ namespace			Object
       InheritanceType		inhType;
 
       QLabel			*label;
+      QGraphicsProxyWidget	*labelProxy;
 
       // Structure for parameters
       struct			Parameter
       {
-	Parameter(Operation *parent);
-	~Parameter();
-
 	std::string		toString(void) const;
 
 	std::string		name;
 	std::string		type;
 	std::string		defValue;
-
-      private:
-	Operation		*parent_;
       };
 	
       std::list<Parameter *>	parameters;
-
-    private:
-      Complex_			*parent_;
     };
   }
 }
