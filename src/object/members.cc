@@ -19,7 +19,6 @@ namespace				Object
       label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"
 					     "margin: 2 0;"));
       labelProxy->setWidget(label);
-      std::cerr << "pwet" << std::endl; //DEBUG
     }
 
     AMember::~AMember()

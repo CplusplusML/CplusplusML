@@ -23,9 +23,20 @@ namespace			CplusplusML
     connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
   }
 
-  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *)
+  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
-    
+    Object::Complex_		*complex;
+
+    if (mouseEvent->button() != Qt::LeftButton)
+      return;
+
+    if (!selectedItems().empty())
+      {
+	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+	  complexProperties_.show(complex);
+      }
+
+    QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

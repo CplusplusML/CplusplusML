@@ -195,7 +195,25 @@ namespace			CplusplusML
     clearAll();
     if ((complex_ = complex) != NULL)
       {
-	ui->name->setText(complex_->title_.c_str());
+	ui->name->setText(complex->title_.c_str());
+	ui->isAbstract->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->isAbstract_) * 2));
+	ui->isAttrVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getAttrVisible()) * 2));
+	ui->isOpeVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getOpeVisible()) * 2));
+	std::list<Object::Members::Attribute *>::const_iterator it = complex->attributes_.begin();
+	QListWidgetItem *item;
+	for (; it != complex->attributes_.end(); ++it)
+	  {
+	    item = new QListWidgetItem((*it)->toString().c_str());
+	    attributes_[item] = *it;
+	    ui->attrList->addItem(item);
+	  }
+	if (complex->attributes_.size())
+	  {
+	    ui->attrGroupBox->setEnabled(true);
+	    ui->attrDelButton->setEnabled(true);
+	    ui->attrName->setFocus(Qt::OtherFocusReason);
+	    ui->attrList->setCurrentItem(ui->attrList->item(0));
+	  }
       }
     else
       ui->name->setText("Test");
