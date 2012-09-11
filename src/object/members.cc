@@ -21,8 +21,7 @@ namespace				Object
 
     Attribute::~Attribute()
     {
-      std::cerr << "Deleting attribute : " << this << std::endl; //DEBUG
-      delete label;
+      delete labelProxy;
     }
 
     std::string				Attribute::toString(void) const
@@ -60,8 +59,7 @@ namespace				Object
 
     Operation::~Operation()
     {
-      std::cerr << "Deleting operation : " << this << std::endl;
-      delete label;
+      delete labelProxy;
     }
 
     std::string				Operation::toString(void) const
