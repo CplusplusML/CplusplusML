@@ -78,6 +78,12 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   isOpeVisible_ = properties.ui->isOpeVisible->checkState();
   // Update labels
   titleLabel_->setText(properties.ui->name->text());
+  {
+    int rows = properties.ui->attrList->count();
+    for (int i = 0; i < rows; ++i)
+      {
+      }
+  }
   // Update view
   update();
 }

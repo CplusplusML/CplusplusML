@@ -35,29 +35,36 @@ namespace			Object
       return (visibilities[v]);
     };
 
-    struct			Attribute
+    struct			AMember
     {
-      Attribute();
-      ~Attribute();
+      AMember();
+      virtual ~AMember();
 
       inline void		updateLabel(void)
       {
 	label->setText(this->toString().c_str());
       }
 
-      std::string		toString(void) const;
+      virtual std::string	toString(void) const = 0;
 
       std::string		name;
       std::string		type;
-      std::string		defaultValue;
       Visibility		visibility;
       bool			isStatic;
 
+      // Qt
       QLabel			*label;
       QGraphicsProxyWidget	*labelProxy;
     };
 
-    struct			Operation
+    struct			Attribute: public AMember
+    {
+      std::string		toString(void) const;
+
+      std::string		defaultValue;
+    };
+
+    struct			Operation: public AMember
     {
       enum			InheritanceType
 	{
@@ -67,24 +74,11 @@ namespace			Object
 	};
 
       Operation();
-      ~Operation();
-
-      inline void		updateLabel(void)
-      {
-	label->setText(this->toString().c_str());
-      }
 
       std::string		toString(void) const;
 
-      std::string		name;
-      std::string		type;
-      Visibility		visibility;
-      bool			isStatic;
       bool			isConst;
       InheritanceType		inhType;
-
-      QLabel			*label;
-      QGraphicsProxyWidget	*labelProxy;
 
       // Structure for parameters
       struct			Parameter

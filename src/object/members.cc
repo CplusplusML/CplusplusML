@@ -6,9 +6,9 @@ namespace				Object
 {
   namespace				Members
   {
-    //Attribute
+    // AMember
 
-    Attribute::Attribute():
+    AMember::AMember():
       visibility(PUBLIC),
       isStatic(false),
       label(new QLabel()),
@@ -20,10 +20,12 @@ namespace				Object
       labelProxy->setWidget(label);
     }
 
-    Attribute::~Attribute()
+    AMember::~AMember()
     {
       delete labelProxy;
     }
+
+    //Attribute
 
     std::string				Attribute::toString(void) const
     {
@@ -47,20 +49,9 @@ namespace				Object
     // Operation
 
     Operation::Operation():
-      visibility(PUBLIC),
-      isStatic(false),
       isConst(false),
-      label(new QLabel()),
-      labelProxy(new QGraphicsProxyWidget())
+      inhType(LEAF)
     {
-      label->setAlignment(Qt::AlignLeft);
-      label->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);"));
-      labelProxy->setWidget(label);
-    }
-
-    Operation::~Operation()
-    {
-      delete labelProxy;
     }
 
     std::string				Operation::toString(void) const
