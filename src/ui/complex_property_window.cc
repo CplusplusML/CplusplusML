@@ -1,5 +1,7 @@
 #include <iostream> //DEBUG
+
 #include "ui/complex_property_window.hh"
+#include "object/complex.hh"
 
 using namespace std; //DEBUG
 
@@ -7,7 +9,8 @@ namespace			CplusplusML
 {
   // CTORS
   ComplexPropertyWindow::ComplexPropertyWindow():
-    ui(new Ui::ComplexProperty)
+    ui(new Ui::ComplexProperty),
+    complex_(NULL)
   {
     ui->setupUi(this);
 
@@ -97,7 +100,7 @@ namespace			CplusplusML
     attr->type = ui->attrType->text().toStdString();
     attr->defaultValue = ui->attrValue->text().toStdString();
     attr->visibility = static_cast<Object::Members::Visibility>(ui->attrVisibility->currentIndex());
-    attr->isStatic = static_cast<bool>(ui->attrIsStatic->checkState());
+    attr->isStatic = ui->attrIsStatic->checkState();
     item->setText(attr->toString().c_str());
   }
 
@@ -186,9 +189,16 @@ namespace			CplusplusML
     operations_.clear();
   }
 
-  void				ComplexPropertyWindow::show()
+  void				ComplexPropertyWindow::show(Object::Complex_ *complex)
   {
-    this->clearAll();
+    clearAll();
+    if ((complex_ = complex) != NULL)
+      {
+	ui->name->setText(complex_->title_.c_str());
+      }
+    else
+      ui->name->setText("Test");
+
     QDialog::show();
   }
   // !PUBLIC FUNCTIONS

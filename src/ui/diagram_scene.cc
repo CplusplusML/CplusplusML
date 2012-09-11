@@ -60,10 +60,7 @@ namespace			CplusplusML
             item->setSelected(true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
-	    complexProperties_.clearAll();
-	    complexProperties_.ui->name->setText("Test");
 	    complexProperties_.show();
-	    complexProperties_.dumpObjectTree();
           }
       }
 
@@ -83,13 +80,7 @@ namespace			CplusplusML
     if (!selectedItems().empty())
       {
 	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
-	  {
-	    complex->title_ = complexProperties_.ui->name->text().toStdString();
-	    complex->isAbstract_ = complexProperties_.ui->isAbstract->checkState();
-	    complex->setAttrVisible(complexProperties_.ui->isAttrVisible->checkState());
-	    complex->setOpeVisible(complexProperties_.ui->isOpeVisible->checkState());
-	    complex->update();
-	  }
+	  complex->updateFromForm(complexProperties_);
       }
   }
 

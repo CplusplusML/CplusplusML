@@ -69,3 +69,15 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
   arrows_.erase(arrow);
 }
 
+void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
+{
+  // Get informations
+  title_ = properties.ui->name->text().toStdString();
+  isAbstract_ = properties.ui->isAbstract->checkState();
+  isAttrVisible_ = properties.ui->isAttrVisible->checkState();
+  isOpeVisible_ = properties.ui->isOpeVisible->checkState();
+  // Update labels
+  titleLabel_->setText(properties.ui->name->text());
+  // Update view
+  update();
+}

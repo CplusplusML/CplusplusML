@@ -9,6 +9,8 @@
 # include <list>
 # include <string>
 
+# include "ui/complex_property_window.hh"
+
 # include "basic.hh"
 # include "members.hh"
 
@@ -23,15 +25,20 @@ namespace			Object
     Complex_(): title_("Test") { Render(); }
     virtual ~Complex_();
 
-    
+
     void			AddArrow(Arrow_ *arrow);
     void			RemoveArrow(Arrow_ *arrow);
+
+    inline bool			getAttrVisible(void) const { return isAttrVisible_; }
+    inline bool			getOpeVisible(void) const { return isOpeVisible_; }
     inline void			setAttrVisible(bool v) { isAttrVisible_ = v; }
     inline void			setOpeVisible(bool v) { isOpeVisible_ = v; }
 
     
     inline int			X() const { return x_; }
     inline int			Y() const { return y_; }
+
+    void			updateFromForm(CplusplusML::ComplexPropertyWindow const &properties);
 
   private:
     void			Render(void);

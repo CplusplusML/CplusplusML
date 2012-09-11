@@ -6,6 +6,11 @@
 # include	"ui_ComplexProperty.h"
 # include	"object/members.hh"
 
+namespace Object
+{
+  class Complex_;
+}
+
 namespace			CplusplusML
 {
   class				ComplexPropertyWindow: public QDialog
@@ -19,7 +24,7 @@ namespace			CplusplusML
     ComplexPropertyWindow();
     ~ComplexPropertyWindow();
 
-    void			show();
+    void			show(Object::Complex_ *complex = NULL);
     void			clearAll();
 
   signals:
@@ -49,6 +54,7 @@ namespace			CplusplusML
   private:
     attributeList		attributes_;
     operationList		operations_;
+    Object::Complex_		*complex_;
   };
 }
 
