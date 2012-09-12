@@ -3,16 +3,6 @@
 
 Object::Complex_::~Complex_()
 {
-  // Remove from group
-  this->removeFromGroup(titleLabel_);
-  this->removeFromGroup(titleRect_);
-  this->removeFromGroup(attrRect_);
-  this->removeFromGroup(opeRect_);
-  // Delete items
-  delete titleLabel_;
-  delete titleRect_;
-  delete attrRect_;
-  delete opeRect_;
 }
 
 void Object::Complex_::Render(void)
@@ -65,11 +55,13 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
 {
   int	rows;
-  QListWidgetItem	*item;
+  int	i;
+  QListWidgetItem		*item;
   Object::Members::Attribute	*attr;
   Object::Members::Operation	*ope;
   std::list<Members::Attribute *>::iterator it;
 
+  titleLabel_->setText(properties.ui->name->text());
   int width = titleLabel_->boundingRect().width() + 4;
   int height = titleLabel_->boundingRect().height() + 4;
   // Get informations
@@ -78,7 +70,6 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   isAttrVisible_ = properties.ui->isAttrVisible->checkState();
   isOpeVisible_ = properties.ui->isOpeVisible->checkState();
   // Update labels
-  titleLabel_->setText(properties.ui->name->text());
   for (it = attributes_.begin(); it != attributes_.end();)
     {
       removeFromGroup((*it)->label);
@@ -87,26 +78,26 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
       it = attributes_.erase(it);
     }
   rows = properties.attributes_.size();
-  for (int i = 0; i < rows; ++i)
+  for (i = 0; i < rows; ++i)
     {
       item = properties.ui->attrList->item(i);
       attr = properties.attributes_.find(item)->second;
       attributes_.push_back(attr);
       attr->updateLabel();
       if (attr->label->boundingRect().width() + 4 > width)
-	width = attr->label->boundingRect().width() + 4;
+      	width = attr->label->boundingRect().width() + 4;
       addToGroup(attr->label);
     }
   if (width < 124)
     width = 124;
   x_ = width / -2;
-  int i = 0;
   titleRect_->setRect(x_, y_, width, height);
   titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
   attrRect_->setRect(x_, y_ + height, width, rows * height);
-  for (it = attributes_.begin(); it != attributes_.end(); ++it)
-    (*it)->label->setPos(x_ + 2, y_ + (i++ + 1) * height + 2);
+  for (i = 0, it = attributes_.begin(); it != attributes_.end(); ++it, ++i)
+    (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
   // Update view
+  std::cerr << "rect : [" << boundingRect().x() << ", " << boundingRect().y() << ", " << boundingRect().width() << ", " << boundingRect().height() << "]" << std::endl;
   update();
 }
