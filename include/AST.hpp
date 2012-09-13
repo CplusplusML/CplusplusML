@@ -20,10 +20,6 @@ namespace AST
   class AST : public BasicElement<AST>
   {
   public:
-    using BasicElement::operator<<;
-    using BasicElement::Get;
-    using BasicElement::name;
-
     AST(const std::string &name = "") : BasicElement<AST>(name)
     {}
     ~AST()

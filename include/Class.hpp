@@ -60,12 +60,12 @@ namespace AST
     ~Class()
     {}
 
-    Class& operator<<(const Visibility v)
+    void setVisibility(const Visibility v)
     {
       _visibility = v;
       // Segfault si on decommente la ligne suivante, sinon tout va bien pour valgrind
       // std::cout << "toto" << std::endl;
-      return (*this);
+      //      return (*this);
     }
 
     Class &operator<<(const Inheritance &inh)
@@ -75,11 +75,10 @@ namespace AST
     }
 
     template <class C>
-    Class &operator<<(const C& c)
+    void Insert(const C& c)
     {
-      BasicElement::operator<<(Member<C>(c, _visibility));
+      BasicElement::Insert(Member<C>(c, _visibility));
       _visibility = _default_visibility;
-      return (*this);
     }
 
     template <class C>

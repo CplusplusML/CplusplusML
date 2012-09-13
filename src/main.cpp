@@ -9,9 +9,9 @@ int main(void)
 {
   AST::AST ast;
 
-  ast << AST::Namespace("::");
-  ast.Get(AST::Namespace("::")) << AST::Class("class1");
-  ast.Get(AST::Namespace("::")) << AST::Class("class2") << AST::Class("class42");
+  ast.Insert(AST::Namespace("::"));
+  ast.Get(AST::Namespace("::"))->Insert(AST::Class("class1"));
+  ast.Get(AST::Namespace("::"))->Insert(AST::Class("class2"));
 
   /*
   AST::Class &c = ast.Get(AST::Namespace("::")).Get(AST::Class("class1"));

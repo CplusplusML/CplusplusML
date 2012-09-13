@@ -56,21 +56,20 @@ namespace AST
     {}
 
     template <class C>
-    BasicElement& operator<<(const C &c)
+    void Insert(const C &c)
     {
       _toto.push_back(std::shared_ptr<C>(new C(c)));
-      return (*this);
     }
 
     template <class C>
-    C& Get(const C &c)
+    std::shared_ptr<C> Get(const C &c)
     {
       for (auto &b : _toto)
       	{
 	  if (boost::apply_visitor(IsSameVisitor<C>(), b) &&
 	      boost::get<std::shared_ptr<C> >(b)->name() == c.name())
 	    {
-	      return (*(boost::get<std::shared_ptr<C> >(b)));
+	      return (boost::get<std::shared_ptr<C> >(b));
 	    }
 	}
       // revoir la gestion d'erreurs xD

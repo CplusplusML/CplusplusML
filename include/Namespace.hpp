@@ -20,10 +20,6 @@ namespace AST
   class Namespace : public BasicElement<Namespace>
   {
   public:
-    using BasicElement::operator<<;
-    using BasicElement::Get;
-    using BasicElement::name;
-
     Namespace(const std::string &name) : BasicElement<Namespace>(name)
     {}
     ~Namespace()
