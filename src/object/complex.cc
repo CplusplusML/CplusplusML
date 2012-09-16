@@ -72,9 +72,11 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // Update labels
   for (it = attributes_.begin(); it != attributes_.end();)
     {
-      removeFromGroup((*it)->label);
       if ((*it)->deleted)
-	delete *it;
+	{
+	  removeFromGroup((*it)->label);
+	  delete *it;
+	}
       it = attributes_.erase(it);
     }
   rows = properties.attributes_.size();
@@ -84,6 +86,7 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
       attr = properties.attributes_.find(item)->second;
       attributes_.push_back(attr);
       attr->updateLabel();
+      attr->label->setParentItem(attrRect_);
       if (attr->label->boundingRect().width() + 4 > width)
       	width = attr->label->boundingRect().width() + 4;
       addToGroup(attr->label);
@@ -98,6 +101,5 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
     (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
   // Update view
-  std::cerr << "rect : [" << boundingRect().x() << ", " << boundingRect().y() << ", " << boundingRect().width() << ", " << boundingRect().height() << "]" << std::endl;
   update();
 }
