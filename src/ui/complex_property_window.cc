@@ -298,6 +298,7 @@ namespace			CplusplusML
   void			ComplexPropertyWindow::updateOpeData()
   {
     MemberListItem		*item;
+    QListWidgetItem		*paramItem;
     Object::Members::Operation	*ope;
 
     if (ui->opeList->currentRow() < 0)
@@ -314,17 +315,70 @@ namespace			CplusplusML
     ui->opeIsConst->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(ope->isConst) * 2));
     ui->opeUpButton->setEnabled(ui->opeList->currentRow() > 0);
     ui->opeDownButton->setEnabled(ui->opeList->currentRow() + 1 < ui->opeList->count());
-    ui->opeName->setFocus(Qt::OtherFocusReason);    
+    ui->opeName->setFocus(Qt::OtherFocusReason);
+    ui->opeParamList->clear();
+    if (!ope->parameters.empty())
+      {
+	for (Object::Members::Operation::Parameter &p : ope->parameters)
+	  {
+	    paramItem = new QListWidgetItem();
+	    paramItem->setText(p.toString().c_str());
+	  }
+	ui->opeParamList->setCurrentItem(ui->opeParamList->item(0));
+	ui->opeParamName->setText(ope->parameters.front().name.c_str());
+	ui->opeParamType->setText(ope->parameters.front().type.c_str());
+	ui->opeParamValue->setText(ope->parameters.front().defValue.c_str());
+	ui->opeParamUpButton->setEnabled(ui->opeParamList->currentRow() > 0);
+	ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
+      }
   }
 
   void			ComplexPropertyWindow::createOpeParam()
   {
-
+    QListWidgetItem	*param;
+    MemberListItem	*item;
+    Object::Members::Operation *ope;
+    
+    param = new QListWidgetItem(":");
+    clearOpeParamData();
+    ui->opeParamList->addItem(param);
+    std::cerr << "items param : " << ui->opeParamList->count() << std::endl; //DEBUG
+    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
+    ope->parameters.push_back(Object::Members::Operation::Parameter());
+    if (!ui->opeParamDataGroupBox->isEnabled())
+      {
+    	ui->opeParamDataGroupBox->setEnabled(true);
+    	ui->opeParamDelButton->setEnabled(true);
+      }
+    ui->opeParamName->setFocus(Qt::OtherFocusReason);
+    ui->opeParamList->setCurrentItem(param);
+    ui->opeParamUpButton->setEnabled(ui->opeParamList->currentRow() > 0);
+    ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
   void			ComplexPropertyWindow::deleteOpeParam()
   {
+    int			row = ui->opeParamList->currentRow();
+    MemberListItem	*item;
+    Object::Members::Operation *ope;
+    std::list<Object::Members::Operation::Parameter>::iterator it;
+    int i;
 
+    clearOpeParamData();
+    delete ui->attrList->takeItem(row);
+    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
+    it = ope->parameters.begin();
+    for (i = 0; i != row; ++it);
+    ope->parameters.erase(it);
+    if (!ui->opeParamList->count())
+      {
+	ui->opeParamDataGroupBox->setEnabled(false);
+	ui->opeParamDelButton->setEnabled(false);
+      }
+    ui->opeParamUpButton->setEnabled(ui->opeParamList->currentRow() > 0);
+    ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
   void			ComplexPropertyWindow::updateOpeParamListItem()
@@ -358,6 +412,7 @@ namespace			CplusplusML
     clearOpeData();
     ui->attrList->clear();
     ui->opeList->clear();
+    ui->opeParamList->clear();
     ui->attrGroupBox->setEnabled(false);
     ui->attrDelButton->setEnabled(false);
     ui->attrUpButton->setEnabled(false);
@@ -421,10 +476,14 @@ namespace			CplusplusML
     ui->opeType->clear();
     ui->opeVisibility->setCurrentIndex(0);
     ui->opeInheritance->setCurrentIndex(0);
+    clearOpeParamData();
+  }
+
+  void				ComplexPropertyWindow::clearOpeParamData()
+  {
     ui->opeParamName->clear();
     ui->opeParamType->clear();
     ui->opeParamValue->clear();
-    ui->opeParamList->clear();
   }
   // !PRIVATE FUNCTION
 }

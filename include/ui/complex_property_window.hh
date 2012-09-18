@@ -78,6 +78,7 @@ namespace			CplusplusML
   private:
     void			clearAttrData();
     void			clearOpeData();
+    void			clearOpeParamData();
 
   private:
     Object::Complex_		*complex_;
