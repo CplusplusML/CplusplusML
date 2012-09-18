@@ -85,17 +85,18 @@ namespace			CplusplusML
     ui->attrDownButton->setEnabled(currentRow + 2 < ui->attrList->count());
   }
 
+  // Update the list view, get data from form and make a string displayed into the list item
   void				ComplexPropertyWindow::updateAttrListItem()
   {
-    QListWidgetItem		*item;
+    MemberListItem		*item;
     Object::Members::Attribute	*attr;
 
     ui->attrName->setText(ui->attrName->text().trimmed());
     ui->attrType->setText(ui->attrType->text().trimmed());
     ui->attrValue->setText(ui->attrValue->text().trimmed());
 
-    item = ui->attrList->currentItem();
-    attr = attributes_[item];
+    item = static_cast<MemberListItem *>(ui->attrList->currentItem());
+    attr = static_cast<Object::Members::Attribute *>(item->tmpMember_);
     attr->name = ui->attrName->text().toStdString();
     attr->type = ui->attrType->text().toStdString();
     attr->defaultValue = ui->attrValue->text().toStdString();
@@ -104,17 +105,18 @@ namespace			CplusplusML
     item->setText(attr->toString().c_str());
   }
 
+  // When the selection change, update the attribute's data from the item in the list
   void				ComplexPropertyWindow::updateAttrData()
   {
-    QListWidgetItem		*item;
+    MemberListItem		*item;
     Object::Members::Attribute	*attr;
 
     if (ui->attrList->currentRow() < 0)
       return;
 
     clearAttrData();
-    item = ui->attrList->currentItem();
-    attr = attributes_[item];
+    item = static_cast<MemberListItem *>(ui->attrList->currentItem());
+    attr = static_cast<Object::Members::Attribute *>(item->tmpMember_);
     ui->attrName->setText(attr->name.c_str());
     ui->attrType->setText(attr->type.c_str());
     ui->attrValue->setText(attr->defaultValue.c_str());
@@ -127,11 +129,10 @@ namespace			CplusplusML
 
   void				ComplexPropertyWindow::createAttr()
   {
-    QListWidgetItem		*item;
+    MemberListItem		*item;
     
-    item = new QListWidgetItem("+");
+    item = new MemberListItem("+", new Object::Members::Attribute(true));
     clearAttrData();
-    attributes_[item] = new Object::Members::Attribute;
     ui->attrList->addItem(item);
     if (!ui->attrGroupBox->isEnabled())
       {
@@ -147,12 +148,12 @@ namespace			CplusplusML
   void				ComplexPropertyWindow::deleteAttr()
   {
     int				row = ui->attrList->currentRow();
-    QListWidgetItem		*item;
+    MemberListItem		*item;
 
     clearAttrData();
-    item = ui->attrList->takeItem(row);
-    attributes_[item]->deleted = true;
-    attributes_.erase(item);
+    item = static_cast<MemberListItem *>(ui->attrList->takeItem(row));
+    if (item->member_)
+      item->member_->deleted = true;
     delete item;
     if (!ui->attrList->count())
       {
@@ -184,10 +185,6 @@ namespace			CplusplusML
     ui->attrDelButton->setEnabled(false);
     ui->attrUpButton->setEnabled(false);
     ui->attrDownButton->setEnabled(false);
-
-    // List of attributes and operations
-    attributes_.clear();
-    operations_.clear();
   }
 
   void				ComplexPropertyWindow::show(Object::Complex_ *complex)
@@ -200,11 +197,13 @@ namespace			CplusplusML
 	ui->isAttrVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getAttrVisible()) * 2));
 	ui->isOpeVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getOpeVisible()) * 2));
 	std::list<Object::Members::Attribute *>::const_iterator it = complex->attributes_.begin();
-	QListWidgetItem *item;
+	MemberListItem *item;
 	for (; it != complex->attributes_.end(); ++it)
 	  {
-	    item = new QListWidgetItem((*it)->toString().c_str());
-	    attributes_[item] = *it;
+	    item = new MemberListItem((*it)->toString().c_str(),
+				      new Object::Members::Attribute(true),
+				      *it);
+	    *(static_cast<Object::Members::Attribute *>(item->tmpMember_)) = *(*it);
 	    ui->attrList->addItem(item);
 	  }
 	if (complex->attributes_.size())

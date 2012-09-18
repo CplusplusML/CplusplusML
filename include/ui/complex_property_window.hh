@@ -13,12 +13,28 @@ namespace Object
 
 namespace			CplusplusML
 {
+  class				MemberListItem: public QListWidgetItem
+  {
+  public:
+    MemberListItem(QString const &text,
+		   Object::Members::AMember *tmpMember,
+		   Object::Members::AMember *member = NULL,
+		   QListWidget *parent = 0):
+      QListWidgetItem(text, parent),
+      member_(member),
+      tmpMember_(tmpMember)
+    {}
+
+    ~MemberListItem()
+    { delete tmpMember_; }
+
+    Object::Members::AMember	*member_;
+    Object::Members::AMember	*tmpMember_;
+  };
+
   class				ComplexPropertyWindow: public QDialog
   {
     Q_OBJECT
-
-    typedef std::map<QListWidgetItem *, Object::Members::Attribute *>	attributeList;
-    typedef std::map<QListWidgetItem *, Object::Members::Operation *>	operationList;
 
   public:
     ComplexPropertyWindow();
@@ -47,8 +63,6 @@ namespace			CplusplusML
 
   public:
     Ui::ComplexProperty		*ui;
-    attributeList		attributes_;
-    operationList		operations_;
 
   private:
     void			clearAttrData();

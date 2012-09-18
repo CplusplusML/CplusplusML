@@ -14,6 +14,7 @@ namespace			Object
 {
   namespace			Members
   {
+    // Visibility utilities
     enum			Visibility
       {
 	PUBLIC = 0,
@@ -33,14 +34,17 @@ namespace			Object
       return (visibilities[v]);
     };
 
+    // AMember
     struct			AMember
     {
-      AMember();
+      AMember(bool tmpMember);
       virtual ~AMember();
 
+      void			operator=(AMember const &m);
       inline void		updateLabel(void)
       {
-	label->setText(this->toString().c_str());
+	if (label)
+	  label->setText(this->toString().c_str());
       }
 
       virtual std::string	toString(void) const = 0;
@@ -55,13 +59,18 @@ namespace			Object
       bool			deleted;
     };
 
+    // Attribute
     struct			Attribute: public AMember
     {
+      Attribute(bool tmpMember = false);
+
+      void			operator=(Attribute const &a);
       std::string		toString(void) const;
 
       std::string		defaultValue;
     };
 
+    // Operation
     struct			Operation: public AMember
     {
       enum			InheritanceType
@@ -71,8 +80,9 @@ namespace			Object
 	  PURE
 	};
 
-      Operation();
+      Operation(bool tmpMember = false);
 
+      void			operator=(Operation const &o);
       std::string		toString(void) const;
 
       bool			isConst;
@@ -88,7 +98,7 @@ namespace			Object
 	std::string		defValue;
       };
 	
-      std::list<Parameter *>	parameters;
+      std::list<Parameter>	parameters;
     };
   }
 }

@@ -8,19 +8,41 @@ namespace				Object
   {
     // AMember
 
-    AMember::AMember():
+    AMember::AMember(bool tmpMember):
       visibility(PUBLIC),
       isStatic(false),
-      label(new QGraphicsSimpleTextItem()),
+      label(tmpMember ? NULL : new QGraphicsSimpleTextItem()),
       deleted(false)
     {
     }
 
     AMember::~AMember()
     {
+      if (label)
+	delete label;
     }
 
+    void				AMember::operator=(AMember const &m)
+    {
+      name = m.name;
+      type = m.type;
+      visibility = m.visibility;
+      isStatic = m.isStatic;
+      deleted = m.deleted;
+    }
     //Attribute
+
+    Attribute::Attribute(bool tmpMember):
+      AMember(tmpMember)
+    {
+    }
+
+    void				Attribute::operator=(Attribute const &a)
+    {
+      AMember::operator=(a);
+
+      defaultValue = a.defaultValue;
+    }
 
     std::string				Attribute::toString(void) const
     {
@@ -38,16 +60,24 @@ namespace				Object
       if (!defaultValue.empty())
 	text += " = " + defaultValue;
 
-      label->setText(text.c_str());
       return (text);
     }
 
     // Operation
 
-    Operation::Operation():
+    Operation::Operation(bool tmpMember):
+      AMember(tmpMember),
       isConst(false),
       inhType(LEAF)
     {
+    }
+
+    void				Operation::operator=(Operation const &o)
+    {
+      AMember::operator=(o);
+      isConst = o.isConst;
+      inhType = o.inhType;
+      parameters = o.parameters;
     }
 
     std::string				Operation::toString(void) const
@@ -60,7 +90,7 @@ namespace				Object
       text += '(';
       {
 	bool				coma = false;
-	std::list<Parameter *>::const_iterator it = parameters.begin();
+	std::list<Parameter>::const_iterator it = parameters.begin();
 	for (; it != parameters.end(); ++it)
 	  {
 	    if (coma)
@@ -68,7 +98,7 @@ namespace				Object
 		text += ',';
 		coma = false;
 	      }
-	    text += (*it)->toString();
+	    text += it->toString();
 	  }
       }
       text += ')';
