@@ -135,17 +135,17 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // Remove from group otherwise no boundingrect update
   removeFromGroup(attrRect_);
   attrRect_->setRect(x_, y_ + height, width, attrRows * height);
-  addToGroup(attrRect_);
   // Update pos of all attributes and add to group
   for (i = 0, attrIt = attributes_.begin(); attrIt != attributes_.end(); ++attrIt, ++i)
     (*attrIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
+  addToGroup(attrRect_);
   // Same with operations
   removeFromGroup(opeRect_);
   opeRect_->setRect(x_, y_ + (attrRows + 1) * height, width,
 		    height * opeRows);
-  addToGroup(opeRect_);
   for (opeIt = operations_.begin(); opeIt != operations_.end(); ++opeIt, ++i)
     (*opeIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
+  addToGroup(opeRect_);
   // Update view
   update();
 }
