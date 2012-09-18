@@ -342,7 +342,6 @@ namespace			CplusplusML
     param = new QListWidgetItem(":");
     clearOpeParamData();
     ui->opeParamList->addItem(param);
-    std::cerr << "items param : " << ui->opeParamList->count() << std::endl; //DEBUG
     item = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
     ope->parameters.push_back(Object::Members::Operation::Parameter());
@@ -370,7 +369,7 @@ namespace			CplusplusML
     item = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
     it = ope->parameters.begin();
-    for (i = 0; i != row; ++it);
+    for (i = 0; i < row; ++it, ++i);
     ope->parameters.erase(it);
     if (!ui->opeParamList->count())
       {
@@ -383,7 +382,25 @@ namespace			CplusplusML
 
   void			ComplexPropertyWindow::updateOpeParamListItem()
   {
+    QListWidgetItem		*item;
+    MemberListItem		*opeItem;
+    Object::Members::Operation *ope;
+    std::list<Object::Members::Operation::Parameter>::iterator it;
 
+    ui->opeParamName->setText(ui->opeParamName->text().trimmed());
+    ui->opeParamType->setText(ui->opeParamType->text().trimmed());
+    ui->opeParamValue->setText(ui->opeParamValue->text().trimmed());
+    
+    item = ui->opeParamList->currentItem();
+    opeItem = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    ope = static_cast<Object::Members::Operation *>(opeItem->tmpMember_);
+    it = ope->parameters.begin();
+    for (int i = 0; i < ui->opeParamList->currentRow(); ++it, ++i);
+    Object::Members::Operation::Parameter	&param = *it;
+    param.name = ui->opeParamName->text().toStdString();
+    param.type = ui->opeParamType->text().toStdString();
+    param.defValue = ui->opeParamValue->text().toStdString();
+    item->setText(param.toString().c_str());
   }
 
   void			ComplexPropertyWindow::moveUpOpeParamItem()

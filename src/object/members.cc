@@ -133,6 +133,9 @@ namespace				Object
       if (!defValue.empty())
 	text +=  " = " + defValue;
 
+      if (text.empty())
+	text = ':';
+
       return (text);
     }
   }
