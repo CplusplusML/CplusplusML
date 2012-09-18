@@ -60,7 +60,7 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   int	i;
   CplusplusML::MemberListItem	*item;
   Object::Members::Attribute	*attr;
-  Object::Members::Operation	*ope;
+  //  Object::Members::Operation	*ope;
   std::list<Members::Attribute *>::iterator it;
 
   titleLabel_->setText(properties.ui->name->text());
