@@ -209,20 +209,20 @@ namespace			CplusplusML
 
   void			ComplexPropertyWindow::createOpe()
   {
-    // MemberListItem		*item;
+    MemberListItem		*item;
     
-    // item = new MemberListItem("+", new Object::Members::Operation(true));
-    // clearOpeData();
-    // ui->attrList->addItem(item);
-    // if (!ui->attrGroupBox->isEnabled())
-    //   {
-    // 	ui->attrGroupBox->setEnabled(true);
-    // 	ui->attrDelButton->setEnabled(true);
-    //   }
-    // ui->attrName->setFocus(Qt::OtherFocusReason);
-    // ui->attrList->setCurrentItem(item);
-    // ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
-    // ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
+    item = new MemberListItem("+", new Object::Members::Operation(true));
+    clearOpeData();
+    ui->opeList->addItem(item);
+    if (!ui->opeGroupBox->isEnabled())
+      {
+    	ui->opeGroupBox->setEnabled(true);
+    	ui->opeDelButton->setEnabled(true);
+      }
+    ui->opeName->setFocus(Qt::OtherFocusReason);
+    ui->opeList->setCurrentItem(item);
+    ui->opeUpButton->setEnabled(ui->opeList->currentRow() > 0);
+    ui->opeDownButton->setEnabled(ui->opeList->currentRow() + 1 < ui->opeList->count());
   }
 
   void			ComplexPropertyWindow::deleteOpe()
@@ -300,6 +300,9 @@ namespace			CplusplusML
     ui->opeDelButton->setEnabled(false);
     ui->opeUpButton->setEnabled(false);
     ui->opeDownButton->setEnabled(false);
+    ui->opeParamDelButton->setEnabled(false);
+    ui->opeParamUpButton->setEnabled(false);
+    ui->opeParamDownButton->setEnabled(false);
   }
 
   void				ComplexPropertyWindow::show(Object::Complex_ *complex)
