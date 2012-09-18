@@ -3,7 +3,7 @@
 # define TEMPLATE_HPP_
 
 # include <string>
-//# include <loki/Typelist.h>
+# include <vector>
 # include <boost/variant.hpp>
 
 namespace AST
@@ -22,6 +22,12 @@ namespace AST
       ~Type()
       {}
 
+      friend std::ostream &operator<<(std::ostream &o, const Type &t)
+      {
+	o << "typename " << t._name;
+	return (o);
+      }
+
     private:
       std::string _name;
     };
@@ -33,15 +39,20 @@ namespace AST
       {}
 
       TypeNumeric(const std::string &name) : _name(name)
-      {
-	// static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
-      }
+      {}
 
       ~TypeNumeric()
       {}
 
+      friend std::ostream &operator<<(std::ostream &o, const TypeNumeric &t)
+      {
+	// faire de TypeNumeric une template class,
+	// et ne pas mettre tout le temps int
+	o << "int " << t._name;
+	return (o);
+      }
+
     private:
-      //      typedef Loki::TL::MakeTypelist<int, long> AuthorizedNumericTypes;
       std::string _name;
     };
 
@@ -56,6 +67,14 @@ namespace AST
       ~Variadic()
       {}
 
+      friend std::ostream &operator<<(std::ostream &o, const Variadic &t)
+      {
+	// faire de TypeNumeric une template class,
+	// et ne pas mettre tout le temps int
+	o << "typename...  " << t._name;
+	return (o);
+      }
+
     private:
       std::string _name;
     };
@@ -63,11 +82,6 @@ namespace AST
 
   class Templateable
   {
-    /*    typedef Loki::TL::MakeTypelist<Template::Type,
-				   Template::Variadic,
-				   Template::TypeNumeric>
-    AuthorizedTemplates;
-				   */
   public:
     template <typename T, typename ...Rest>
     void Templates(const T &t, const Rest&... rest)
@@ -79,12 +93,36 @@ namespace AST
     template <typename T>
     void Templates(const T &t)
     {
-      //      static_assert(Loki::TL::IndexOf<AuthorizedTemplates::Result, T>::value != -1, "Invalid template parameter");
       _templates.push_back(t);
     }
 
   private:
     std::vector<boost::variant<Template::Type, Template::Variadic, Template::TypeNumeric> > _templates;
+    // std::vector<boost::variant<Template::Type> > _templates;
+
+    inline bool isTemplated() const
+    {
+      return (_templates.size() > 0);
+    }
+
+    friend std::ostream &operator<<(std::ostream &o, const Templateable &t)
+    {
+      if (t.isTemplated())
+	{
+	  unsigned int first = true;
+	  o << "template <";
+	  for (auto c: t._templates)
+	    {
+	      if (!first)
+		o << ",";
+	      o << c;
+	      first = false;
+	    }
+	  o << ">";
+	}
+      return (o);
+    }
+
   };
 
 }

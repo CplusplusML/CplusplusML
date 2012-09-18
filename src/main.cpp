@@ -21,5 +21,10 @@ int main(void)
 	     *ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class2"))
 	     );
 
+  AST::Class f("Foo");
+  f.Templates(AST::Template::Type("T"));
+  f.Templates(AST::Template::TypeNumeric("i"));
+  ast.Get(AST::Namespace("Namespace"))->Insert(f);
+
   std::cout << ast << std::endl;
 }

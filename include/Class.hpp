@@ -81,6 +81,7 @@ namespace AST
     friend std::ostream& operator<<(std::ostream &o,
 				    const Class &c)
     {
+      o << static_cast<Templateable>(c) << std::endl;
       o << "class " << c.name();
       if (c._inheritance.size() > 0)
 	{
