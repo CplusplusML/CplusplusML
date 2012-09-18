@@ -2,6 +2,7 @@
 #include <map>
 #include <QApplication>
 #include <QtGui>
+#include <QDesktopServices>
 
 #include "ui/main_w.h"
 #include "ui_AboutWindow.h"
@@ -67,6 +68,9 @@ namespace CplusplusML
 
       graphicsView->setScene(&scene_);
     }
+
+    aboutWindow_.show();
+
   }
 
   Main_W::~Main_W()
@@ -80,7 +84,7 @@ namespace CplusplusML
 
   void Main_W::WebSite()
   {
-    webSiteWindow_.show();
+    QDesktopServices::openUrl(QUrl("http://cplusplusml.org"));
   }
 
   void Main_W::Help()

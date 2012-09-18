@@ -40,7 +40,6 @@ INCLUDE(${QT_USE_FILE}
 SET(${PROJECT_NAME}_QTUI
         ui/MainWindow.ui
         ui/AboutWindow.ui
-        ui/WebSiteWindow.ui
         ui/HelpWindow.ui
 	ui/ComplexProperty.ui)
 
