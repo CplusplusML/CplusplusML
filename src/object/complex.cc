@@ -1,11 +1,11 @@
-#include <iostream> //DEBUG
-#include "object/complex.hh"
+#include        <iostream> //DEBUG
+#include        "object/complex.hh"
 
 Object::Complex_::~Complex_()
 {
 }
 
-void Object::Complex_::Render(void)
+void                    Object::Complex_::Render(void)
 {
   // Label
   titleLabel_ = new QGraphicsSimpleTextItem();
@@ -43,30 +43,30 @@ void Object::Complex_::Render(void)
   this->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
-void    Object::Complex_::AddArrow(Arrow_ *arrow)
+void                    Object::Complex_::AddArrow(Arrow_ *arrow)
 {
   arrows_.insert(arrow);
 }
 
-void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
+void                    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 {
   arrows_.erase(arrow);
 }
 
-void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
+void                    Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
 {
-  int	attrRows;
-  int	opeRows;
-  int	i;
-  CplusplusML::MemberListItem	*item;
-  Object::Members::Attribute	*attr;
-  Object::Members::Operation	*ope;
-  std::list<Members::Attribute *>::iterator attrIt;
-  std::list<Members::Operation *>::iterator opeIt;
+  int                   attrRows;
+  int                   opeRows;
+  int                   i;
+  CplusplusML::MemberListItem   *item;
+  Object::Members::Attribute    *attr;
+  Object::Members::Operation    *ope;
+  std::list<Members::Attribute *>::iterator     attrIt;
+  std::list<Members::Operation *>::iterator     opeIt;
 
   titleLabel_->setText(properties.ui->name->text());
-  int width = titleLabel_->boundingRect().width();
-  int height = titleLabel_->boundingRect().height() + 4;
+  int                   width = titleLabel_->boundingRect().width();
+  int                   height = titleLabel_->boundingRect().height() + 4;
 
   // Get informations
   title_ = properties.ui->name->text().toStdString();
@@ -78,14 +78,14 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   for (attrIt = attributes_.begin(); attrIt != attributes_.end();)
     {
       if ((*attrIt)->deleted)
-	delete *attrIt;
+        delete *attrIt;
       attrIt = attributes_.erase(attrIt);
     }
   // Erase deleted operations
   for (opeIt = operations_.begin(); opeIt != operations_.end();)
     {
       if ((*opeIt)->deleted)
-	delete *opeIt;
+        delete *opeIt;
       opeIt = operations_.erase(opeIt);
     }
   // For each attribute, push it in attr list, updateLabel and get width
@@ -94,11 +94,11 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
     {
       item = static_cast<CplusplusML::MemberListItem *>(properties.ui->attrList->item(i));
       attr = item->member_ ?
-	static_cast<Object::Members::Attribute *>(item->member_) :
-	new Object::Members::Attribute;
+        static_cast<Object::Members::Attribute *>(item->member_) :
+        new Object::Members::Attribute;
       *attr = *(static_cast<Object::Members::Attribute *>(item->tmpMember_));
       if (!item->member_)
-	item->member_ = attr;
+        item->member_ = attr;
       attributes_.push_back(attr);
       attr->label->setParentItem(attrRect_);
       attr->updateLabel();
@@ -111,11 +111,11 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
     {
       item = static_cast<CplusplusML::MemberListItem *>(properties.ui->opeList->item(i));
       ope = item->member_ ?
-	static_cast<Object::Members::Operation *>(item->member_) :
-	new Object::Members::Operation;
+        static_cast<Object::Members::Operation *>(item->member_) :
+        new Object::Members::Operation;
       *ope = *(static_cast<Object::Members::Operation *>(item->tmpMember_));
       if (!item->member_)
-	item->member_ = ope;
+        item->member_ = ope;
       operations_.push_back(ope);
       ope->label->setParentItem(opeRect_);
       ope->updateLabel();
@@ -142,7 +142,7 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // Same with operations
   removeFromGroup(opeRect_);
   opeRect_->setRect(x_, y_ + (attrRows + 1) * height, width,
-		    height * opeRows);
+                    height * opeRows);
   for (opeIt = operations_.begin(); opeIt != operations_.end(); ++opeIt, ++i)
     (*opeIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   addToGroup(opeRect_);
