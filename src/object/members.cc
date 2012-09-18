@@ -85,8 +85,14 @@ namespace				Object
       std::string			text;
 
       text += visibilityName(visibility);
+      if (!type.empty())
+	text += type;
       if (!name.empty())
-	text += name;
+	{
+	  if (!type.empty())
+	    text += ' ';
+	  text += name;
+	}
       text += '(';
       {
 	bool				coma = false;
@@ -102,18 +108,11 @@ namespace				Object
 	  }
       }
       text += ')';
-      if (!type.empty())
-	{
-	  if (!name.empty())
-	    text += ": ";
-	  text += type;
-	}
       if (isConst)
 	text += " const";
       if (inhType == PURE)
 	text += " = 0";
 
-      label->setText(text.c_str());
       return (text);
     }
 
@@ -121,16 +120,16 @@ namespace				Object
     {
       std::string			text;
 
-      if (!name.empty())
-	text += name;
       if (!type.empty())
+	text += type;
+      if (!name.empty())
 	{
-	  if (!name.empty())
-	    text += ": ";
-	  text += type;
+	  if (!type.empty())
+	    text += ' ';
+	  text += name;
 	}
       if (!defValue.empty())
-	text += '=' + defValue;
+	text += ' = ' + defValue;
 
       return (text);
     }
