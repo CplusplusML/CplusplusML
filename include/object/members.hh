@@ -91,7 +91,7 @@ namespace			Object
       // Structure for parameters
       struct			Parameter
       {
-	std::string		toString(void) const;
+	std::string		toString(bool inList = false) const;
 
 	std::string		name;
 	std::string		type;

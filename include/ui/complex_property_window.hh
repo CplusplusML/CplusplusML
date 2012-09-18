@@ -45,6 +45,7 @@ namespace			CplusplusML
 
   signals:
     void			applied();
+    void			updateOpeAndParam();
 
   private slots:
     void			checkApply(QAbstractButton *button);
