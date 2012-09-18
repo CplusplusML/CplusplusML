@@ -70,7 +70,6 @@ namespace AST
     template <class C>
     void Insert(const C& c, const Visibility v = Visibility::PRIVATE)
     {
-      std::cout << "TOTO " << c.name() << " " << v << std::endl;
       BasicElement::Insert(Member<C>(c, v));
     }
 
