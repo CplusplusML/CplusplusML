@@ -129,7 +129,7 @@ namespace				Object
 	  text += name;
 	}
       if (!defValue.empty())
-	text += ' = ' + defValue;
+	text +=  " = " + defValue;
 
       return (text);
     }

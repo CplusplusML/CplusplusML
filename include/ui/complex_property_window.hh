@@ -58,14 +58,26 @@ namespace			CplusplusML
     void			updateAttrData();
 
     // Operations slots
-    void			createNewOpe();
-    void			createNewOpeParam();
+    void			createOpe();
+    void			deleteOpe();
+    void			updateOpeListItem();
+    void			moveUpOpeItem();
+    void			moveDownOpeItem();
+    void			updateOpeData();
+    // Operation param slots
+    void			createOpeParam();
+    void			deleteOpeParam();
+    void			updateOpeParamListItem();
+    void			moveUpOpeParamItem();
+    void			moveDownOpeParamItem();
+    void			updateOpeParamData();
 
   public:
     Ui::ComplexProperty		*ui;
 
   private:
     void			clearAttrData();
+    void			clearOpeData();
 
   private:
     Object::Complex_		*complex_;

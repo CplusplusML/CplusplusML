@@ -40,7 +40,47 @@ namespace			CplusplusML
     	    this, SLOT(updateAttrListItem()));
     connect(ui->attrList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
 	    this, SLOT(updateAttrData()));
-    
+    // Connection for operations
+    //   Buttons
+    //     Operations
+    connect(ui->opeNewButton, SIGNAL(clicked()),
+	    this, SLOT(createOpe()));
+    connect(ui->opeDelButton, SIGNAL(clicked()),
+	    this, SLOT(deleteOpe()));
+    connect(ui->opeUpButton, SIGNAL(clicked()),
+	    this, SLOT(moveUpOpeItem()));
+    connect(ui->opeDownButton, SIGNAL(clicked()),
+	    this, SLOT(moveDownOpeItem()));
+    //     Parameters
+    connect(ui->opeParamNewButton, SIGNAL(clicked()),
+	    this, SLOT(createOpeParam()));
+    connect(ui->opeParamDelButton, SIGNAL(clicked()),
+	    this, SLOT(deleteOpeParam()));
+    connect(ui->opeParamUpButton, SIGNAL(clicked()),
+	    this, SLOT(moveUpOpeParamItem()));
+    connect(ui->opeParamDownButton, SIGNAL(clicked()),
+	    this, SLOT(moveDownOpeParamItem()));
+    //   Edition
+    //     Operations
+    connect(ui->opeName, SIGNAL(editingFinished()),
+    	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeType, SIGNAL(editingFinished()),
+    	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeVisibility, SIGNAL(activated(int)),
+    	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeIsStatic, SIGNAL(stateChanged(int)),
+    	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeIsConst, SIGNAL(stateChanged(int)),
+    	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
+	    this, SLOT(updateOpeData()));
+    //     Parameters
+    connect(ui->opeParamName, SIGNAL(editingFinished()),
+    	    this, SLOT(updateOpeParamListItem()));
+    connect(ui->opeParamType, SIGNAL(editingFinished()),
+    	    this, SLOT(updateOpeParamListItem()));
+    connect(ui->opeParamValue, SIGNAL(editingFinished()),
+    	    this, SLOT(updateOpeParamListItem()));
   }
   // !CTORS
 
@@ -52,6 +92,7 @@ namespace			CplusplusML
   // !DTORS
 
   // PRIVATE SLOTS
+  // ATTRIBUTES
   void				ComplexPropertyWindow::checkApply(QAbstractButton *button)
   {
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Apply ||
@@ -160,19 +201,86 @@ namespace			CplusplusML
 	ui->attrGroupBox->setEnabled(false);
 	ui->attrDelButton->setEnabled(false);
       }
-  ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
-  ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
+    ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
+    ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
+  }
+  
+  // OPERATIONS
+
+  void			ComplexPropertyWindow::createOpe()
+  {
+    // MemberListItem		*item;
+    
+    // item = new MemberListItem("+", new Object::Members::Operation(true));
+    // clearOpeData();
+    // ui->attrList->addItem(item);
+    // if (!ui->attrGroupBox->isEnabled())
+    //   {
+    // 	ui->attrGroupBox->setEnabled(true);
+    // 	ui->attrDelButton->setEnabled(true);
+    //   }
+    // ui->attrName->setFocus(Qt::OtherFocusReason);
+    // ui->attrList->setCurrentItem(item);
+    // ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
+    // ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
   }
 
-  void				ComplexPropertyWindow::createNewOpe()
+  void			ComplexPropertyWindow::deleteOpe()
   {
 
   }
 
-  void				ComplexPropertyWindow::createNewOpeParam()
+  void			ComplexPropertyWindow::updateOpeListItem()
   {
 
   }
+
+  void			ComplexPropertyWindow::moveUpOpeItem()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::moveDownOpeItem()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::updateOpeData()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::createOpeParam()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::deleteOpeParam()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::updateOpeParamListItem()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::moveUpOpeParamItem()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::moveDownOpeParamItem()
+  {
+
+  }
+
+  void			ComplexPropertyWindow::updateOpeParamData()
+  {
+
+  }
+
+
   // !PRIVATE SLOTS
 
   // PUBLIC FUNCTIONS
@@ -180,11 +288,18 @@ namespace			CplusplusML
   {
     // Attributes
     clearAttrData();
+    clearOpeData();
     ui->attrList->clear();
+    ui->opeList->clear();
     ui->attrGroupBox->setEnabled(false);
     ui->attrDelButton->setEnabled(false);
     ui->attrUpButton->setEnabled(false);
     ui->attrDownButton->setEnabled(false);
+    ui->opeGroupBox->setEnabled(false);
+    ui->opeParamDataGroupBox->setEnabled(false);
+    ui->opeDelButton->setEnabled(false);
+    ui->opeUpButton->setEnabled(false);
+    ui->opeDownButton->setEnabled(false);
   }
 
   void				ComplexPropertyWindow::show(Object::Complex_ *complex)
@@ -228,6 +343,17 @@ namespace			CplusplusML
     ui->attrType->clear();
     ui->attrValue->clear();
     ui->attrVisibility->setCurrentIndex(0);
+  }
+
+  void				ComplexPropertyWindow::clearOpeData()
+  {
+    ui->opeName->clear();
+    ui->opeType->clear();
+    ui->opeVisibility->setCurrentIndex(0);
+    ui->opeParamName->clear();
+    ui->opeParamType->clear();
+    ui->opeParamValue->clear();
+    ui->opeParamList->clear();
   }
   // !PRIVATE FUNCTION
 }
