@@ -19,13 +19,24 @@ namespace			CplusplusML
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
   {
-    connect(&properties_, SIGNAL(applied()), this, SLOT(applyProperties()));
+    connect(&complexProperties_, SIGNAL(applied()), this, SLOT(applyProperties()));
     connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
   }
 
   void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
-    
+    Object::Complex_		*complex;
+
+    if (mouseEvent->button() != Qt::LeftButton)
+      return;
+
+    if (!selectedItems().empty())
+      {
+	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+	  complexProperties_.show(complex);
+      }
+
+    QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
   }
 
   void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -60,7 +71,7 @@ namespace			CplusplusML
             item->setSelected(true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
-            properties_.show();
+	    complexProperties_.show();
           }
       }
 
@@ -75,29 +86,12 @@ namespace			CplusplusML
 
   void				DiagramScene::applyProperties()
   {
-    Object::Complex_		*item;
-    QListWidgetItem		*litem;
-    int				row;
+    Object::Complex_		*complex;
 
     if (!selectedItems().empty())
       {
-        item = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first());
-        item->title_ = properties_.ui.name->text().toStdString();
-        item->functions_.clear();
-        for (row = 0; ; ++row)
-          {
-            if ((litem = properties_.ui.funcedit->item(row)) == 0)
-              break;
-            item->functions_.push_back(litem->text().toStdString());
-          }
-        item->datas_.clear();
-        for (row = 0; ; ++row)
-          {
-            if ((litem = properties_.ui.propedit->item(row)) == 0)
-              break;
-            item->functions_.push_back(litem->text().toStdString());
-          }
-        item->update();
+	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+	  complex->updateFromForm(complexProperties_);
       }
   }
 

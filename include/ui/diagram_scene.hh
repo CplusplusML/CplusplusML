@@ -6,7 +6,7 @@
 
 #include	"object/basic.hh"
 
-#include	"ui/property_window.hh"
+#include	"ui/complex_property_window.hh"
 
 namespace			CplusplusML
 {
@@ -64,7 +64,7 @@ namespace			CplusplusML
 
     Object::ObjectType		currentItem_;
     Mode			currentMode_;
-    PropertyWindow		properties_;
+    ComplexPropertyWindow	complexProperties_;
   };
 }
 

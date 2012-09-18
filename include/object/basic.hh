@@ -1,10 +1,6 @@
 #ifndef _BASIC_H_
 #define _BASIC_H_
 
-#include <list>
-#include <string>
-#include <QApplication>
-#include <QtGui>
 #include <QGraphicsItem>
 
 namespace Object
