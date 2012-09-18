@@ -10,23 +10,11 @@ namespace AST
   class Temp
   {
   public:
-    Temp(const std::string &name, const std::string &txt) : name_(name), txt_(txt)
-    {}
-
-    ~Temp()
-    {}
-
-    const std::string& name() const
-    {
-      return (name_);
-    }
-
+    Temp(const std::string &name, const std::string &txt);
+    ~Temp();
+    const std::string& name() const;
     friend std::ostream& operator<<(std::ostream &o,
-				    const Temp &v)
-    {
-      o << v.txt_ << ';' << std::endl;
-      return (o);
-    }
+				    const Temp &v);
 
   private:
     std::string name_;
