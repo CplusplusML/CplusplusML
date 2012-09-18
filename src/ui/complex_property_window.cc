@@ -547,6 +547,21 @@ namespace               CplusplusML
             ui->attrName->setFocus(Qt::OtherFocusReason);
             ui->attrList->setCurrentItem(ui->attrList->item(0));
           }
+        auto it2 = complex->operations_.begin();
+        for (; it2 != complex->operations_.end(); ++it2)
+          {
+            item = new MemberListItem((*it2)->toString().c_str(),
+                                      new Operation(true),
+                                      *it2);
+            *(static_cast<Operation *>(item->tmpMember_)) = *(*it2);
+            ui->opeList->addItem(item);
+          }
+        if (complex->operations_.size())
+          {
+            ui->opeGroupBox->setEnabled(true);
+            ui->opeDelButton->setEnabled(true);
+            ui->opeList->setCurrentItem(ui->opeList->item(0));
+          }
       }
     else
       ui->name->setText("Test");

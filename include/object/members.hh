@@ -1,5 +1,5 @@
-#ifndef         _CPLUSPLUSML_MEMBERS_HH_
-# define        _CPLUSPLUSML_MEMBERS_HH_
+#ifndef         _CPLUSPLUSML_OBJECT_MEMBERS_HH_
+# define        _CPLUSPLUSML_OBJECT_MEMBERS_HH_
 
 # include       <list>
 # include       <string>

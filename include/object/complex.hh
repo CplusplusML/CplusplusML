@@ -1,25 +1,25 @@
-#ifndef _COMPLEX_H_
-# define _COMPLEX_H_
+#ifndef         _CPLUSPLUSML_OBJECT_COMPLEX_H_
+# define        _CPLUSPLUSML_OBJECT_COMPLEX_H_
 
-# include <QLabel>
-# include <QGraphicsRectItem>
-# include <QGraphicsProxyWidget>
-# include <QGraphicsSimpleTextItem>
+# include       <QLabel>
+# include       <QGraphicsRectItem>
+# include       <QGraphicsProxyWidget>
+# include       <QGraphicsSimpleTextItem>
 
-# include <set>
-# include <list>
-# include <string>
+# include       <set>
+# include       <list>
+# include       <string>
 
-# include "ui/complex_property_window.hh"
+# include       "ui/complex_property_window.hh"
 
-# include "basic.hh"
-# include "members.hh"
+# include       "basic.hh"
+# include       "members.hh"
 
-namespace			Object
+namespace               Object
 {
-  class				Arrow_;
+  class                 Arrow_;
 
-  class				Complex_ : public Basic_
+  class                 Complex_ : public Basic_
   {
   public:
 
@@ -27,44 +27,43 @@ namespace			Object
     virtual ~Complex_();
 
 
-    void			AddArrow(Arrow_ *arrow);
-    void			RemoveArrow(Arrow_ *arrow);
+    void                AddArrow(Arrow_ *arrow);
+    void                RemoveArrow(Arrow_ *arrow);
 
-    inline bool			getAttrVisible(void) const { return isAttrVisible_; }
-    inline bool			getOpeVisible(void) const { return isOpeVisible_; }
-    inline void			setAttrVisible(bool v) { isAttrVisible_ = v; }
-    inline void			setOpeVisible(bool v) { isOpeVisible_ = v; }
+    inline bool         getAttrVisible(void) const { return isAttrVisible_; }
+    inline bool         getOpeVisible(void) const { return isOpeVisible_; }
+    inline void         setAttrVisible(bool v) { isAttrVisible_ = v; }
+    inline void         setOpeVisible(bool v) { isOpeVisible_ = v; }
 
     
-    inline int			X() const { return x_; }
-    inline int			Y() const { return y_; }
+    inline int          X() const { return x_; }
+    inline int          Y() const { return y_; }
 
-    void			updateFromForm(CplusplusML::ComplexPropertyWindow const &properties);
+    void                updateFromForm(Ui::ComplexProperty const &ui);
 
   private:
-    void			Render(void);
-    virtual char		Label_() = 0;
+    void                Render(void);
 
   public:
-    std::string			title_;
-    bool			isAbstract_;
+    std::string         title_;
+    bool                isAbstract_;
     std::list<Members::Attribute *> attributes_;
     std::list<Members::Operation *> operations_;
 
-    std::set<Arrow_*>		arrows_;
+    std::set<Arrow_*>   arrows_;
 
     // QT
   protected:
-    QGraphicsSimpleTextItem	*titleLabel_;
-    QGraphicsRectItem		*titleRect_;
-    QGraphicsRectItem		*attrRect_;
-    QGraphicsRectItem		*opeRect_;
+    QGraphicsSimpleTextItem     *titleLabel_;
+    QGraphicsRectItem           *titleRect_;
+    QGraphicsRectItem           *attrRect_;
+    QGraphicsRectItem           *opeRect_;
 
   protected:
-    int				x_;
-    int				y_;
-    bool			isAttrVisible_;
-    bool			isOpeVisible_;
+    int                 x_;
+    int                 y_;
+    bool                isAttrVisible_;
+    bool                isOpeVisible_;
   };
 }
 
