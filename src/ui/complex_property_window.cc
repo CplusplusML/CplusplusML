@@ -227,7 +227,25 @@ namespace			CplusplusML
 
   void			ComplexPropertyWindow::deleteOpe()
   {
+    int				row = ui->opeList->currentRow();
+    MemberListItem		*item;
 
+    clearOpeData();
+    item = static_cast<MemberListItem *>(ui->opeList->takeItem(row));
+    if (item->member_)
+      item->member_->deleted = true;
+    delete item;
+    if (!ui->opeList->count())
+      {
+	ui->opeGroupBox->setEnabled(false);
+	ui->opeParamDataGroupBox->setEnabled(false);
+	ui->opeDelButton->setEnabled(false);
+	ui->opeParamDelButton->setEnabled(false);
+      }
+    ui->opeUpButton->setEnabled(ui->opeList->currentRow() > 0);
+    ui->opeDownButton->setEnabled(ui->opeList->currentRow() + 1 < ui->opeList->count());
+    ui->opeParamUpButton->setEnabled(ui->opeParamList->currentRow() > 0);
+    ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
   void			ComplexPropertyWindow::updateOpeListItem()
