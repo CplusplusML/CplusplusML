@@ -9,6 +9,7 @@
 # include "Function.hpp"
 # include "Visibility.hpp"
 # include "Inheritance.hpp"
+# include "Temp.hpp"
 
 namespace AST
 {
@@ -30,7 +31,6 @@ namespace AST
     friend std::ostream& operator<<(std::ostream &o,
 				    const Member &m)
     {
-      o << "/* Member */" << std::endl;
       o << m._visibility << ":" << std::endl;
       o << (static_cast<C>(m));
       return (o);
@@ -45,7 +45,7 @@ namespace AST
   template <>
   struct Traits<Class>
   {
-    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>
       > AuthorizedTypes;
   };
 
@@ -70,6 +70,7 @@ namespace AST
     template <class C>
     void Insert(const C& c, const Visibility v = Visibility::PRIVATE)
     {
+      std::cout << "TOTO " << c.name() << " " << v << std::endl;
       BasicElement::Insert(Member<C>(c, v));
     }
 

@@ -15,5 +15,7 @@ int main(void)
 
   c->Insert(AST::Class("Class_nested"), AST::Visibility::PUBLIC);
 
+  c->Insert(AST::Temp("i", "int i_"));
+
   std::cout << ast << std::endl;
 }
