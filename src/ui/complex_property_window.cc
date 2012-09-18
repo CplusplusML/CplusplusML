@@ -271,17 +271,50 @@ namespace			CplusplusML
 
   void			ComplexPropertyWindow::moveUpOpeItem()
   {
+    int			currentRow = ui->opeList->currentRow();
 
+    if (currentRow <= 0)
+      return;
+
+    QListWidgetItem * currentItem = ui->opeList->takeItem(currentRow);
+    ui->opeList->insertItem(currentRow - 1, currentItem);
+    ui->opeList->setCurrentRow(currentRow - 1);
+    ui->opeUpButton->setEnabled(currentRow - 1 > 0);
   }
 
   void			ComplexPropertyWindow::moveDownOpeItem()
   {
+    int			currentRow = ui->opeList->currentRow();
 
+    if (currentRow >= ui->opeList->count() - 1)
+      return;
+
+    QListWidgetItem * currentItem = ui->opeList->takeItem(currentRow);
+    ui->opeList->insertItem(currentRow + 1, currentItem);
+    ui->opeList->setCurrentRow(currentRow + 1);
+    ui->opeDownButton->setEnabled(currentRow + 2 < ui->opeList->count());
   }
 
   void			ComplexPropertyWindow::updateOpeData()
   {
+    MemberListItem		*item;
+    Object::Members::Operation	*ope;
 
+    if (ui->opeList->currentRow() < 0)
+      return;
+
+    clearOpeData();
+    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
+    ui->opeName->setText(ope->name.c_str());
+    ui->opeType->setText(ope->type.c_str());
+    ui->opeVisibility->setCurrentIndex(static_cast<int>(ope->visibility));
+    ui->opeInheritance->setCurrentIndex(static_cast<int>(ope->inhType));
+    ui->opeIsStatic->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(ope->isStatic) * 2));
+    ui->opeIsConst->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(ope->isConst) * 2));
+    ui->opeUpButton->setEnabled(ui->opeList->currentRow() > 0);
+    ui->opeDownButton->setEnabled(ui->opeList->currentRow() + 1 < ui->opeList->count());
+    ui->opeName->setFocus(Qt::OtherFocusReason);    
   }
 
   void			ComplexPropertyWindow::createOpeParam()
