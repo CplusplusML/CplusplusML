@@ -26,21 +26,20 @@ void Object::Complex_::Render(void)
   titleRect_ = new QGraphicsRectItem(x_, y_, width, titleHeight);
   titleRect_->setBrush(QColor(250, 250, 250));
   titleLabel_->setParentItem(titleRect_);
-  titleRect_->setParentItem(this);
+
   // Attributes rectangle
   attrRect_ = new QGraphicsRectItem(x_, y_ + titleHeight, width, titleHeight);
   attrRect_->setBrush(QColor(250, 250, 250));
-  attrRect_->setParentItem(this);
+
   // Operations rectangle
   opeRect_ = new QGraphicsRectItem(x_, y_ + 2 * titleHeight, width, titleHeight);
   opeRect_->setBrush(QColor(250, 250, 250));
-  opeRect_->setParentItem(this);
 
   // Add all items to group
   this->addToGroup(titleRect_);
   this->addToGroup(attrRect_);
   this->addToGroup(opeRect_);
-  this->addToGroup(titleLabel_);
+  //  this->addToGroup(titleLabel_);
   this->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
@@ -76,7 +75,6 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // Erase deleted attributes and remove from list (otherwise no update of boundingrect)
   for (it = attributes_.begin(); it != attributes_.end();)
     {
-      removeFromGroup((*it)->label);
       if ((*it)->deleted)
 	delete *it;
       it = attributes_.erase(it);
@@ -104,7 +102,9 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   // For padding
   width += 4;
   x_ = width / -2;
+  removeFromGroup(titleRect_);
   titleRect_->setRect(x_, y_, width, height);
+  addToGroup(titleRect_);
   titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
   // Remove from group otherwise no boundingrect update
   removeFromGroup(attrRect_);
@@ -112,10 +112,7 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   addToGroup(attrRect_);
   // Update pos of all attributes and add to group
   for (i = 0, it = attributes_.begin(); it != attributes_.end(); ++it, ++i)
-    {
-      (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
-      addToGroup((*it)->label);
-    }
+    (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   // Same with operations
   removeFromGroup(opeRect_);
   opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
