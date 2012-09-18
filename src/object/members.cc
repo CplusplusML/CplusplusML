@@ -85,6 +85,8 @@ namespace				Object
       std::string			text;
 
       text += visibilityName(visibility);
+      if (inhType == VIRTUAL || inhType == PURE)
+	text += "virtual ";
       if (!type.empty())
 	text += type;
       if (!name.empty())
