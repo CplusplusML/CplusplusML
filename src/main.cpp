@@ -17,5 +17,9 @@ int main(void)
 
   c->Insert(AST::Temp("i", "int i_"));
 
+  c->Inherit(
+	     *ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class2"))
+	     );
+
   std::cout << ast << std::endl;
 }

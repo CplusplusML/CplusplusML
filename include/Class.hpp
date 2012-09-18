@@ -61,11 +61,10 @@ namespace AST
     ~Class()
     {}
 
-    // Class &operator<<(const Inheritance &inh)
-    // {
-    //   _inheritance.push_back(inh);
-    //   return (*this);
-    // }
+    void Inherit(const Inheritance &i)
+    {
+      _inheritance.push_back(i);
+    }
 
     template <class C>
     void Insert(const C& c, const Visibility v = Visibility::PRIVATE)

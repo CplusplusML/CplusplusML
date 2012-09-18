@@ -15,12 +15,7 @@ namespace AST
   std::ostream& operator<<(std::ostream &o,
 			   Inheritance inh)
   {
-    if (inh._visibility == Visibility::PUBLIC)
-      o << "public";
-    else if (inh._visibility == Visibility::PRIVATE)
-      o << "private";
-    else if (inh._visibility == Visibility::PROTECTED)
-      o << "protected";
+    o << inh._visibility;
     o << " " << inh._class->name();  
   }
 
