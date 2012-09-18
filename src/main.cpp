@@ -10,21 +10,28 @@ int main(void)
   ast.Insert(AST::Namespace("Namespace"));
   ast.Get(AST::Namespace("Namespace"))->Insert(AST::Class("Class1"));
   ast.Get(AST::Namespace("Namespace"))->Insert(AST::Class("Class2"));
+  {
+    auto c = ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class1"));
 
-  auto c = ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class1"));
+    c->Insert(AST::Class("Class_nested"), AST::Visibility::PUBLIC);
 
-  c->Insert(AST::Class("Class_nested"), AST::Visibility::PUBLIC);
+    c->Insert(AST::Temp("i", "int i_"));
 
-  c->Insert(AST::Temp("i", "int i_"));
+    c->Inherit(
+	       *ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class2"))
+	       );
+  }
+  {
+    AST::Class bar("Bar");
+    bar.Templates(AST::Template::Type("T"));
+    ast.Get(AST::Namespace("Namespace"))->Insert(bar);
 
-  c->Inherit(
-	     *ast.Get(AST::Namespace("Namespace"))->Get(AST::Class("Class2"))
-	     );
+    AST::Template::Toto c("C");
+    c.Templates(AST::Template::Type("T"));
 
-  AST::Class f("Foo");
-  f.Templates(AST::Template::Type("T"));
-  f.Templates(AST::Template::TypeNumeric("i"));
-  ast.Get(AST::Namespace("Namespace"))->Insert(f);
-
+    AST::Class foo("Foo");
+    foo.Templates(c);
+    ast.Get(AST::Namespace("Namespace"))->Insert(foo);
+  }
   std::cout << ast << std::endl;
 }

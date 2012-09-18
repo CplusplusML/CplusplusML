@@ -8,9 +8,15 @@
 
 namespace AST
 {
-  class Template
+  class Templateable;
+
+  namespace Template
   {
-  public:
+    struct Type;
+    struct Toto;
+    struct TypeNumeric;
+    struct Variadic;
+
     struct Type
     {
       Type()
@@ -24,7 +30,7 @@ namespace AST
 
       friend std::ostream &operator<<(std::ostream &o, const Type &t)
       {
-	o << "typename " << t._name;
+	o << "class " << t._name;
 	return (o);
       }
 
@@ -78,7 +84,8 @@ namespace AST
     private:
       std::string _name;
     };
-  };
+
+  }
 
   class Templateable
   {
@@ -97,7 +104,8 @@ namespace AST
     }
 
   private:
-    std::vector<boost::variant<Template::Type, Template::Variadic, Template::TypeNumeric> > _templates;
+    std::vector<boost::variant<Template::Type, Template::Variadic, Template::TypeNumeric, boost::recursive_wrapper<Template::Toto>
+			       > > _templates;
     // std::vector<boost::variant<Template::Type> > _templates;
 
     inline bool isTemplated() const
@@ -124,6 +132,30 @@ namespace AST
     }
 
   };
+
+  namespace Template
+  {
+    struct Toto : public Templateable
+    {
+      Toto()
+      {}
+
+      Toto(const std::string &name) : _name(name)
+      {}
+
+      ~Toto()
+      {}
+
+      friend std::ostream &operator<<(std::ostream &o, const Toto &t)
+      {
+	o << static_cast<Templateable>(t) << t._name;
+	return (o);
+      }
+
+    private:
+      std::string _name;      
+    };
+  }
 
 }
 
