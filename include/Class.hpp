@@ -31,6 +31,7 @@ namespace AST
 				    const Member &m)
     {
       o << "/* Member */" << std::endl;
+      o << m._visibility << ":" << std::endl;
       o << (static_cast<C>(m));
       return (o);
     }
@@ -54,35 +55,26 @@ namespace AST
     using BasicElement::name;
     using Templateable::Templates;
 
-    Class(const std::string &name, const Visibility default_visibility = Visibility::PRIVATE) : BasicElement<Class>(name), _default_visibility(default_visibility)
+    Class(const std::string &name) : BasicElement<Class>(name)
     {}
 
     ~Class()
     {}
 
-    void setVisibility(const Visibility v)
-    {
-      _visibility = v;
-      // Segfault si on decommente la ligne suivante, sinon tout va bien pour valgrind
-      // std::cout << "toto" << std::endl;
-      //      return (*this);
-    }
+    // Class &operator<<(const Inheritance &inh)
+    // {
+    //   _inheritance.push_back(inh);
+    //   return (*this);
+    // }
 
-    Class &operator<<(const Inheritance &inh)
+    template <class C>
+    void Insert(const C& c, const Visibility v = Visibility::PRIVATE)
     {
-      _inheritance.push_back(inh);
-      return (*this);
+      BasicElement::Insert(Member<C>(c, v));
     }
 
     template <class C>
-    void Insert(const C& c)
-    {
-      BasicElement::Insert(Member<C>(c, _visibility));
-      _visibility = _default_visibility;
-    }
-
-    template <class C>
-    C &Get(const C& c)
+    std::shared_ptr<C> Get(const C& c)
     {
       return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
     }
@@ -112,9 +104,6 @@ namespace AST
     }
    
   private:
-    // ce _default_visibility pue du cul car ne devrait pas etre la (10 classes creees => 10 _default_visibility xD )
-    Visibility _default_visibility;
-    Visibility _visibility;
     std::vector<Inheritance> _inheritance;
   };
 

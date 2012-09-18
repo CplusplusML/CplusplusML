@@ -9,8 +9,10 @@ namespace AST
     PRIVATE,
       PROTECTED,
       PUBLIC,
-      NotAvailable
+      NotAvailable,
       };
+
+  std::ostream &operator<<(std::ostream &o, Visibility v);
 }
 
 #endif	// !VISIBILITY_HPP_
