@@ -49,13 +49,13 @@ namespace				Object
       std::string			text;
 
       text += visibilityName(visibility);
-      if (!name.empty())
-	text += name;
       if (!type.empty())
+	text += type;
+      if (!name.empty())
 	{
-	  if (!name.empty())
-	    text += ": ";
-	  text += type;
+	  if (!type.empty())
+	    text += ' ';
+	  text += name;
 	}
       if (!defaultValue.empty())
 	text += " = " + defaultValue;
