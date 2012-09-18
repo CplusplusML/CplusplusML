@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="Properties">
       <attribute name="title">
@@ -351,16 +351,6 @@
             <item row="0" column="1">
              <widget class="QLineEdit" name="opeName"/>
             </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="opeTypeLabel">
-              <property name="text">
-               <string>Type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QLineEdit" name="opeType"/>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="opeVisibilityLabel">
               <property name="text">
@@ -387,7 +377,24 @@
               </item>
              </widget>
             </item>
-            <item row="1" column="2">
+            <item row="0" column="2">
+             <widget class="QLabel" name="opeTypeLabel">
+              <property name="text">
+               <string>Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="opeType"/>
+            </item>
+            <item row="0" column="4">
+             <widget class="QCheckBox" name="opeIsConst">
+              <property name="text">
+               <string>Const</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
              <widget class="QCheckBox" name="opeIsStatic">
               <property name="text">
                <string>Static</string>
@@ -395,9 +402,28 @@
              </widget>
             </item>
             <item row="1" column="3">
-             <widget class="QCheckBox" name="opeIsConst">
+             <widget class="QComboBox" name="opeInheritance">
+              <item>
+               <property name="text">
+                <string>Leaf</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Virtual</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pure</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="opeInheritanceLabel">
               <property name="text">
-               <string>Const</string>
+               <string>Inheritance</string>
               </property>
              </widget>
             </item>
@@ -531,10 +557,7 @@
   <tabstop>opeUpButton</tabstop>
   <tabstop>opeDownButton</tabstop>
   <tabstop>opeName</tabstop>
-  <tabstop>opeType</tabstop>
   <tabstop>opeVisibility</tabstop>
-  <tabstop>opeIsStatic</tabstop>
-  <tabstop>opeIsConst</tabstop>
   <tabstop>opeParamNewButton</tabstop>
   <tabstop>opeParamDelButton</tabstop>
   <tabstop>opeParamUpButton</tabstop>

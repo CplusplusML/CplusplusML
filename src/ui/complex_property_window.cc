@@ -68,6 +68,8 @@ namespace			CplusplusML
     	    this, SLOT(updateOpeListItem()));
     connect(ui->opeVisibility, SIGNAL(activated(int)),
     	    this, SLOT(updateOpeListItem()));
+    connect(ui->opeInheritance, SIGNAL(activated(int)),
+    	    this, SLOT(updateOpeListItem()));
     connect(ui->opeIsStatic, SIGNAL(stateChanged(int)),
     	    this, SLOT(updateOpeListItem()));
     connect(ui->opeIsConst, SIGNAL(stateChanged(int)),
@@ -211,7 +213,7 @@ namespace			CplusplusML
   {
     MemberListItem		*item;
     
-    item = new MemberListItem("+", new Object::Members::Operation(true));
+    item = new MemberListItem("+()", new Object::Members::Operation(true));
     clearOpeData();
     ui->opeList->addItem(item);
     if (!ui->opeGroupBox->isEnabled())
@@ -250,7 +252,21 @@ namespace			CplusplusML
 
   void			ComplexPropertyWindow::updateOpeListItem()
   {
+    MemberListItem		*item;
+    Object::Members::Operation	*ope;
 
+    ui->opeName->setText(ui->opeName->text().trimmed());
+    ui->opeType->setText(ui->opeType->text().trimmed());
+
+    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    ope = static_cast<Object::Members::Operation *>(item->tmpMember_);
+    ope->name = ui->opeName->text().toStdString();
+    ope->type = ui->opeType->text().toStdString();
+    ope->visibility = static_cast<Object::Members::Visibility>(ui->opeVisibility->currentIndex());
+    ope->inhType = static_cast<Object::Members::Operation::InheritanceType>(ui->opeInheritance->currentIndex());
+    ope->isStatic = ui->opeIsStatic->checkState();
+    ope->isConst = ui->opeIsConst->checkState();
+    item->setText(ope->toString().c_str());
   }
 
   void			ComplexPropertyWindow::moveUpOpeItem()
@@ -371,6 +387,7 @@ namespace			CplusplusML
     ui->opeName->clear();
     ui->opeType->clear();
     ui->opeVisibility->setCurrentIndex(0);
+    ui->opeInheritance->setCurrentIndex(0);
     ui->opeParamName->clear();
     ui->opeParamType->clear();
     ui->opeParamValue->clear();
