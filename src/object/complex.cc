@@ -55,12 +55,14 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 
 void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
 {
-  int	rows;
+  int	attrRows;
+  int	opeRows;
   int	i;
   CplusplusML::MemberListItem	*item;
   Object::Members::Attribute	*attr;
-  //  Object::Members::Operation	*ope;
-  std::list<Members::Attribute *>::iterator it;
+  Object::Members::Operation	*ope;
+  std::list<Members::Attribute *>::iterator attrIt;
+  std::list<Members::Operation *>::iterator opeIt;
 
   titleLabel_->setText(properties.ui->name->text());
   int width = titleLabel_->boundingRect().width();
@@ -72,16 +74,23 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   isAttrVisible_ = properties.ui->isAttrVisible->checkState();
   isOpeVisible_ = properties.ui->isOpeVisible->checkState();
 
-  // Erase deleted attributes and remove from list (otherwise no update of boundingrect)
-  for (it = attributes_.begin(); it != attributes_.end();)
+  // Erase deleted attributes
+  for (attrIt = attributes_.begin(); attrIt != attributes_.end();)
     {
-      if ((*it)->deleted)
-	delete *it;
-      it = attributes_.erase(it);
+      if ((*attrIt)->deleted)
+	delete *attrIt;
+      attrIt = attributes_.erase(attrIt);
+    }
+  // Erase deleted operations
+  for (opeIt = operations_.begin(); opeIt != operations_.end();)
+    {
+      if ((*opeIt)->deleted)
+	delete *opeIt;
+      opeIt = operations_.erase(opeIt);
     }
   // For each attribute, push it in attr list, updateLabel and get width
-  rows = properties.ui->attrList->count();
-  for (i = 0; i < rows; ++i)
+  attrRows = properties.ui->attrList->count();
+  for (i = 0; i < attrRows; ++i)
     {
       item = static_cast<CplusplusML::MemberListItem *>(properties.ui->attrList->item(i));
       attr = item->member_ ?
@@ -96,6 +105,23 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
       if (attr->label->boundingRect().width() > width)
       	width = attr->label->boundingRect().width();
     }
+  // For each operation, push it in attr list, updateLabel and get width
+  opeRows = properties.ui->opeList->count();
+  for (i = 0; i < opeRows; ++i)
+    {
+      item = static_cast<CplusplusML::MemberListItem *>(properties.ui->opeList->item(i));
+      ope = item->member_ ?
+	static_cast<Object::Members::Operation *>(item->member_) :
+	new Object::Members::Operation;
+      *ope = *(static_cast<Object::Members::Operation *>(item->tmpMember_));
+      if (!item->member_)
+	item->member_ = ope;
+      operations_.push_back(ope);
+      ope->label->setParentItem(opeRect_);
+      ope->updateLabel();
+      if (ope->label->boundingRect().width() > width)
+      	width = ope->label->boundingRect().width();
+    }
   // Min width 124
   if (width < 124)
     width = 124;
@@ -108,15 +134,18 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
   // Remove from group otherwise no boundingrect update
   removeFromGroup(attrRect_);
-  attrRect_->setRect(x_, y_ + height, width, rows * height);
+  attrRect_->setRect(x_, y_ + height, width, attrRows * height);
   addToGroup(attrRect_);
   // Update pos of all attributes and add to group
-  for (i = 0, it = attributes_.begin(); it != attributes_.end(); ++it, ++i)
-    (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
+  for (i = 0, attrIt = attributes_.begin(); attrIt != attributes_.end(); ++attrIt, ++i)
+    (*attrIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   // Same with operations
   removeFromGroup(opeRect_);
-  opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
+  opeRect_->setRect(x_, y_ + (attrRows + 1) * height, width,
+		    height * opeRows);
   addToGroup(opeRect_);
+  for (opeIt = operations_.begin(); opeIt != operations_.end(); ++opeIt, ++i)
+    (*opeIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   // Update view
   update();
 }
