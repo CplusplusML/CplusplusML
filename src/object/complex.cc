@@ -13,15 +13,17 @@ namespace               Object
     attrRect_(new QGraphicsRectItem),
     opeRect_(new QGraphicsRectItem)
   {
-    QFont                 font;
+    QFont               font;
 
+    //    pen.setWidth(1);
     // Set font of titleLabel;
+    font.setPointSize(15);
+    font.setFamily("arial");
     font.setBold(true);
-    font.setPointSize(12);
     titleLabel_->setFont(font);
     // Set font of typeLabel
     font.setBold(false);
-    font.setPointSize(7);
+    font.setPointSize(4);
 
     // Set brush for rects
     titleRect_->setBrush(QColor(250, 250, 250));
@@ -59,7 +61,7 @@ namespace               Object
     width = titleLabel_->boundingRect().width();
 
     titleHeight = typeLabel_->boundingRect().height() +
-      titleLabel_->boundingRect().height() + 8;
+      titleLabel_->boundingRect().height() + 6;
 
     // Remove from group what's gonna be redrawed
     removeFromGroup(titleRect_);
@@ -100,7 +102,7 @@ namespace               Object
     // Update labels position
     typeLabel_->setPos(x_ + width / 2 - typeLabel_->boundingRect().width() / 2 + 2, y_ + 2);
     titleLabel_->setPos(x_ + width / 2 - titleLabel_->boundingRect().width() / 2 + 2,
-                        y_ + typeLabel_->boundingRect().height() + 6);
+                        y_ + typeLabel_->boundingRect().height() + 2);
 
     // Update rects
     titleRect_->setRect(x_, y_, width, titleHeight);
