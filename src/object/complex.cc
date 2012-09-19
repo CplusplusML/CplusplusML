@@ -26,21 +26,20 @@ void Object::Complex_::Render(void)
   titleRect_ = new QGraphicsRectItem(x_, y_, width, titleHeight);
   titleRect_->setBrush(QColor(250, 250, 250));
   titleLabel_->setParentItem(titleRect_);
-  titleRect_->setParentItem(this);
+
   // Attributes rectangle
   attrRect_ = new QGraphicsRectItem(x_, y_ + titleHeight, width, titleHeight);
   attrRect_->setBrush(QColor(250, 250, 250));
-  attrRect_->setParentItem(this);
+
   // Operations rectangle
   opeRect_ = new QGraphicsRectItem(x_, y_ + 2 * titleHeight, width, titleHeight);
   opeRect_->setBrush(QColor(250, 250, 250));
-  opeRect_->setParentItem(this);
 
   // Add all items to group
   this->addToGroup(titleRect_);
   this->addToGroup(attrRect_);
   this->addToGroup(opeRect_);
-  this->addToGroup(titleLabel_);
+  //  this->addToGroup(titleLabel_);
   this->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
@@ -56,12 +55,14 @@ void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
 
 void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)
 {
-  int	rows;
+  int	attrRows;
+  int	opeRows;
   int	i;
   CplusplusML::MemberListItem	*item;
   Object::Members::Attribute	*attr;
   Object::Members::Operation	*ope;
-  std::list<Members::Attribute *>::iterator it;
+  std::list<Members::Attribute *>::iterator attrIt;
+  std::list<Members::Operation *>::iterator opeIt;
 
   titleLabel_->setText(properties.ui->name->text());
   int width = titleLabel_->boundingRect().width();
@@ -73,17 +74,23 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
   isAttrVisible_ = properties.ui->isAttrVisible->checkState();
   isOpeVisible_ = properties.ui->isOpeVisible->checkState();
 
-  // Erase deleted attributes and remove from list (otherwise no update of boundingrect)
-  for (it = attributes_.begin(); it != attributes_.end();)
+  // Erase deleted attributes
+  for (attrIt = attributes_.begin(); attrIt != attributes_.end();)
     {
-      removeFromGroup((*it)->label);
-      if ((*it)->deleted)
-	delete *it;
-      it = attributes_.erase(it);
+      if ((*attrIt)->deleted)
+	delete *attrIt;
+      attrIt = attributes_.erase(attrIt);
+    }
+  // Erase deleted operations
+  for (opeIt = operations_.begin(); opeIt != operations_.end();)
+    {
+      if ((*opeIt)->deleted)
+	delete *opeIt;
+      opeIt = operations_.erase(opeIt);
     }
   // For each attribute, push it in attr list, updateLabel and get width
-  rows = properties.ui->attrList->count();
-  for (i = 0; i < rows; ++i)
+  attrRows = properties.ui->attrList->count();
+  for (i = 0; i < attrRows; ++i)
     {
       item = static_cast<CplusplusML::MemberListItem *>(properties.ui->attrList->item(i));
       attr = item->member_ ?
@@ -98,27 +105,46 @@ void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &
       if (attr->label->boundingRect().width() > width)
       	width = attr->label->boundingRect().width();
     }
+  // For each operation, push it in attr list, updateLabel and get width
+  opeRows = properties.ui->opeList->count();
+  for (i = 0; i < opeRows; ++i)
+    {
+      item = static_cast<CplusplusML::MemberListItem *>(properties.ui->opeList->item(i));
+      ope = item->member_ ?
+	static_cast<Object::Members::Operation *>(item->member_) :
+	new Object::Members::Operation;
+      *ope = *(static_cast<Object::Members::Operation *>(item->tmpMember_));
+      if (!item->member_)
+	item->member_ = ope;
+      operations_.push_back(ope);
+      ope->label->setParentItem(opeRect_);
+      ope->updateLabel();
+      if (ope->label->boundingRect().width() > width)
+      	width = ope->label->boundingRect().width();
+    }
   // Min width 124
   if (width < 124)
     width = 124;
   // For padding
   width += 4;
   x_ = width / -2;
+  removeFromGroup(titleRect_);
   titleRect_->setRect(x_, y_, width, height);
+  addToGroup(titleRect_);
   titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
   // Remove from group otherwise no boundingrect update
   removeFromGroup(attrRect_);
-  attrRect_->setRect(x_, y_ + height, width, rows * height);
-  addToGroup(attrRect_);
+  attrRect_->setRect(x_, y_ + height, width, attrRows * height);
   // Update pos of all attributes and add to group
-  for (i = 0, it = attributes_.begin(); it != attributes_.end(); ++it, ++i)
-    {
-      (*it)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
-      addToGroup((*it)->label);
-    }
+  for (i = 0, attrIt = attributes_.begin(); attrIt != attributes_.end(); ++attrIt, ++i)
+    (*attrIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
+  addToGroup(attrRect_);
   // Same with operations
   removeFromGroup(opeRect_);
-  opeRect_->setRect(x_, y_ + (rows + 1) * height, width, height);
+  opeRect_->setRect(x_, y_ + (attrRows + 1) * height, width,
+		    height * opeRows);
+  for (opeIt = operations_.begin(); opeIt != operations_.end(); ++opeIt, ++i)
+    (*opeIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
   addToGroup(opeRect_);
   // Update view
   update();

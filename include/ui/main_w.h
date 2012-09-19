@@ -27,7 +27,6 @@ namespace CplusplusML
   private:
     qreal current_scale_;
     QDialog aboutWindow_;
-    QDialog webSiteWindow_;
     QDialog helpWindow_;
     QDockWidget *toolbar_;
     DiagramScene scene_;

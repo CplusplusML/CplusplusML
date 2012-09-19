@@ -102,10 +102,8 @@ namespace				Object
 	for (; it != parameters.end(); ++it)
 	  {
 	    if (coma)
-	      {
-		text += ',';
-		coma = false;
-	      }
+	      text += ',';
+	    coma = true;
 	    text += it->toString();
 	  }
       }
@@ -118,7 +116,7 @@ namespace				Object
       return (text);
     }
 
-    std::string				Operation::Parameter::toString(void) const
+    std::string				Operation::Parameter::toString(bool inList) const
     {
       std::string			text;
 
@@ -133,7 +131,7 @@ namespace				Object
       if (!defValue.empty())
 	text +=  " = " + defValue;
 
-      if (text.empty())
+      if (text.empty() && inList)
 	text = ':';
 
       return (text);
