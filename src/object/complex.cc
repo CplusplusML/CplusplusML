@@ -46,10 +46,13 @@ namespace               Object
   {
     int                 width;
     int                 titleHeight;
-    int                 lineHeight = 0;
-    int                 attrHeight = 0;
-    int                 opeHeight = 0;
-    int                 i;
+    int                 attrHeight;
+    int                 opeHeight;
+    int                 ypos;
+    static QFont        normalFont;
+    static QFont        staticFont;
+
+    staticFont.setUnderline(true);
 
     // Title
     titleLabel_->setText(title_.c_str());
@@ -64,34 +67,31 @@ namespace               Object
     removeFromGroup(opeRect_);
 
     // Update attributes, set parent, update label, width and height
+    attrHeight = 0;
     for (Attribute *attr : attributes_)
       {
         attr->label->setParentItem(attrRect_);
         attr->updateLabel();
-        if (!lineHeight)
-          lineHeight = attr->label->boundingRect().height();
         if (attr->label->boundingRect().width() > width)
           width = attr->label->boundingRect().width();
+        attrHeight += attr->label->boundingRect().height() + 4;
       }
 
     // Update operations, set parent, update label, width and height
+    opeHeight = 0;    
     for (Operation *ope : operations_)
       {
         ope->label->setParentItem(opeRect_);
         ope->updateLabel();
-        if (!lineHeight)
-          lineHeight = ope->label->boundingRect().height();
         if (ope->label->boundingRect().width() > width)
           width = ope->label->boundingRect().width();
+        opeHeight += ope->label->boundingRect().height() + 4;
       }
 
     // Add padding
     if (width < 124)
       width = 124;
     width += 4;
-    lineHeight += 4;
-    attrHeight = lineHeight * attributes_.size();
-    opeHeight = lineHeight * operations_.size();
 
     // Update position
     x_ = width / -2;
@@ -101,18 +101,28 @@ namespace               Object
     typeLabel_->setPos(x_ + width / 2 - typeLabel_->boundingRect().width() / 2 + 2, y_ + 2);
     titleLabel_->setPos(x_ + width / 2 - titleLabel_->boundingRect().width() / 2 + 2,
                         y_ + typeLabel_->boundingRect().height() + 6);
+
     // Update rects
     titleRect_->setRect(x_, y_, width, titleHeight);
     attrRect_->setRect(x_, y_ + titleHeight, width, attrHeight);
     opeRect_->setRect(x_, y_ + titleHeight + attrHeight, width, opeHeight);
 
     // Update labels pos
-    i = 0;
+    ypos = 0;
     for (Attribute *attr : attributes_)
-      attr->label->setPos(x_ + 2, y_ + titleHeight + (i++ * lineHeight) + 2);
-    i = 0;
+      {
+        attr->label->setFont(attr->isStatic ? staticFont : normalFont);
+        attr->label->setPos(x_ + 2, y_ + titleHeight + ypos + 2);
+        ypos += attr->label->boundingRect().height() + 4;
+      }
+
+    ypos = 0;
     for (Operation *ope : operations_)
-      ope->label->setPos(x_ + 2, y_ + titleHeight + attrHeight + (i++ * lineHeight) + 2);
+      {
+        ope->label->setFont(ope->isStatic ? staticFont : normalFont);
+        ope->label->setPos(x_ + 2, y_ + titleHeight + attrHeight + ypos + 2);
+        ypos += ope->label->boundingRect().height() + 4;
+      }
 
     // Add rects again to group
     addToGroup(titleRect_);
