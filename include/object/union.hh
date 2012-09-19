@@ -1,17 +1,16 @@
-#ifndef _UNION_H_
-#define _UNION_H_
+#ifndef         _CPLUSPLUSML_OBJECT_UNION_H_
+# define        _CPLUSPLUSML_OBJECT_UNION_H_
 
-#include "complex.hh"
+# include       "complex.hh"
 
-namespace Object
+namespace               Object
 {
-  class Union : public Complex_
+  class                 Union : public Complex_
   {
   public:
-    Union() { }
+    Union();
     ~Union() { }
-    char Label_();
   };
 }
 
-#endif /* _UNION_H_ */
+#endif // _CPLUSPLUSML_OBJECT_UNION_H_

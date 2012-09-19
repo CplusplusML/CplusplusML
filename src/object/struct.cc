@@ -1,6 +1,13 @@
 #include "object/struct.hh"
 
-char Object::Struct::Label_()
+namespace               Object
 {
-  return 'S';
+  Struct::Struct()
+  {
+    title_ = "Struct";
+    typeLabel_->setText("struct");
+    // typeLabel_->setPen(QPen(Qt::green));
+
+    updateGraphics();
+  }
 }

@@ -18,8 +18,8 @@ namespace			CplusplusML
     
     enum			Mode
       {
-	modeInsertItem,
-	modeMoveItem
+        modeInsertItem,
+        modeMoveItem
       };
 
     DiagramScene();

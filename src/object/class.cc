@@ -1,6 +1,13 @@
 #include "object/class.hh"
 
-char Object::Class::Label_()
+namespace               Object
 {
-  return 'C';
+  Class::Class()
+  {
+    title_ = "Class";
+    typeLabel_->setText("class");
+    //    typeLabel_->setPen(QPen(Qt::red));
+
+    updateGraphics();
+  }
 }

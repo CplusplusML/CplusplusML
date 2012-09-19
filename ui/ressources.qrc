@@ -15,4 +15,7 @@
     <file>icons/ToolInheritance.png</file>
     <file>icons/ToolCursor.png</file>
   </qresource>
+  <qresource prefix="images">
+    <file>images/logo.png</file>
+  </qresource>
 </RCC>

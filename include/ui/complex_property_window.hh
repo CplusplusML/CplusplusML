@@ -13,12 +13,28 @@ namespace Object
 
 namespace			CplusplusML
 {
+  class				MemberListItem: public QListWidgetItem
+  {
+  public:
+    MemberListItem(QString const &text,
+		   Object::Members::AMember *tmpMember,
+		   Object::Members::AMember *member = NULL,
+		   QListWidget *parent = 0):
+      QListWidgetItem(text, parent),
+      member_(member),
+      tmpMember_(tmpMember)
+    {}
+
+    ~MemberListItem()
+    { delete tmpMember_; }
+
+    Object::Members::AMember	*member_;
+    Object::Members::AMember	*tmpMember_;
+  };
+
   class				ComplexPropertyWindow: public QDialog
   {
     Q_OBJECT
-
-    typedef std::map<QListWidgetItem *, Object::Members::Attribute *>	attributeList;
-    typedef std::map<QListWidgetItem *, Object::Members::Operation *>	operationList;
 
   public:
     ComplexPropertyWindow();
@@ -29,6 +45,7 @@ namespace			CplusplusML
 
   signals:
     void			applied();
+    void			updateOpeAndParam();
 
   private slots:
     void			checkApply(QAbstractButton *button);
@@ -42,16 +59,27 @@ namespace			CplusplusML
     void			updateAttrData();
 
     // Operations slots
-    void			createNewOpe();
-    void			createNewOpeParam();
+    void			createOpe();
+    void			deleteOpe();
+    void			updateOpeListItem();
+    void			moveUpOpeItem();
+    void			moveDownOpeItem();
+    void			updateOpeData();
+    // Operation param slots
+    void			createOpeParam();
+    void			deleteOpeParam();
+    void			updateOpeParamListItem();
+    void			moveUpOpeParamItem();
+    void			moveDownOpeParamItem();
+    void			updateOpeParamData();
 
   public:
     Ui::ComplexProperty		*ui;
-    attributeList		attributes_;
-    operationList		operations_;
 
   private:
     void			clearAttrData();
+    void			clearOpeData();
+    void			clearOpeParamData();
 
   private:
     Object::Complex_		*complex_;

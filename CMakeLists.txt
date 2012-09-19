@@ -19,6 +19,14 @@ cmake_minimum_required(VERSION 2.6)
 #QT Section
 FIND_PACKAGE(Qt4 REQUIRED)
 
+FIND_PACKAGE(Boost REQUIRED)
+
+
+if (WIN32)
+   SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "C:/Users/redpist/Downloads/boost_1_51_0")
+   SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "C:/Users/redpist/Downloads/boost_1_51_0/libs")
+endif (WIN32)
+
 #Libraries Section
 SET(${PROJECT_NAME}_LIB_DIRECTORY lib)
 INCLUDE_DIRECTORIES(
@@ -28,6 +36,7 @@ INCLUDE_DIRECTORIES(
 #Headers
 SET(${PROJECT_NAME}_HEADER_DIRECTORY include/)
 INCLUDE_DIRECTORIES(
+				   ${CMAKE_INCLUDE_PATH}
                    ${${PROJECT_NAME}_HEADER_DIRECTORY}
                    ${CMAKE_CURRENT_BINARY_DIR}
                    )
@@ -40,7 +49,6 @@ INCLUDE(${QT_USE_FILE}
 SET(${PROJECT_NAME}_QTUI
         ui/MainWindow.ui
         ui/AboutWindow.ui
-        ui/WebSiteWindow.ui
         ui/HelpWindow.ui
 	ui/ComplexProperty.ui)
 

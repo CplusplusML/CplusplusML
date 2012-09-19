@@ -30,7 +30,6 @@ namespace Object
   public:
     Basic_() { }
     virtual ~Basic_() { }
-    virtual void Render(void) = 0;
   };
 }
 
