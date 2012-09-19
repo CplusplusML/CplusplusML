@@ -563,8 +563,6 @@ namespace               CplusplusML
             ui->opeList->setCurrentItem(ui->opeList->item(0));
           }
       }
-    else
-      ui->name->setText("Test");
 
     QDialog::show();
   }

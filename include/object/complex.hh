@@ -23,7 +23,7 @@ namespace               Object
   {
   public:
 
-    Complex_(): title_("Test") { Render(); }
+    Complex_();
     virtual ~Complex_();
 
 
@@ -41,9 +41,6 @@ namespace               Object
 
     void                updateFromForm(Ui::ComplexProperty const &ui);
 
-  private:
-    void                Render(void);
-
   public:
     std::string         title_;
     bool                isAbstract_;
@@ -52,14 +49,16 @@ namespace               Object
 
     std::set<Arrow_*>   arrows_;
 
-    // QT
   protected:
+    void                updateGraphics(void);
+
+    // QT
     QGraphicsSimpleTextItem     *titleLabel_;
+    QGraphicsSimpleTextItem     *typeLabel_;
     QGraphicsRectItem           *titleRect_;
     QGraphicsRectItem           *attrRect_;
     QGraphicsRectItem           *opeRect_;
 
-  protected:
     int                 x_;
     int                 y_;
     bool                isAttrVisible_;

@@ -1,17 +1,16 @@
-#ifndef _STRUCT_H_
-#define _STRUCT_H_
+#ifndef         _CPLUSPLUSML_OBJECT_STRUCT_H_
+# define        _CPLUSPLUSML_OBJECT_STRUCT_H_
 
-#include "complex.hh"
+# include       "complex.hh"
 
-namespace Object
+namespace               Object
 {
-  class Struct : public Complex_
+  class                 Struct : public Complex_
   {
   public:
-    Struct() { }
+    Struct();
     ~Struct() { }
-    char Label_();
   };
 }
 
-#endif /* _STRUCT_H_ */
+#endif // _CPLUSPLUSML_OBJECT_STRUCT_H_

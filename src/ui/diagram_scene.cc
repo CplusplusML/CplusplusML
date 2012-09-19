@@ -14,7 +14,6 @@
 
 namespace			CplusplusML
 {
-
   DiagramScene::DiagramScene():
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
@@ -32,16 +31,17 @@ namespace			CplusplusML
 
     if (!selectedItems().empty())
       {
-	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
-	  complexProperties_.show(complex);
+        if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+          complexProperties_.show(complex);
       }
 
     QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-  }
+}
 
-  void				DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+  void                  DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
   {
-    Object::Basic_		*item = NULL;
+    Object::Basic_      *item = NULL;
+    std::string         title;
 
     if (mouseEvent->button() != Qt::LeftButton)
       return;
@@ -51,14 +51,23 @@ namespace			CplusplusML
         switch (currentItem_)
           {
           case (Object::objectClass):
-            item = new Object::Class();
-            break;
+            {
+              item = new Object::Class();
+              title = "Class";
+              break;
+            }
           case (Object::objectStruct):
-            item = new Object::Struct();
-            break;
+            {
+              item = new Object::Struct();
+              title = "Struct";
+              break;
+            }
           case (Object::objectUnion):
-            item = new Object::Union();
-            break;
+            {
+              item = new Object::Union();
+              title = "Union";
+              break;
+            }
             // case (Object::objectDependency):
             //   item = new Object::Dependency();
             //   break;
@@ -67,11 +76,12 @@ namespace			CplusplusML
           };
         if (item != NULL)
           {
-            item->setFlag(Object::Basic_::ItemIsSelectable, true);
             item->setSelected(true);
+            item->setFlag(Object::Basic_::ItemIsSelectable, true);
             item->setPos(mouseEvent->scenePos());
             addItem(item);
-	    complexProperties_.show();
+            complexProperties_.show();
+            complexProperties_.ui->name->setText(title.c_str());
           }
       }
 
@@ -90,8 +100,8 @@ namespace			CplusplusML
 
     if (!selectedItems().empty())
       {
-	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
-	  complex->updateFromForm(*complexProperties_.ui);
+        if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
+          complex->updateFromForm(*complexProperties_.ui);
       }
   }
 

@@ -1,6 +1,13 @@
 #include "object/union.hh"
 
-char Object::Union::Label_()
+namespace               Object
 {
-  return 'U';
+  Union::Union()
+  {
+    title_ = "Union";
+    typeLabel_->setText("Union");
+    //    typeLabel_->setPen(QPen(Qt::blue));
+
+    updateGraphics();
+  }
 }

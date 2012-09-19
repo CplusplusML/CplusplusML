@@ -1,153 +1,185 @@
 #include        <iostream> //DEBUG
 #include        "object/complex.hh"
 
-Object::Complex_::~Complex_()
+namespace               Object
 {
-}
+  using namespace       Members;
 
-void                    Object::Complex_::Render(void)
-{
-  // Label
-  titleLabel_ = new QGraphicsSimpleTextItem();
-  titleLabel_->setText("Test");
-  // typeLabel_ = new QGraphicsSimpleTextItem();
-  // typeLabel_->setText("Class");
+  Complex_::Complex_():
+    title_("Complex"),
+    titleLabel_(new QGraphicsSimpleTextItem("Complex")),
+    typeLabel_(new QGraphicsSimpleTextItem("complex")),
+    titleRect_(new QGraphicsRectItem),
+    attrRect_(new QGraphicsRectItem),
+    opeRect_(new QGraphicsRectItem)
+  {
+    QFont                 font;
 
-  double width = titleLabel_->boundingRect().width() + 4;
-  if (width < 124)
-    width = 124;
-  double titleHeight = titleLabel_->boundingRect().height() + 4;
-  double height = titleHeight * 3;
+    // Set font of titleLabel;
+    font.setBold(true);
+    font.setPointSize(12);
+    titleLabel_->setFont(font);
+    // Set font of typeLabel
+    font.setBold(false);
+    font.setPointSize(7);
 
-  x_ = width / -2;
-  y_ = height / -2;
+    // Set brush for rects
+    titleRect_->setBrush(QColor(250, 250, 250));
+    attrRect_->setBrush(QColor(250, 250, 250));
+    opeRect_->setBrush(QColor(250, 250, 250));
 
-  titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
+    titleLabel_->setParentItem(titleRect_);
+    typeLabel_->setParentItem(titleRect_);
 
-  // Title rectangle
-  titleRect_ = new QGraphicsRectItem(x_, y_, width, titleHeight);
-  titleRect_->setBrush(QColor(250, 250, 250));
-  titleLabel_->setParentItem(titleRect_);
+    // Add all items to group
+    addToGroup(titleRect_);
+    addToGroup(attrRect_);
+    addToGroup(opeRect_);
+    setFlag(QGraphicsItem::ItemIsMovable, true);
+  }
 
-  // Attributes rectangle
-  attrRect_ = new QGraphicsRectItem(x_, y_ + titleHeight, width, titleHeight);
-  attrRect_->setBrush(QColor(250, 250, 250));
+  Complex_::~Complex_()
+  {
+  }
 
-  // Operations rectangle
-  opeRect_ = new QGraphicsRectItem(x_, y_ + 2 * titleHeight, width, titleHeight);
-  opeRect_->setBrush(QColor(250, 250, 250));
+  void                  Complex_::updateGraphics(void)
+  {
+    int                 width;
+    int                 titleHeight;
+    int                 lineHeight = 0;
+    int                 attrHeight = 0;
+    int                 opeHeight = 0;
+    int                 i;
 
-  // Add all items to group
-  this->addToGroup(titleRect_);
-  this->addToGroup(attrRect_);
-  this->addToGroup(opeRect_);
-  this->setFlag(QGraphicsItem::ItemIsMovable, true);
-}
+    // Title
+    titleLabel_->setText(title_.c_str());
+    width = titleLabel_->boundingRect().width();
 
-void                    Object::Complex_::AddArrow(Arrow_ *arrow)
-{
-  arrows_.insert(arrow);
-}
+    titleHeight = typeLabel_->boundingRect().height() +
+      titleLabel_->boundingRect().height() + 8;
 
-void                    Object::Complex_::RemoveArrow(Arrow_ *arrow)
-{
-  arrows_.erase(arrow);
-}
+    // Remove from group what's gonna be redrawed
+    removeFromGroup(titleRect_);
+    removeFromGroup(attrRect_);
+    removeFromGroup(opeRect_);
 
-void                    Object::Complex_::updateFromForm(Ui::ComplexProperty const &ui)
-{
-  int                   attrRows;
-  int                   opeRows;
-  int                   i;
-  CplusplusML::MemberListItem   *item;
-  Object::Members::Attribute    *attr;
-  Object::Members::Operation    *ope;
-  std::list<Members::Attribute *>::iterator     attrIt;
-  std::list<Members::Operation *>::iterator     opeIt;
+    // Update attributes, set parent, update label, width and height
+    for (Attribute *attr : attributes_)
+      {
+        attr->label->setParentItem(attrRect_);
+        attr->updateLabel();
+        if (!lineHeight)
+          lineHeight = attr->label->boundingRect().height();
+        if (attr->label->boundingRect().width() > width)
+          width = attr->label->boundingRect().width();
+      }
 
-  titleLabel_->setText(ui.name->text());
-  int                   width = titleLabel_->boundingRect().width();
-  int                   height = titleLabel_->boundingRect().height() + 4;
+    // Update operations, set parent, update label, width and height
+    for (Operation *ope : operations_)
+      {
+        ope->label->setParentItem(opeRect_);
+        ope->updateLabel();
+        if (!lineHeight)
+          lineHeight = ope->label->boundingRect().height();
+        if (ope->label->boundingRect().width() > width)
+          width = ope->label->boundingRect().width();
+      }
 
-  // Get informations
-  title_ = ui.name->text().toStdString();
-  isAbstract_ = ui.isAbstract->checkState();
-  isAttrVisible_ = ui.isAttrVisible->checkState();
-  isOpeVisible_ = ui.isOpeVisible->checkState();
+    // Add padding
+    if (width < 124)
+      width = 124;
+    width += 4;
+    lineHeight += 4;
+    attrHeight = lineHeight * attributes_.size();
+    opeHeight = lineHeight * operations_.size();
 
-  // Erase deleted attributes
-  for (attrIt = attributes_.begin(); attrIt != attributes_.end();)
-    {
-      if ((*attrIt)->deleted)
-        delete *attrIt;
-      attrIt = attributes_.erase(attrIt);
-    }
-  // Erase deleted operations
-  for (opeIt = operations_.begin(); opeIt != operations_.end();)
-    {
-      if ((*opeIt)->deleted)
-        {
-          std::cerr << "delete" << std::endl;
-          delete *opeIt;
-        }
-      opeIt = operations_.erase(opeIt);
-    }
-  // For each attribute, push it in attr list, updateLabel and get width
-  attrRows = ui.attrList->count();
-  for (i = 0; i < attrRows; ++i)
-    {
-      item = static_cast<CplusplusML::MemberListItem *>(ui.attrList->item(i));
-      attr = item->member_ ?
-        static_cast<Object::Members::Attribute *>(item->member_) :
-        new Object::Members::Attribute;
-      *attr = *(static_cast<Object::Members::Attribute *>(item->tmpMember_));
-      if (!item->member_)
-        item->member_ = attr;
-      attributes_.push_back(attr);
-      attr->label->setParentItem(attrRect_);
-      attr->updateLabel();
-      if (attr->label->boundingRect().width() > width)
-      	width = attr->label->boundingRect().width();
-    }
-  // For each operation, push it in attr list, updateLabel and get width
-  opeRows = ui.opeList->count();
-  for (i = 0; i < opeRows; ++i)
-    {
-      item = static_cast<CplusplusML::MemberListItem *>(ui.opeList->item(i));
-      ope = item->member_ ?
-        static_cast<Object::Members::Operation *>(item->member_) :
-        new Object::Members::Operation;
-      *ope = *(static_cast<Object::Members::Operation *>(item->tmpMember_));
-      if (!item->member_)
-        item->member_ = ope;
-      operations_.push_back(ope);
-      ope->label->setParentItem(opeRect_);
-      ope->updateLabel();
-      if (ope->label->boundingRect().width() > width)
-      	width = ope->label->boundingRect().width();
-    }
-  // Min width 124
-  if (width < 124)
-    width = 124;
-  // For padding
-  width += 4;
-  x_ = width / -2;
-  removeFromGroup(titleRect_);
-  titleRect_->setRect(x_, y_, width, height);
-  addToGroup(titleRect_);
-  titleLabel_->setPos(titleLabel_->boundingRect().width() / -2 + 2, y_ + 2);
-  // Remove from group otherwise no boundingrect update
-  attrRect_->setRect(x_, y_ + height, width, attrRows * height);
-  // Update pos of all attributes and add to group
-  for (i = 0, attrIt = attributes_.begin(); attrIt != attributes_.end(); ++attrIt, ++i)
-    (*attrIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
-  removeFromGroup(attrRect_);
-  addToGroup(attrRect_);
-  // Same with operations
-  opeRect_->setRect(x_, y_ + (attrRows + 1) * height, width,
-                    height * opeRows);
-  for (opeIt = operations_.begin(); opeIt != operations_.end(); ++opeIt, ++i)
-    (*opeIt)->label->setPos(x_ + 2, y_ + (i + 1) * height + 2);
-  removeFromGroup(opeRect_);
-  addToGroup(opeRect_);
+    // Update position
+    x_ = width / -2;
+    y_ = (titleHeight + attrHeight + opeHeight) / -2;
+
+    // Update labels position
+    typeLabel_->setPos(x_ + width / 2 - typeLabel_->boundingRect().width() / 2 + 2, y_ + 2);
+    titleLabel_->setPos(x_ + width / 2 - titleLabel_->boundingRect().width() / 2 + 2,
+                        y_ + typeLabel_->boundingRect().height() + 6);
+    // Update rects
+    titleRect_->setRect(x_, y_, width, titleHeight);
+    attrRect_->setRect(x_, y_ + titleHeight, width, attrHeight);
+    opeRect_->setRect(x_, y_ + titleHeight + attrHeight, width, opeHeight);
+
+    // Update labels pos
+    i = 0;
+    for (Attribute *attr : attributes_)
+      attr->label->setPos(x_ + 2, y_ + titleHeight + (i++ * lineHeight) + 2);
+    i = 0;
+    for (Operation *ope : operations_)
+      ope->label->setPos(x_ + 2, y_ + titleHeight + attrHeight + (i++ * lineHeight) + 2);
+
+    // Add rects again to group
+    addToGroup(titleRect_);
+    addToGroup(attrRect_);
+    addToGroup(opeRect_);
+  }
+
+  void                  Complex_::AddArrow(Arrow_ *arrow)
+  {
+    arrows_.insert(arrow);
+  }
+
+  void                  Complex_::RemoveArrow(Arrow_ *arrow)
+  {
+    arrows_.erase(arrow);
+  }
+
+  void                  Complex_::updateFromForm(Ui::ComplexProperty const &ui)
+  {
+    CplusplusML::MemberListItem   *item;
+    Attribute           *attr;
+    Operation           *ope;
+
+    // Get informations
+    title_ = ui.name->text().toStdString();
+    isAbstract_ = ui.isAbstract->checkState();
+    isAttrVisible_ = ui.isAttrVisible->checkState();
+    isOpeVisible_ = ui.isOpeVisible->checkState();
+
+    // Erase deleted attributes
+    for (auto it = attributes_.begin(); it != attributes_.end();)
+      {
+        if ((*it)->deleted)
+          delete *it;
+        it = attributes_.erase(it);
+      }
+
+    // Erase deleted operations
+    for (auto it = operations_.begin(); it != operations_.end();)
+      {
+        if ((*it)->deleted)
+          delete *it;
+        it = operations_.erase(it);
+      }
+
+    // For each attribute, push it in attr list
+    for (int i = 0; i < ui.attrList->count(); ++i)
+      {
+        item = static_cast<CplusplusML::MemberListItem *>(ui.attrList->item(i));
+        attr = item->member_ ? static_cast<Attribute *>(item->member_) : new Attribute;
+        *attr = *(static_cast<Attribute *>(item->tmpMember_));
+        if (!item->member_)
+          item->member_ = attr;
+        attributes_.push_back(attr);
+      }
+
+    // For each operation, push it in attr list, updateLabel and get width
+    for (int i = 0; i < ui.opeList->count(); ++i)
+      {
+        item = static_cast<CplusplusML::MemberListItem *>(ui.opeList->item(i));
+        ope = item->member_ ? static_cast<Operation *>(item->member_) : new Operation;
+        *ope = *(static_cast<Operation *>(item->tmpMember_));
+        if (!item->member_)
+          item->member_ = ope;
+        operations_.push_back(ope);
+      }
+
+    updateGraphics();
+  }
 }

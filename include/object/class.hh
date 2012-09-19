@@ -1,17 +1,16 @@
-#ifndef _CLASS_H_
-#define _CLASS_H_
+#ifndef         _CPLUSPLUSML_OBJECT_CLASS_H_
+# define        _CPLUSPLUSML_OBJECT_CLASS_H_
 
-#include "complex.hh"
+# include       "complex.hh"
 
-namespace Object
+namespace               Object
 {
-  class Class : public Complex_
+  class                 Class : public Complex_
   {
   public:
-    Class() { }
+    Class();
     ~Class() { }
-    char Label_();
   };
 }
 
-#endif /* _CLASS_H_ */
+#endif // _CPLUSPLUSML_OBJECT_CLASS_H_
