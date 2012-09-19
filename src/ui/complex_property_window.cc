@@ -4,10 +4,10 @@
 #include        "object/complex.hh"
 
 using namespace std; //DEBUG
-using namespace Object::Members;
 
 namespace               CplusplusML
 {
+  using namespace       Object::Members;
   // CTORS
   ComplexPropertyWindow::ComplexPropertyWindow():
     ui(new Ui::ComplexProperty),
@@ -139,11 +139,12 @@ namespace               CplusplusML
     MemberListItem      *item;
     Attribute           *attr;
 
+    if (!(item = static_cast<MemberListItem *>(ui->attrList->currentItem())))
+      return;
     ui->attrName->setText(ui->attrName->text().trimmed());
     ui->attrType->setText(ui->attrType->text().trimmed());
     ui->attrValue->setText(ui->attrValue->text().trimmed());
 
-    item = static_cast<MemberListItem *>(ui->attrList->currentItem());
     attr = static_cast<Attribute *>(item->tmpMember_);
     attr->name = ui->attrName->text().toStdString();
     attr->type = ui->attrType->text().toStdString();
@@ -163,7 +164,8 @@ namespace               CplusplusML
       return;
 
     clearAttrData();
-    item = static_cast<MemberListItem *>(ui->attrList->currentItem());
+    if (!(item = static_cast<MemberListItem *>(ui->attrList->currentItem())))
+      return;
     attr = static_cast<Attribute *>(item->tmpMember_);
     ui->attrName->setText(attr->name.c_str());
     ui->attrType->setText(attr->type.c_str());
@@ -208,8 +210,9 @@ namespace               CplusplusML
         ui->attrGroupBox->setEnabled(false);
         ui->attrDelButton->setEnabled(false);
       }
-    ui->attrUpButton->setEnabled(ui->attrList->currentRow() > 0);
-    ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
+    row = ui->attrList->currentRow();
+    ui->attrUpButton->setEnabled(row > 0);
+    ui->attrDownButton->setEnabled(row + 1 < ui->attrList->count());
   }
   
   // OPERATIONS
@@ -260,10 +263,11 @@ namespace               CplusplusML
     MemberListItem      *item;
     Operation           *ope;
 
+    if (!(item = static_cast<MemberListItem *>(ui->opeList->currentItem())))
+      return;
     ui->opeName->setText(ui->opeName->text().trimmed());
     ui->opeType->setText(ui->opeType->text().trimmed());
 
-    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(item->tmpMember_);
     ope->name = ui->opeName->text().toStdString();
     ope->type = ui->opeType->text().toStdString();
@@ -309,7 +313,9 @@ namespace               CplusplusML
       return;
 
     clearOpeData();
-    item = static_cast<MemberListItem *>(ui->opeList->currentItem());
+    if (!(item = static_cast<MemberListItem *>(ui->opeList->currentItem())))
+      return;
+
     ope = static_cast<Operation *>(item->tmpMember_);
     ui->opeName->setText(ope->name.c_str());
     ui->opeType->setText(ope->type.c_str());
@@ -397,14 +403,13 @@ namespace               CplusplusML
     MemberListItem      *opeItem;
     Operation           *ope;
 
-    if (!ui->opeParamList->count())
+    if (!ui->opeParamList->count() || !(item = ui->opeParamList->currentItem()))
       return;
 
     ui->opeParamName->setText(ui->opeParamName->text().trimmed());
     ui->opeParamType->setText(ui->opeParamType->text().trimmed());
     ui->opeParamValue->setText(ui->opeParamValue->text().trimmed());
     
-    item = ui->opeParamList->currentItem();
     opeItem = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(opeItem->tmpMember_);
     auto it = ope->parameters.begin();
@@ -475,6 +480,7 @@ namespace               CplusplusML
 
     if (!ui->opeParamList->count())
       return;
+
     clearOpeParamData();
     opeItem = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(opeItem->tmpMember_);
