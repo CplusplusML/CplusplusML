@@ -2,9 +2,9 @@
 
 #include	"object/members.hh"
 
-namespace				Object
+namespace               Object
 {
-  namespace				Members
+  namespace             Members
   {
     // AMember
 
@@ -19,10 +19,10 @@ namespace				Object
     AMember::~AMember()
     {
       if (label)
-	delete label;
+        delete label;
     }
 
-    void				AMember::operator=(AMember const &m)
+    void                AMember::operator=(AMember const &m)
     {
       name = m.name;
       type = m.type;
@@ -37,28 +37,28 @@ namespace				Object
     {
     }
 
-    void				Attribute::operator=(Attribute const &a)
+    void                Attribute::operator=(Attribute const &a)
     {
       AMember::operator=(a);
 
       defaultValue = a.defaultValue;
     }
 
-    std::string				Attribute::toString(void) const
+    std::string         Attribute::toString(void) const
     {
-      std::string			text;
+      std::string       text;
 
       text += visibilityName(visibility);
       if (!type.empty())
-	text += type;
+        text += type;
       if (!name.empty())
-	{
-	  if (!type.empty())
-	    text += ' ';
-	  text += name;
-	}
+        {
+          if (!type.empty())
+            text += ' ';
+          text += name;
+        }
       if (!defaultValue.empty())
-	text += " = " + defaultValue;
+        text += " = " + defaultValue;
 
       return (text);
     }
@@ -72,7 +72,7 @@ namespace				Object
     {
     }
 
-    void				Operation::operator=(Operation const &o)
+    void                Operation::operator=(Operation const &o)
     {
       AMember::operator=(o);
       isConst = o.isConst;
@@ -80,59 +80,59 @@ namespace				Object
       parameters = o.parameters;
     }
 
-    std::string				Operation::toString(void) const
+    std::string         Operation::toString(void) const
     {
-      std::string			text;
+      std::string       text;
 
       text += visibilityName(visibility);
       if (inhType == VIRTUAL || inhType == PURE)
-	text += "virtual ";
+        text += "virtual ";
       if (!type.empty())
-	text += type;
+        text += type;
       if (!name.empty())
-	{
-	  if (!type.empty())
-	    text += ' ';
-	  text += name;
-	}
+        {
+          if (!type.empty())
+            text += ' ';
+          text += name;
+        }
       text += '(';
       {
-	bool				coma = false;
-	std::list<Parameter>::const_iterator it = parameters.begin();
-	for (; it != parameters.end(); ++it)
-	  {
-	    if (coma)
-	      text += ',';
-	    coma = true;
-	    text += it->toString();
-	  }
+        bool            coma = false;
+        std::list<Parameter>::const_iterator it = parameters.begin();
+        for (; it != parameters.end(); ++it)
+          {
+            if (coma)
+              text += ',';
+            coma = true;
+            text += it->toString();
+          }
       }
       text += ')';
       if (isConst)
-	text += " const";
+        text += " const";
       if (inhType == PURE)
-	text += " = 0";
+        text += " = 0";
 
       return (text);
     }
 
-    std::string				Operation::Parameter::toString(bool inList) const
+    std::string         Operation::Parameter::toString(bool inList) const
     {
-      std::string			text;
+      std::string       text;
 
       if (!type.empty())
-	text += type;
+        text += type;
       if (!name.empty())
-	{
-	  if (!type.empty())
-	    text += ' ';
-	  text += name;
-	}
+        {
+          if (!type.empty())
+            text += ' ';
+          text += name;
+        }
       if (!defValue.empty())
-	text +=  " = " + defValue;
+        text +=  " = " + defValue;
 
       if (text.empty() && inList)
-	text = ':';
+        text = ':';
 
       return (text);
     }

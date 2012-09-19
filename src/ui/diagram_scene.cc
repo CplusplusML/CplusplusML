@@ -91,7 +91,7 @@ namespace			CplusplusML
     if (!selectedItems().empty())
       {
 	if ((complex = qgraphicsitem_cast<Object::Complex_ *>(selectedItems().first())))
-	  complex->updateFromForm(complexProperties_);
+	  complex->updateFromForm(*complexProperties_.ui);
       }
   }
 
