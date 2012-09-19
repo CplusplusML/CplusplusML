@@ -14,7 +14,7 @@ namespace AST
   template <>
   struct Traits<Namespace>
   {
-    typedef boost::mpl::vector<Namespace, Class> AuthorizedTypes;
+    typedef boost::mpl::vector<Namespace, Class, Struct> AuthorizedTypes;
   };
 
   class Namespace : public BasicElement<Namespace>

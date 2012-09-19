@@ -2,12 +2,24 @@
 #ifndef CLASS_HPP_
 # define CLASS_HPP_
 
+# include "Visibility.hpp"
+
+namespace AST
+{
+
+template <Visibility V>
+class ClassTP;
+
+typedef ClassTP<Visibility::PUBLIC> Struct;
+typedef ClassTP<Visibility::PRIVATE> Class;
+
+}
+
 # include "BasicElement.hpp"
 # include "Value.hpp"
 # include "Array.hpp"
 # include "Template.hpp"
 # include "Function.hpp"
-# include "Visibility.hpp"
 # include "Inheritance.hpp"
 # include "Temp.hpp"
 
@@ -40,25 +52,21 @@ namespace AST
     Visibility _visibility;
   };
 
-  class Class;
+  template <typename T>
+  struct Prefix;
 
-  template <>
-  struct Traits<Class>
-  {
-    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>
-      > AuthorizedTypes;
-  };
-
-  class Class : public BasicElement<Class>, public Templateable
+  template <Visibility V>
+  class ClassTP : public BasicElement<ClassTP<V> >, public Templateable
   {
   public:
-    using BasicElement::name;
+    typedef BasicElement<ClassTP<V> > BasicElementType;
+    using BasicElementType::name;
     using Templateable::Templates;
 
-    Class(const std::string &name) : BasicElement<Class>(name)
+    ClassTP(const std::string &name) : BasicElementType(name)
     {}
 
-    ~Class()
+    ~ClassTP()
     {}
 
     void Inherit(const Inheritance &i)
@@ -67,44 +75,76 @@ namespace AST
     }
 
     template <class C>
-    void Insert(const C& c, const Visibility v = Visibility::PRIVATE)
+    void Insert(const C& c, const Visibility v = V)
     {
-      BasicElement::Insert(Member<C>(c, v));
+      BasicElementType::Insert(Member<C>(c, v));
     }
 
     template <class C>
     std::shared_ptr<C> Get(const C& c)
     {
-      return BasicElement::Get(Member<C>(c, Visibility::NotAvailable));
+      return BasicElementType::Get(Member<C>(c, Visibility::NotAvailable));
     }
 
     friend std::ostream& operator<<(std::ostream &o,
-				    const Class &c)
+				    const ClassTP<V> &c)
     {
       o << static_cast<Templateable>(c) << std::endl;
-      o << "class " << c.name();
+      o << Prefix<ClassTP<V> >::prefix() << ' ' << c.name();
       if (c._inheritance.size() > 0)
-	{
-	  o << " : ";
-	  bool b = false;
-	  for (const auto &x : c._inheritance)
-	    {
-	      if (b)
-		o << ", ";
-	      else
-		b = true;
-	      o << x;
-	    }
-	}
+      	{
+      	  o << " : ";
+      	  bool b = false;
+      	  for (const auto &x : c._inheritance)
+      	    {
+      	      if (b)
+      	  	o << ", ";
+      	      else
+      	  	b = true;
+      	      o << x;
+      	    }
+      	}
       o << std::endl;
       o << "{" << std::endl;
-      o << static_cast<BasicElement<Class> >(c);
+      o << static_cast<BasicElementType>(c);
       o << "};" << std::endl;
       return (o);
     }
    
   private:
     std::vector<Inheritance> _inheritance;
+  };
+
+  template <>
+  struct Traits<Class>
+  {
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>, Member<Struct>
+      > AuthorizedTypes;
+  };
+
+  template <>
+  struct Traits<Struct>
+  {
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>, Member<Struct>
+      > AuthorizedTypes;
+  };
+
+  template <>
+  struct Prefix<Struct>
+  {
+    static const char* prefix()
+    {
+      return ("struct");
+    }
+  };
+
+  template <>
+  struct Prefix<Class>
+  {
+    static const char* prefix()
+    {
+      return ("class");
+    }
   };
 
 }

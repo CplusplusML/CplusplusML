@@ -7,38 +7,50 @@ int main(void)
 {
   AST::AST ast;
 
-  ast.Insert(AST::Namespace("Namespace"));
-  std::shared_ptr<AST::Namespace> n = ast.Get(AST::Namespace("Namespace"));
-  n->Insert(AST::Class("Class1"));
-  n->Insert(AST::Class("Class2"));
+  ast.Insert(AST::Namespace("::"));
+  std::shared_ptr<AST::Namespace> n = ast.Get(AST::Namespace("::"));
+  n->Insert(AST::Struct("Abidbul"));
+
+  if (0)
+    {
+      AST::Class c("Bar");
+      c.Inherit(AST::Inheritance(
+      				 *(n->Get(AST::Struct("Abidbul"))),
+      				   AST::Visibility::PRIVATE
+      				 ));
+      n->Insert(c);
+      std::cout << ast << std::endl;
+      return (0);
+    }
+
   {
-    auto c = n->Get(AST::Class("Class1"));
-
-    c->Insert(AST::Class("Class_nested"), AST::Visibility::PUBLIC);
-
-    c->Insert(AST::Temp("i", "int i_"));
-
-    c->Inherit(
-	       *n->Get(AST::Class("Class2"))
-	       );
+    AST::Struct NumType("NumType");
+    NumType.Templates(AST::Template::TypeNumeric("i"));
+    n->Insert(NumType);
   }
   {
-    AST::Class bar("Bar");
-    bar.Templates(AST::Template::Type("T"));
-    n->Insert(bar);
-
-    AST::Template::Template c("C");
-    c.Templates(AST::Template::Type("T"));
-
-    AST::Class foo("Foo");
-    foo.Templates(c);
-    n->Insert(foo);
+    AST::Struct Americaine("Americaine");
+    Americaine.Templates(AST::Template::Type("T0"), AST::Template::Type("T1"));
+    n->Insert(Americaine);
   }
-
   {
-    AST::Class bar("Bar<int>");
-    bar.Templates();
-    n->Insert(bar);    
+    AST::Struct Americaine("Americaine<T0, Abidbul>");
+    Americaine.Templates(AST::Template::Type("T0"));
+    n->Insert(Americaine);
+  }
+  {
+    AST::Struct Americaine("Americaine<NumType<i>, Abidbul>");
+    Americaine.Templates(AST::Template::TypeNumeric("i"));
+    n->Insert(Americaine);
+  }
+  {
+    AST::Struct Americaine("Americaine<Lol<Americaine>, Abidbul>");
+    AST::Template::Template temp("Lol"), anonymous;
+    anonymous.Templates(AST::Template::Type(""),
+			AST::Template::Type(""));
+    temp.Templates(anonymous);
+    Americaine.Templates(temp);
+    n->Insert(Americaine);
   }
 
   std::cout << ast << std::endl;

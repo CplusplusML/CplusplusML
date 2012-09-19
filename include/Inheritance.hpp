@@ -6,25 +6,57 @@
 
 namespace AST
 {
-  class Class;
+  template <Visibility V>
+  class ClassTP;
 
   class Inheritance
   {
   public:
-    Inheritance(Class &c, Visibility v = Visibility::PRIVATE);
-    ~Inheritance();
+    template <Visibility V>
+    explicit Inheritance(ClassTP<V> &c, Visibility v = Visibility::PRIVATE) :
+      _class(&c), _visibility(v)
+    {}
 
-    friend bool operator==(const Inheritance &inh, const Class &c);
+    ~Inheritance()
+    {}
 
-    friend bool operator==(const Class &c, const Inheritance &inh);
+    Inheritance &operator=(const Inheritance& inh)
+    {
+      if (this == &inh)
+	return (*this);
+      _class = inh._class;
+      _visibility = inh._visibility;
+      return (*this);
+    }
 
-    friend std::ostream& operator<<(std::ostream &o,
-				    Inheritance inh);
+    template <Visibility V>
+    friend bool operator==(const Inheritance &inh, const ClassTP<V> &c);
+
+    template <Visibility V>
+    friend bool operator==(const ClassTP<V> &c, const Inheritance &inh);
 
   private:
     // CA PUE DU CUL VENER! GO SMART POINTER!
-    const Class* _class;
+    boost::variant<Struct*, Class*> _class;
     Visibility _visibility;
+
+    struct NameVisitor : public boost::static_visitor<const std::string&>
+    {
+      template <typename T>
+      const std::string& operator()(const T *t) const
+      {
+	return (t->name());
+      }
+    };
+
+    friend std::ostream& operator<<(std::ostream &o,
+  				    Inheritance inh)
+    {
+      o << inh._visibility;
+      o << " ";
+      o << boost::apply_visitor(Inheritance::NameVisitor(), inh._class);
+      return (o);
+    }
   };
 }
 
