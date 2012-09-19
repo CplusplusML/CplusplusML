@@ -21,9 +21,11 @@ namespace CplusplusML
     void About();
     void WebSite();
     void Help();
+    void Zoom(QAction *action);
     void manageToolbarActions(QAction *action);
 
   private:
+    qreal current_scale_;
     QDialog aboutWindow_;
     QDialog webSiteWindow_;
     QDialog helpWindow_;

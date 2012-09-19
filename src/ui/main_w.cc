@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QtGui>
 #include <QDesktopServices>
+#include <QtGlobal>
 
 #include "ui/main_w.h"
 #include "ui_AboutWindow.h"
@@ -11,7 +12,6 @@
 
 #include "object/class.hh"
 #include "object/dependency.hh"
-
 
 namespace CplusplusML
 {
@@ -31,6 +31,26 @@ namespace CplusplusML
       Ui::HelpWindow	help_window_ui;
       help_window_ui.setupUi(&helpWindow_);
       connect(actionHelp, SIGNAL(triggered()), this, SLOT(Help()));
+
+      // Zoom
+      {
+      QActionGroup* zoomActionGroup = new QActionGroup(this);
+
+      zoomActionGroup->setExclusive(true);
+
+      zoomActionGroup->addAction(action200);
+      zoomActionGroup->addAction(action175);
+      zoomActionGroup->addAction(action150);
+      zoomActionGroup->addAction(action125);
+      zoomActionGroup->addAction(action100);
+      zoomActionGroup->addAction(action85);
+      zoomActionGroup->addAction(action50);
+      zoomActionGroup->addAction(action25);
+      zoomActionGroup->addAction(actionZoom);
+      zoomActionGroup->addAction(actionZoom_2);
+      connect(zoomActionGroup, SIGNAL(selected(QAction *)), this, SLOT(Zoom(QAction *)));
+      }
+      // end Zoom
 
       connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -75,6 +95,41 @@ namespace CplusplusML
 
   Main_W::~Main_W()
   {
+  }
+
+  void Main_W::Zoom(QAction *action)
+  {
+    qreal factor;
+
+    static const std::map<QAction *, qreal> objectMap=
+      {
+        {action25, 0.25},
+        {action50, 0.5},
+        {action85, 0.75},
+        {action100, 1},
+        {action125, 1.25},
+        {action150, 1.5},
+        {action175, 1.75},
+        {action200, 2},
+      };
+
+    if (action == actionZoom)
+      factor = 1.2;
+    else if (action == actionZoom_2)
+      factor = 1 / 1.2;
+    else
+      {
+        std::map<QAction *, qreal>::const_iterator found;
+        found = objectMap.find(action);
+        if (found == objectMap.end())
+          {
+            std::cerr << "Action not found" << std::endl;
+            return;
+          }
+        factor = (1 / scene_.getScale()) * found->second;
+      }
+    scene_.scaleBy(factor);
+    graphicsView->scale(factor, factor);
   }
 
   void Main_W::About()

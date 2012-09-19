@@ -3,7 +3,7 @@
 
 #include	<QGraphicsScene>
 #include	<QGraphicsItem>
-
+#include  <QtGlobal>
 #include	"object/basic.hh"
 
 #include	"ui/complex_property_window.hh"
@@ -15,11 +15,13 @@ namespace			CplusplusML
     Q_OBJECT
 
   public:
-    
+
+    constexpr static qreal maximumScale = 10;
+
     enum			Mode
       {
-	modeInsertItem,
-	modeMoveItem
+        modeInsertItem,
+        modeMoveItem
       };
 
     DiagramScene();
@@ -44,6 +46,19 @@ namespace			CplusplusML
       return (currentMode_);
     }
 
+    inline qreal			getScale(void) const
+    {
+      return (currentScale_);
+    }
+
+    inline void			scaleBy(qreal factor)
+    {
+      currentScale_ = factor * currentScale_;
+      if (currentScale_ >= maximumScale)
+        currentScale_ = maximumScale;
+    }
+
+
   signals:
 
     void			itemInserted(QGraphicsItem *item);
@@ -58,10 +73,11 @@ namespace			CplusplusML
     void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void			mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    
+
 
   private:
 
+    qreal       currentScale_;
     Object::ObjectType		currentItem_;
     Mode			currentMode_;
     ComplexPropertyWindow	complexProperties_;

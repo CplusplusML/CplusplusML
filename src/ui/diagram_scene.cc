@@ -16,6 +16,7 @@ namespace			CplusplusML
 {
 
   DiagramScene::DiagramScene():
+    currentScale_(1),
     currentItem_(Object::objectClass),
     currentMode_(modeMoveItem)
   {
