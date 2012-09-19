@@ -149,6 +149,8 @@ namespace               Object
     addToGroup(titleRect_);
     addToGroup(attrRect_);
     addToGroup(opeRect_);
+
+    adjustConnections();
   }
 
   void                  Complex_::updateFromForm(Ui::ComplexProperty const &ui)
