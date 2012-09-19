@@ -25,7 +25,6 @@ namespace CplusplusML
 
   private:
     QDialog aboutWindow_;
-    QDialog webSiteWindow_;
     QDialog helpWindow_;
     QDockWidget *toolbar_;
     DiagramScene scene_;
