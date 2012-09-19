@@ -57,7 +57,7 @@ namespace AST
   struct Prefix;
 
   template <Visibility V>
-  class ClassTP : public BasicElement<ClassTP<V> >, public Templateable
+  class ClassTP : public BasicElement<ClassTP<V> >, public Templateable, public Specializeable
   {
   public:
     typedef BasicElement<ClassTP<V> > BasicElementType;

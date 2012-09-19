@@ -33,7 +33,10 @@ int main(void)
   }
 
   {
-    AST::Struct Americaine("Americaine<Lol<Americaine>, Abidbul>");
+    AST::Struct Americaine("Americaine");
+    Americaine.Specialize(AST::Specialization("<Lol<Americaine>"));
+    Americaine.Specialize(AST::Specialization("Abidbul"));
+
     AST::Template::Template temp("Lol"), anonymous;
     anonymous.Templates(AST::Template::Type(""),
 			AST::Template::Type(""));

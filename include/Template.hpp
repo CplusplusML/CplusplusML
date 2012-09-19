@@ -87,10 +87,85 @@ namespace AST
 
   }
 
+  struct Specialization
+  {
+    Specialization(const std::string &s) : _str(s)
+    {}
+
+    ~Specialization()
+    {}
+
+    friend std::ostream &operator<<(std::ostream &o, const Specialization& s)
+    {
+      o << s._str;
+      return (o);
+    }
+
+  private:
+    std::string _str;
+  };
+
+  class Specializeable
+  {
+  public:
+    Specializeable() : _specialized(false)
+    {}
+
+    ~Specializeable()
+    {}
+
+    template <typename ...Rest>
+    void Specialize(const Specialization &s, const Rest&... rest)
+    {
+      Specialize(s);
+      Specialize(rest...);
+    }
+
+    void Specialize(const Specialization &s)
+    {
+      _specializations.push_back(s);
+    }
+
+    void Specialize()
+    {
+      _specialized = true;
+    }
+
+  private:
+    inline bool isSpecialized() const
+    {
+      return (_specializations.size() > 0 || _specialized == true);
+    }
+
+    friend std::ostream &operator<<(std::ostream &o, const Specializeable &t)
+    {
+      if (t.isSpecialized())
+	{
+	  unsigned int first = true;
+	  o << "<";
+	  for (auto c: t._specializations)
+	    {
+	      if (!first)
+		o << ",";
+	      o << c;
+	      first = false;
+	    }
+	  o << ">";
+	}
+      return (o);
+    }
+
+    bool _specialized;
+    std::vector<Specialization> _specializations;
+  };
+
   class Templateable
   {
   public:
     Templateable() : _templated(false)
+    {}
+
+    ~Templateable()
     {}
 
     template <typename T, typename ...Rest>
