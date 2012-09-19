@@ -15,8 +15,8 @@ int main(void)
     {
       AST::Class c("Bar");
       c.Inherit(AST::Inheritance(
-      				 *(n->Get(AST::Struct("Abidbul"))),
-      				   AST::Visibility::PRIVATE
+      				 n->Get(AST::Struct("Abidbul")),
+				 AST::Visibility::PRIVATE
       				 ));
       n->Insert(c);
       std::cout << ast << std::endl;
@@ -43,6 +43,7 @@ int main(void)
     Americaine.Templates(AST::Template::TypeNumeric("i"));
     n->Insert(Americaine);
   }
+
   {
     AST::Struct Americaine("Americaine<Lol<Americaine>, Abidbul>");
     AST::Template::Template temp("Lol"), anonymous;

@@ -13,37 +13,37 @@ namespace AST
   {
   public:
     template <Visibility V>
-    explicit Inheritance(ClassTP<V> &c, Visibility v = Visibility::PRIVATE) :
-      _class(&c), _visibility(v)
+    explicit Inheritance(std::shared_ptr<ClassTP<V> > c, Visibility v = Visibility::PRIVATE) :
+      _class(c), _visibility(v)
     {}
 
     ~Inheritance()
     {}
 
-    Inheritance &operator=(const Inheritance& inh)
-    {
-      if (this == &inh)
-	return (*this);
-      _class = inh._class;
-      _visibility = inh._visibility;
-      return (*this);
-    }
+    // Inheritance &operator=(const Inheritance& inh)
+    // {
+    //   if (this == &inh)
+    // 	return (*this);
+    //   _class = inh._class;
+    //   _visibility = inh._visibility;
+    //   return (*this);
+    // }
 
-    template <Visibility V>
-    friend bool operator==(const Inheritance &inh, const ClassTP<V> &c);
+    // template <Visibility V>
+    // friend bool operator==(const Inheritance &inh, const ClassTP<V> &c);
 
-    template <Visibility V>
-    friend bool operator==(const ClassTP<V> &c, const Inheritance &inh);
+    // template <Visibility V>
+    // friend bool operator==(const ClassTP<V> &c, const Inheritance &inh);
 
   private:
     // CA PUE DU CUL VENER! GO SMART POINTER!
-    boost::variant<Struct*, Class*> _class;
+    boost::variant<std::shared_ptr<Struct>, std::shared_ptr<Class> > _class;
     Visibility _visibility;
 
     struct NameVisitor : public boost::static_visitor<const std::string&>
     {
       template <typename T>
-      const std::string& operator()(const T *t) const
+      const std::string& operator()(const std::shared_ptr<T> t) const
       {
 	return (t->name());
       }
