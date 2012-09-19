@@ -42,7 +42,6 @@ namespace               Object
 
     for (int i = 0; i < 8; ++i)
       connections.append(new ArrowConnection(this));
-    adjustConnections();
   }
 
   Complex_::~Complex_()
