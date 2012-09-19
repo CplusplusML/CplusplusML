@@ -11,6 +11,7 @@
 # include "Function.hpp"
 # include "Visibility.hpp"
 # include "Inheritance.hpp"
+# include "Typedef.hpp"
 # include "Temp.hpp"
 
 #endif	// !ASSED_HPP_

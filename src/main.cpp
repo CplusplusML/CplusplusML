@@ -11,18 +11,6 @@ int main(void)
   std::shared_ptr<AST::Namespace> n = ast.Get(AST::Namespace("::"));
   n->Insert(AST::Struct("Abidbul"));
 
-  if (0)
-    {
-      AST::Class c("Bar");
-      c.Inherit(AST::Inheritance(
-      				 n->Get(AST::Struct("Abidbul")),
-				 AST::Visibility::PRIVATE
-      				 ));
-      n->Insert(c);
-      std::cout << ast << std::endl;
-      return (0);
-    }
-
   {
     AST::Struct NumType("NumType");
     NumType.Templates(AST::Template::TypeNumeric("i"));
@@ -52,6 +40,11 @@ int main(void)
     temp.Templates(anonymous);
     Americaine.Templates(temp);
     n->Insert(Americaine);
+  }
+  {
+    AST::TemplatedTypedef Californienne("Californienne", "Americaine<NumType<i>, Abidbul>");
+    Californienne.Templates(AST::Template::TypeNumeric("i"));
+    n->Insert(Californienne);
   }
 
   std::cout << ast << std::endl;

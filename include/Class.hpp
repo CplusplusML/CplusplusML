@@ -21,6 +21,7 @@ typedef ClassTP<Visibility::PRIVATE> Class;
 # include "Template.hpp"
 # include "Function.hpp"
 # include "Inheritance.hpp"
+# include "Typedef.hpp"
 # include "Temp.hpp"
 
 namespace AST
@@ -118,16 +119,13 @@ namespace AST
   template <>
   struct Traits<Class>
   {
-    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>, Member<Struct>
+    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>, Member<Struct>, Typedef, TemplatedTypedef
       > AuthorizedTypes;
   };
 
   template <>
-  struct Traits<Struct>
-  {
-    typedef boost::mpl::vector<Member<Function>, Member<Class>, Member<Value>, Value, Member<Array>, Array, Member<Temp>, Member<Struct>
-      > AuthorizedTypes;
-  };
+  struct Traits<Struct> : public Traits<Class>
+  {};
 
   template <>
   struct Prefix<Struct>

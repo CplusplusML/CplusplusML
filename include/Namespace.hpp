@@ -6,6 +6,7 @@
 
 # include "BasicElement.hpp"
 # include "Class.hpp"
+# include "Typedef.hpp"
 
 namespace AST
 {
@@ -14,7 +15,7 @@ namespace AST
   template <>
   struct Traits<Namespace>
   {
-    typedef boost::mpl::vector<Namespace, Class, Struct> AuthorizedTypes;
+    typedef boost::mpl::vector<Namespace, Class, Struct, TemplatedTypedef, Typedef> AuthorizedTypes;
   };
 
   class Namespace : public BasicElement<Namespace>
