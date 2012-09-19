@@ -22,6 +22,7 @@ namespace CplusplusML
     void WebSite();
     void Help();
     void manageToolbarActions(QAction *action);
+    void setDefaultAction();
 
   private:
     QDialog aboutWindow_;

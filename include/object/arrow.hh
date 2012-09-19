@@ -3,46 +3,66 @@
 
 #include "basic.hh"
 #include "complex.hh"
+#include "arrow_connection.hh"
 
 namespace Object
 {
-  class Arrow_ : public Basic_
+  class GrabHandle : public QGraphicsRectItem
   {
   public:
-    Arrow_(Complex_ &start,
-           const QPointF &coord) : start_(start), endPoint_(coord)
-    {
-      start.AddArrow(this);
+    GrabHandle(QGraphicsItem* parent);
 
-      //      std::cout << "test : " << (start.boundingRect().x()  - start.boundingRect().width() / 2) << std::endl;
-      startPoint_.setX(start.boundingRect().x() - start.boundingRect().width() / 2);
-      startPoint_.setY(start.boundingRect().y() + start.boundingRect().height() / 2);
+    void moveCenter(QPointF const& center);
+  };
 
-      // std::cout << "end x=" << end.boundingRect().x() << std::endl;
-      // std::cout << "end y=" << end.boundingRect().y() << std::endl;
-      // end.AddArrow(this);
-    }
+  class ArrowConnection;
+
+  class Arrow_ : public QGraphicsObject
+  {
+    Q_OBJECT
+
+  public:
+    Arrow_();
 
     virtual ~Arrow_() { }
 
     void Render(void);
 
-    // QRectF boundingRect() const;
-    // void paint(QPainter *painter, const QStyleOptionGraphicsItem *,
-    //                             QWidget *);
+    void adjustHandles();
+    void disableHandles();
+    void enableHandles();
+
+    void adjustConnections();
+    ArrowConnection* searchConnection(QPointF const& point);
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+    void paint(QPainter *painter,
+               const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
+    QPainterPath shape() const;
+    QRectF boundingRect() const;
+
+    bool sceneEvent(QEvent* event);
+    bool sceneEventFilter(QGraphicsItem *watched,
+                          QEvent *event);
 
   private:
-    virtual QGraphicsItem *Head() = 0;
-    Complex_    &start_;
-    QPointF     startPoint_;
-    QPointF     endPoint_;
+    QPen        pen;
+    QPen        outlinePen;
+    QPointF     tail;
+    QPointF     head;
+
+    GrabHandle*  handles[2];
+    GrabHandle*  pressedHandle;
+
+    QList<ArrowConnection*> connections;
+    QMap<ArrowConnection*, QPointF*> pointLookup;
+    QMap<ArrowConnection*, QPointF*> pointReverseLookup;
+
+  public slots:
+    void connectionMoved(ArrowConnection* connection);
   };
 }
 
 #endif /* _ARROW_H_ */
-
-
-
-
-
-

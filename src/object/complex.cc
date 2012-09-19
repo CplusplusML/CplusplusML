@@ -1,5 +1,6 @@
 #include <iostream> //DEBUG
 #include "object/complex.hh"
+#include "object/dependency.hh"
 
 Object::Complex_::~Complex_()
 {
@@ -40,16 +41,24 @@ void Object::Complex_::Render(void)
   this->addToGroup(opeRect_);
   this->addToGroup(titleLabel_);
   this->setFlag(QGraphicsItem::ItemIsMovable, true);
+
+  for (int i = 0; i < 8; ++i)
+    connections.append(new ArrowConnection(this));
+  adjustConnections();
 }
 
-void    Object::Complex_::AddArrow(Arrow_ *arrow)
+void Object::Complex_::adjustConnections()
 {
-  arrows_.insert(arrow);
-}
+  QRectF borders = boundingRect();
 
-void    Object::Complex_::RemoveArrow(Arrow_ *arrow)
-{
-  arrows_.erase(arrow);
+  connections[0]->moveCenter(borders.topLeft());
+  connections[1]->moveCenter(borders.topRight());
+  connections[2]->moveCenter(borders.bottomLeft());
+  connections[3]->moveCenter(borders.bottomRight());
+  connections[4]->moveCenter(borders.topLeft() + QPointF(borders.width() / 2, 0));
+  connections[5]->moveCenter(borders.bottomLeft() + QPointF(borders.width() / 2, 0));
+  connections[6]->moveCenter(borders.topLeft() + QPointF(0, borders.height() / 2));
+  connections[7]->moveCenter(borders.topRight() + QPointF(0, borders.height() / 2));
 }
 
 void	Object::Complex_::updateFromForm(CplusplusML::ComplexPropertyWindow const &properties)

@@ -14,10 +14,12 @@
 
 # include "basic.hh"
 # include "members.hh"
+# include "arrow_connection.hh"
 
 namespace			Object
 {
   class				Arrow_;
+  class ArrowConnection;
 
   class				Complex_ : public Basic_
   {
@@ -35,7 +37,7 @@ namespace			Object
     inline void			setAttrVisible(bool v) { isAttrVisible_ = v; }
     inline void			setOpeVisible(bool v) { isOpeVisible_ = v; }
 
-    
+
     inline int			X() const { return x_; }
     inline int			Y() const { return y_; }
 
@@ -45,16 +47,17 @@ namespace			Object
     void			Render(void);
     virtual char		Label_() = 0;
 
+    void adjustConnections();
+
   public:
     std::string			title_;
     bool			isAbstract_;
     std::list<Members::Attribute *> attributes_;
     std::list<Members::Operation *> operations_;
 
-    std::set<Arrow_*>		arrows_;
-
     // QT
   protected:
+
     QGraphicsSimpleTextItem	*titleLabel_;
     QGraphicsRectItem		*titleRect_;
     QGraphicsRectItem		*attrRect_;
@@ -65,6 +68,7 @@ namespace			Object
     int				y_;
     bool			isAttrVisible_;
     bool			isOpeVisible_;
+    QVector<ArrowConnection*> connections;
   };
 }
 

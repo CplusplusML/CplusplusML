@@ -9,9 +9,7 @@ namespace Object
   class Dependency : public Arrow_
   {
   public:
-    Dependency(Complex_ &start,
-               const QPointF &coord) : Arrow_(start, coord)
-    {  }
+    Dependency() {}
 
     virtual ~Dependency() { }
   private:

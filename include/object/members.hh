@@ -7,9 +7,6 @@
 
 # include	<QGraphicsSimpleTextItem>
 
-
-class Complex_;
-
 namespace			Object
 {
   namespace			Members

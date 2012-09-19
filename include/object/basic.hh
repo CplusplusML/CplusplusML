@@ -5,6 +5,7 @@
 
 namespace Object
 {
+  // TODO: Change this to a class enum (c++11), and remove 'object' prefix
   enum ObjectType
     {
       objectCursor = 0,

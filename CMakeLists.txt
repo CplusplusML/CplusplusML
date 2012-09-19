@@ -63,11 +63,12 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow_connection.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/dependency.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/members.cc
     )
 
-SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x")
+SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x -g3")
 
 #QT Compilation
 QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
@@ -77,7 +78,9 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
         ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h
         ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/diagram_scene.hh
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/complex_property_window.hh)
+        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/complex_property_window.hh
+        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow.hh
+        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow_connection.hh)
 
 #Compilation Section
 add_executable(${PROJECT_NAME}

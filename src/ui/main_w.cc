@@ -64,6 +64,7 @@ namespace CplusplusML
     // scene
     {
       scene_.setSceneRect(QRectF(0, 0, 2000, 2000));
+      connect(&scene_, SIGNAL(itemInserted(QGraphicsItem*)), this, SLOT(setDefaultAction()));
 
       graphicsView->setScene(&scene_);
     }
@@ -112,16 +113,21 @@ namespace CplusplusML
 
     if (found == objectMap.end())
       {
-	std::cerr << "Action not found" << std::endl;
-	return;
+        std::cerr << "Action not found" << std::endl;
+        return;
       }
     if (found->second == Object::objectCursor)
       scene_.setMode(DiagramScene::modeMoveItem);
     else
       {
-	scene_.setMode(DiagramScene::modeInsertItem);
-	scene_.setCurrentItem(found->second);
+        scene_.setMode(DiagramScene::modeInsertItem);
+        scene_.setCurrentItem(found->second);
       }
+  }
+
+  void Main_W::setDefaultAction()
+  {
+    actionCursor->activate(QAction::Trigger);
   }
 }
 
