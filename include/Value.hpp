@@ -28,7 +28,7 @@ namespace AST
     }
 
     friend std::ostream& operator<<(std::ostream &o,
-				    const Value &v)
+				    const Value &)
     {
       o << "/* Value */" << std::endl;
       return (o);

@@ -86,14 +86,14 @@ namespace AST
     }
 
     template <typename T>
-    const bool operator==(const T&) const = delete;
+    bool operator==(const T&) const = delete;
 
     // broken, parce que ca veut rien dire ce operator==
     // si on compare pas aussi les autres champs...
     // LOLILOL est la si on veut comparer le BasicElement d'une
     // class avec celui d'une struct
     template <typename LOLILOL>
-    const bool operator==(const BasicElement<LOLILOL> &cmp) const
+    bool operator==(const BasicElement<LOLILOL> &cmp) const
     {
       return (cmp.name() == name());
     }

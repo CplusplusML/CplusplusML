@@ -48,7 +48,7 @@ namespace AST
     // }
 
     friend std::ostream& operator<<(std::ostream &o,
-				    const Array &a)
+				    const Array &)
     {
       o << "/* Array */" << std::endl;
       return (o);

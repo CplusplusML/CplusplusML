@@ -26,7 +26,7 @@ namespace AST
     }
 
     friend std::ostream& operator<<(std::ostream &o,
-				    const Function &c)
+				    const Function &)
     {
       o << "/* function */" << std::endl;
       return (o);
