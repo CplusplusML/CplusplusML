@@ -7,6 +7,7 @@
 
 #include "ui/main_w.h"
 #include "ui_AboutWindow.h"
+#include "ui_WebSiteWindow.h"
 #include "ui_HelpWindow.h"
 
 #include "object/class.hh"
@@ -23,6 +24,8 @@ namespace CplusplusML
       about_window_ui.setupUi(&aboutWindow_);
       connect(actionAbout_C_Ml, SIGNAL(triggered()), this, SLOT(About()));
 
+      Ui::WebSiteWindow	web_site_window_ui;
+      web_site_window_ui.setupUi(&webSiteWindow_);
       connect(actionC_Website, SIGNAL(triggered()), this, SLOT(WebSite()));
 
       Ui::HelpWindow	help_window_ui;
@@ -81,13 +84,15 @@ namespace CplusplusML
 
     // scene
     {
-      scene_.setSceneRect(QRectF(0, 0, 2000, 2000));
+      graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
       graphicsView->setScene(&scene_);
+      scene_.setSceneRect(QRectF(0, 0, 2000, 2000));
+      scene_.SetCenter(QPointF(1000.0, 1000.0));
+      scene_.SetCenter(QPointF(1200.0, 1200.0));
     }
 
     aboutWindow_.show();
-
   }
 
   Main_W::~Main_W()

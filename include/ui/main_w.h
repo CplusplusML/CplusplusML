@@ -25,7 +25,7 @@ namespace CplusplusML
     void manageToolbarActions(QAction *action);
 
   private:
-    qreal current_scale_;
+    QDialog webSiteWindow_;
     QDialog aboutWindow_;
     QDialog helpWindow_;
     QDockWidget *toolbar_;

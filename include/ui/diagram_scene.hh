@@ -4,6 +4,8 @@
 #include	<QGraphicsScene>
 #include	<QGraphicsItem>
 #include  <QtGlobal>
+#include  <QPointF>
+#include  <QPoint>
 #include	"object/basic.hh"
 
 #include	"ui/complex_property_window.hh"
@@ -59,6 +61,10 @@ namespace			CplusplusML
     }
 
 
+    void                SetCenter(const QPointF& centerPoint);
+    inline QPointF      GetCenter() { return CurrentCenterPoint; }
+
+
   signals:
 
     void			itemInserted(QGraphicsItem *item);
@@ -69,14 +75,14 @@ namespace			CplusplusML
     void			myItemSelected();
 
   protected:
-
-    void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void			mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-
+    void			  mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void			  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void			  mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void        mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 
   private:
-
+    QPointF     CurrentCenterPoint;
+    QPoint      LastPanPoint;
     qreal       currentScale_;
     Object::ObjectType		currentItem_;
     Mode			currentMode_;
