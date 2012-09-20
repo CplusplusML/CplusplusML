@@ -12,7 +12,7 @@ namespace Object
     Q_OBJECT
 
   public:
-    ArrowConnection(QGraphicsItem* parent, int size = 5);
+    ArrowConnection(QGraphicsItem* parent, int size = 6);
 
     bool sceneEvent(QEvent* event);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

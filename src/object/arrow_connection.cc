@@ -14,58 +14,7 @@ Object::ArrowConnection::ArrowConnection(QGraphicsItem* parent, int size) :
 
 bool Object::ArrowConnection::sceneEvent(QEvent* event)
 {
-  qDebug() << "ArrowConnection::EVENT: " << event;
-  bool eventHandled = false;
-
-  // if (event->type() == QEvent::GraphicsSceneMousePress)
-  //   {
-  //     eventHandled = true;
-  //   }
-  // else if (event->type() == QEvent::GraphicsSceneMouseRelease)
-  //   {
-  //     QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
-  //     ArrowConnection* connection = searchConnection(me->scenePos());
-
-  //     if (connection != 0)
-  //       {
-  //         QPointF* connectedPoint = 0;
-
-  //         if (pressedHandle == handles[0])
-  //           connectedPoint = &tail;
-  //         else if (pressedHandle == handles[1])
-  //           connectedPoint = &head;
-  //         else
-  //           Q_ASSERT(false);
-  //         pointLookup.insert(connection, connectedPoint);
-  //         connect(connection, SIGNAL(moved(ArrowConnection*)),
-  //                 this, SLOT(connectionMoved(ArrowConnection*)));
-  //       }
-  //     pressedHandle = 0;
-
-  //     eventHandled = true;
-  //   }
-  // else if (event->type() == QEvent::GraphicsSceneMouseMove)
-  //   {
-  //     QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
-  //     QPointF cursorPos = mapFromItem(watched, me->pos());
-
-  //     ArrowConnection* connection = searchConnection(me->scenePos());
-
-  //     if (connection != 0)
-  //       cursorPos = mapFromItem(connection, connection->center());
-
-  //     prepareGeometryChange();
-  //     if (watched == handles[0])
-  //       tail = cursorPos;
-  //     else if (watched == handles[1])
-  //       head = cursorPos;
-  //     adjustHandles();
-  //     adjustConnections();
-
-  //     eventHandled = true;
-  //   }
-  // else
-  eventHandled = QGraphicsObject::sceneEvent(event);
+  bool eventHandled = QGraphicsObject::sceneEvent(event);
   return eventHandled;
 }
 
@@ -82,10 +31,7 @@ void Object::ArrowConnection::paint(QPainter *painter,
                                     const QStyleOptionGraphicsItem *,
                                     QWidget *)
 {
-  painter->setRenderHints(QPainter::Antialiasing |
-                          QPainter::TextAntialiasing |
-                          QPainter::SmoothPixmapTransform |
-                          QPainter::HighQualityAntialiasing);
+  painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
   {
     QPen _pen;

@@ -44,7 +44,7 @@ namespace               Object
     setFlag(QGraphicsItem::ItemIsMovable, true);
 
     for (int i = 0; i < 8; ++i)
-      connections.append(new ArrowConnection(this, 6));
+      connections.append(new ArrowConnection(this));
   }
 
   Complex_::~Complex_()

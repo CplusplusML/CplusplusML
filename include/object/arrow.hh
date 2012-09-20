@@ -12,6 +12,10 @@ namespace Object
   public:
     GrabHandle(QGraphicsItem* parent);
 
+    void paint(QPainter *painter,
+               const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
+
     void moveCenter(QPointF const& center);
   };
 

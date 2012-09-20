@@ -11,8 +11,25 @@
 
 Object::GrabHandle::GrabHandle(QGraphicsItem* parent) : QGraphicsRectItem(parent)
 {
-  setRect(0, 0, 10, 10);
-  setBrush(Qt::red);
+  setRect(0, 0, 6, 6);
+  setBrush(Qt::green);
+}
+
+void Object::GrabHandle::paint(QPainter *painter,
+                               const QStyleOptionGraphicsItem *option,
+                               QWidget *widget)
+{
+  QGraphicsRectItem::paint(painter, option, widget);
+
+  {
+    QPen _pen;
+    _pen.setStyle(Qt::SolidLine);
+    _pen.setWidth(0);
+    _pen.setBrush(Qt::black);
+    painter->setPen(_pen);
+    painter->drawLine(rect().bottomLeft(), rect().topRight());
+    painter->drawLine(rect().topLeft(), rect().bottomRight());
+  }
 }
 
 void    Object::GrabHandle::moveCenter(QPointF const& center)
@@ -37,7 +54,7 @@ void Object::Arrow_::Render(void)
   setZValue(1.0);
 
   pen.setStyle(Qt::DashDotLine);
-  pen.setWidth(3);
+  pen.setWidth(2);
   pen.setBrush(Qt::black);
   pen.setCapStyle(Qt::FlatCap);
   pen.setJoinStyle(Qt::RoundJoin);
@@ -121,46 +138,26 @@ void Object::Arrow_::paint(QPainter *painter,
                            const QStyleOptionGraphicsItem */*option*/,
                            QWidget */*widget*/)
 {
-  painter->setRenderHints(QPainter::Antialiasing |
-                          QPainter::TextAntialiasing |
-                          QPainter::SmoothPixmapTransform |
-                          QPainter::HighQualityAntialiasing);
+  painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
-  // painter->setPen(outlinePen);
-  // painter->drawPath(shape());
-  painter->setPen(this->pen);
-  {
+  painter->setPen(pen);
+  painter->drawLine(QLineF(tail, head));
 
-    QPainterPath  path;
+  if (false) // When hovered
+    {
+      painter->setPen(outlinePen);
+      painter->drawPath(shape());
+    }
 
-    path.setFillRule(Qt::WindingFill);
-    // optimize this =D
-    path.moveTo(tail);
-    path.lineTo(head);
-
-    QLineF l1();
-
-    painter->drawPath(path);
-  }
-
-  {
-    QPen _pen;
-    _pen.setStyle(Qt::DotLine);
-    _pen.setWidth(0);
-    _pen.setBrush(Qt::magenta);
-    painter->setPen(_pen);
-    painter->drawRect(boundingRect());
-  }
-
-
-  // {
-  //   QPen _pen;
-  //   _pen.setStyle(Qt::DotLine);
-  //   _pen.setWidth(0);
-  //   _pen.setBrush(Qt::blue);
-  //   painter->setPen(_pen);
-  // }
-  // painter->drawPath(shape());
+  if (false) // When debugging =D
+    {
+      QPen _pen;
+      _pen.setStyle(Qt::DotLine);
+      _pen.setWidth(0);
+      _pen.setBrush(Qt::magenta);
+      painter->setPen(_pen);
+      painter->drawRect(boundingRect());
+    }
 }
 
 QPainterPath Object::Arrow_::shape() const
