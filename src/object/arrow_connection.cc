@@ -82,10 +82,15 @@ void Object::ArrowConnection::paint(QPainter *painter,
                                     const QStyleOptionGraphicsItem *,
                                     QWidget *)
 {
+  painter->setRenderHints(QPainter::Antialiasing |
+                          QPainter::TextAntialiasing |
+                          QPainter::SmoothPixmapTransform |
+                          QPainter::HighQualityAntialiasing);
+
   {
     QPen _pen;
     _pen.setCapStyle(Qt::FlatCap);
-    _pen.setWidth(3);
+    _pen.setWidth(2);
     _pen.setBrush(Qt::blue);
     painter->setPen(_pen);
   }
