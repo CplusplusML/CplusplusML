@@ -60,7 +60,6 @@ namespace               Object
     foreach(auto conn, connections)
       conn->setParentItem(this);
 
-    qDebug() << "BORDERS: " << borders;
     connections[0]->moveCenter(borders.topLeft());
     connections[1]->moveCenter(borders.topRight());
     connections[2]->moveCenter(borders.bottomLeft());
@@ -74,7 +73,7 @@ namespace               Object
   QRectF Complex_::boundingRect() const
   {
     QRectF cbr = childrenBoundingRect();
-    int offset = 1;
+    int offset = 0;
 
     return QRectF(cbr.topLeft() - QPointF(offset, offset),
                   cbr.bottomRight() + QPointF(offset, offset));
