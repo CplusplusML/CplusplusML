@@ -145,19 +145,26 @@ void Object::Arrow_::paint(QPainter *painter,
 
   // Arrow head
   {
+    // QPen _pen;
+    // _pen.setStyle(Qt::SolidLine);
+    // _pen.setWidth(pen.width());
+    // _pen.setBrush(Qt::magenta);
+    // painter->setPen(_pen);
+
     const double Pi = std::atan(1.0) * 4;
     qreal arrowSize = 20.0;
     QLineF arrowLine(tail, head);
-    double angle = ::acos(arrowLine().dx() / arrowLine().length());
-    if (arrowLine().dy() >= 0)
+    double angle = ::acos(arrowLine.dx() / arrowLine.length());
+    if (arrowLine.dy() >= 0)
       angle = (Pi * 2) - angle;
 
-    QPointF arrowP1 = arrowLine().p1() + QPointF(sin(angle + Pi / 3) * arrowSize,
-                                            cos(angle + Pi / 3) * arrowSize);
-    QPointF arrowP2 = arrowLine().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
-                                            cos(angle + Pi - Pi / 3) * arrowSize);
+    QPointF arrowP1 = tail + QPointF(sin(angle + Pi / 3) * arrowSize,
+                                               cos(angle + Pi / 3) * arrowSize);
+    QPointF arrowP2 = tail + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
+                                               cos(angle + Pi - Pi / 3) * arrowSize);
 
-    arrowHead << arrowLine().p1() << arrowP1 << arrowP2;
+    arrowHead.clear();
+    arrowHead << tail << arrowP1 << arrowP2 << tail;
     painter->drawPolygon(arrowHead);
   }
   if (false) // When hovered
@@ -166,7 +173,7 @@ void Object::Arrow_::paint(QPainter *painter,
       painter->drawPath(shape());
     }
 
-  if (false) // When debugging =D
+  if (true) // When debugging =D
     {
       QPen _pen;
       _pen.setStyle(Qt::DotLine);
@@ -182,9 +189,9 @@ QPainterPath Object::Arrow_::shape() const
   QPainterPathStroker stroker;
   QPainterPath path;
 
-  path.moveTo(head);
-  path.lineTo(tail);
-  //  path.moveTo(head);
+  path.moveTo(tail);
+  path.lineTo(head);
+  //path.moveTo(head);
   path.addPolygon(arrowHead);
   stroker.setWidth(pen.width());
   stroker.setCapStyle(Qt::RoundCap);
@@ -270,7 +277,12 @@ bool Object::Arrow_::sceneEventFilter(QGraphicsItem *watched,
 
 QRectF Object::Arrow_::boundingRect() const
 {
-  return (QRectF(tail, head) | childrenBoundingRect());
+  qreal extra = (pen.width() + 20.0) / 2.0;
+
+  return (QRectF(tail, head).normalized().adjusted(-extra, -extra, extra, extra) |
+          childrenBoundingRect());
+  // return (QRectF(tail, head) |
+  //         childrenBoundingRect());
 }
 
 void Object::Arrow_::connectionMoved(ArrowConnection* connection)

@@ -56,7 +56,7 @@ namespace Object
     QPen        outlinePen;
     QPointF     tail;
     QPointF     head;
-    QPolygon    arrowHead;
+    QPolygonF   arrowHead;
 
     GrabHandle*  handles[2];
     GrabHandle*  pressedHandle;
