@@ -53,14 +53,14 @@ namespace               Object
 
   void Complex_::adjustConnections()
   {
-    // ugly hax
-    foreach(auto conn, connections)
-      conn->setParentItem(0);
+    // // ugly hax
+    // foreach(auto conn, connections)
+    //   conn->setParentItem(0);
     QRectF borders = childrenBoundingRect();
-    foreach(auto conn, connections)
-      conn->setParentItem(this);
+    // foreach(auto conn, connections)
+    //   conn->setParentItem(this);
 
-    qDebug() << "BORDERS: " << borders;
+    // qDebug() << "BORDERS: " << borders;
     connections[0]->moveCenter(borders.topLeft());
     connections[1]->moveCenter(borders.topRight());
     connections[2]->moveCenter(borders.bottomLeft());
@@ -71,14 +71,14 @@ namespace               Object
     connections[7]->moveCenter(borders.topRight() + QPointF(0, borders.height() / 2));
   }
 
-  QRectF Complex_::boundingRect() const
-  {
-    QRectF cbr = childrenBoundingRect();
-    int offset = 1;
+  // QRectF Complex_::boundingRect() const
+  // {
+  //   QRectF cbr = childrenBoundingRect();
+  //   int offset = 1;
 
-    return QRectF(cbr.topLeft() - QPointF(offset, offset),
-                  cbr.bottomRight() + QPointF(offset, offset));
-  }
+  //   return QRectF(cbr.topLeft() - QPointF(offset, offset),
+  //                 cbr.bottomRight() + QPointF(offset, offset));
+  // }
 
   // void Complex_::paint(QPainter *painter,
   //                      const QStyleOptionGraphicsItem *option,

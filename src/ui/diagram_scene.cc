@@ -8,6 +8,7 @@
 #include	"object/struct.hh"
 #include	"object/union.hh"
 #include	"object/dependency.hh"
+#include  "object/template_param.hh"
 
 #include	"assed.hpp"
 
@@ -66,6 +67,11 @@ namespace			CplusplusML
             {
               item = new Object::Union();
               title = "Union";
+              break;
+            }
+          case (Object::objectTemplate):
+            {
+              item = new Object::TemplateParam();
               break;
             }
           case (Object::objectDependency):

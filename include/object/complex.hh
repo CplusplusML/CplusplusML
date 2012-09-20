@@ -28,7 +28,7 @@ namespace               Object
     Complex_();
     virtual ~Complex_();
 
-    QRectF boundingRect() const;
+    //    QRectF boundingRect() const;
 
     void                AddArrow(Arrow_ *arrow);
     void                RemoveArrow(Arrow_ *arrow);
