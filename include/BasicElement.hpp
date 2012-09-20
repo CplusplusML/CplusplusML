@@ -67,7 +67,10 @@ namespace AST
       for (auto &b : _toto)
       	{
 	  if (boost::apply_visitor(IsSameVisitor<C>(), b) &&
-	      boost::get<std::shared_ptr<C> >(b)->name() == c.name())
+	      boost::get<std::shared_ptr<C> >(b)->name() == c.name()
+	      // this will be replacing previous line because it does a deep comparison
+	      // (*(boost::get<std::shared_ptr<C> >(b))) == c
+	      )
 	    {
 	      return (boost::get<std::shared_ptr<C> >(b));
 	    }
@@ -80,6 +83,19 @@ namespace AST
     const std::string &name() const
     {
       return (_name);
+    }
+
+    template <typename T>
+    const bool operator==(const T&) const = delete;
+
+    // broken, parce que ca veut rien dire ce operator==
+    // si on compare pas aussi les autres champs...
+    // LOLILOL est la si on veut comparer le BasicElement d'une
+    // class avec celui d'une struct
+    template <typename LOLILOL>
+    const bool operator==(const BasicElement<LOLILOL> &cmp) const
+    {
+      return (cmp.name() == name());
     }
 
     void name(const std::string &name)

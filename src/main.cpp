@@ -1,10 +1,23 @@
 
 #include <iostream>
+#include <iomanip>
 
 #include "assed.hpp"
 
 int main(void)
 {
+
+
+  // {
+  //   AST::Class n1("toto"), n2("toto");
+
+  //   n1.Templates(AST::Template::Type("T0"));
+  //   n2.Templates(AST::Template::Type("T0"));
+  //   std::cout << std::boolalpha;
+  //   std::cout << (n1 == n2) << std::endl;
+  //   return (0);
+  // }
+
   AST::AST ast;
 
   ast.Insert(AST::Namespace("::"));

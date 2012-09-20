@@ -26,6 +26,12 @@ namespace AST
     ~Namespace()
     {}
 
+    bool operator==(const Namespace &cmp) const
+    {
+      return (static_cast<BasicElement<Namespace> >(*this)
+	      == static_cast<BasicElement<Namespace> >(cmp));
+    }
+
     friend std::ostream& operator<<(std::ostream &o,
 				    const Namespace &n)
     {

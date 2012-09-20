@@ -34,6 +34,11 @@ namespace AST
 	return (o);
       }
 
+      bool operator==(const Type& cmp) const
+      {
+	return (_name == cmp._name);
+      }
+
     private:
       std::string _name;
     };
@@ -56,6 +61,11 @@ namespace AST
 	// et ne pas mettre tout le temps int
 	o << "int " << t._name;
 	return (o);
+      }
+
+      bool operator==(const TypeNumeric& cmp) const
+      {
+	return (_name == cmp._name);
       }
 
     private:
@@ -81,6 +91,11 @@ namespace AST
 	return (o);
       }
 
+      bool operator==(const Variadic &cmp) const
+      {
+	return (_name == cmp._name);
+      }
+
     private:
       std::string _name;
     };
@@ -99,6 +114,11 @@ namespace AST
     {
       o << s._str;
       return (o);
+    }
+
+    bool operator==(const Specialization &cmp) const
+    {
+      return (cmp._str == _str);
     }
 
   private:
@@ -131,12 +151,19 @@ namespace AST
       _specialized = true;
     }
 
-  private:
+    bool operator==(const Specializeable &cmp) const
+    {
+      if (_specialized != cmp._specialized)
+	return (false);
+      return (_specializations == cmp._specializations);
+    }
+
     inline bool isSpecialized() const
     {
       return (_specializations.size() > 0 || _specialized == true);
     }
 
+  private:
     friend std::ostream &operator<<(std::ostream &o, const Specializeable &t)
     {
       if (t.isSpecialized())
@@ -186,17 +213,24 @@ namespace AST
       _templated = true;
     }
 
+    inline bool isTemplated() const
+    {
+      return (_templates.size() > 0 || _templated == true);
+    }
+
+    bool operator==(const Templateable &cmp) const
+    {
+      if (_templated != cmp._templated)
+	return (false);
+      return (_templates == cmp._templates);
+    }
+
   private:
     std::vector<boost::variant<Template::Type, Template::Variadic, Template::TypeNumeric, boost::recursive_wrapper<Template::Template>
 			       > > _templates;
 
     bool _templated;
     // std::vector<boost::variant<Template::Type> > _templates;
-
-    inline bool isTemplated() const
-    {
-      return (_templates.size() > 0 || _templated == true);
-    }
 
     friend std::ostream &operator<<(std::ostream &o, const Templateable &t)
     {

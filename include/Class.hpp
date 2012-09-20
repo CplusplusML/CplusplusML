@@ -87,6 +87,17 @@ namespace AST
       return BasicElementType::Get(Member<C>(c, Visibility::NotAvailable));
     }
 
+    // parce qu'on veut pouvoir comparer struct et class :) 
+    template <Visibility T>
+    bool operator==(const ClassTP<T> &cmp) const
+    {
+      if (!(static_cast<BasicElementType>(*this) == 
+	  static_cast<BasicElement<ClassTP<T> > >(cmp)))
+	return (false);
+      return (isTemplated() == cmp.isTemplated() &&
+	      isSpecialized() == cmp.isSpecialized());
+    }
+
     friend std::ostream& operator<<(std::ostream &o,
 				    const ClassTP<V> &c)
     {
