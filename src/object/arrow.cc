@@ -199,7 +199,7 @@ bool Object::Arrow_::sceneEvent(QEvent* event)
 bool Object::Arrow_::sceneEventFilter(QGraphicsItem *watched,
                                       QEvent *event)
 {
-  qDebug() << "FILTERED EVENT: " << event;
+  //  qDebug() << "FILTERED EVENT: " << event;
   if (event->type() == QEvent::GraphicsSceneMousePress)
     {
       pressedHandle = dynamic_cast<GrabHandle*>(watched);
@@ -261,6 +261,12 @@ void Object::Arrow_::connectionMoved(ArrowConnection* connection)
 
   Q_ASSERT(iterator != pointLookup.end());
   QPointF* point = iterator.value();
+  qDebug() << "this->pos()" << this->pos();
+  qDebug() << "connection->pos()" << connection->pos();
+  qDebug() << "conn->center(): " << connection->center();
+  qDebug() << "conn->center().mapped(): " << mapFromItem(connection, connection->center());
+  qDebug() << "scene(): " << scene();
+  qDebug() << "parentItem(): " << parentItem();
   *point = mapFromItem(connection, connection->center());
   adjustConnections();
   adjustHandles();

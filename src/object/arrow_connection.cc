@@ -22,6 +22,7 @@ QVariant Object::ArrowConnection::itemChange(GraphicsItemChange change, const QV
 {
   if (change == QGraphicsItem::ItemScenePositionHasChanged)
     {
+      //     qDebug() << "CONNECTION - POSITION CHANGED";
       emit moved(this);
     }
   return QGraphicsObject::itemChange(change, value);
@@ -36,7 +37,7 @@ void Object::ArrowConnection::paint(QPainter *painter,
   {
     QPen _pen;
     _pen.setCapStyle(Qt::FlatCap);
-    _pen.setWidth(2);
+    _pen.setWidth(1);
     _pen.setBrush(Qt::blue);
     painter->setPen(_pen);
   }
@@ -58,5 +59,6 @@ void Object::ArrowConnection::moveCenter(QPointF const& center)
 {
   prepareGeometryChange();
   rect.moveCenter(center);
+  //  qDebug() << "CONNECTION - MOVECENTER";
   emit moved(this);
 }
