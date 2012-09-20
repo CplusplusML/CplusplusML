@@ -1,4 +1,7 @@
 #include        <iostream> //DEBUG
+#include        <QPainter> //DEBUG
+#include        <QDebug> //DEBUG
+
 #include        "object/complex.hh"
 #include        "object/dependency.hh"
 
@@ -42,7 +45,8 @@ namespace               Object
 
     for (int i = 0; i < 8; ++i)
       connections.append(new ArrowConnection(this));
-    adjustConnections();
+    //    adjustConnections();
+    updateGraphics();
   }
 
   Complex_::~Complex_()
@@ -51,8 +55,11 @@ namespace               Object
 
   void Complex_::adjustConnections()
   {
+    foreach(ArrowConnection* conn, connections)
+      conn->setParentItem(0);
     QRectF borders = boundingRect();
 
+    qDebug() << "BORDERS: " << borders;
     connections[0]->moveCenter(borders.topLeft());
     connections[1]->moveCenter(borders.topRight());
     connections[2]->moveCenter(borders.bottomLeft());
@@ -61,8 +68,37 @@ namespace               Object
     connections[5]->moveCenter(borders.bottomLeft() + QPointF(borders.width() / 2, 0));
     connections[6]->moveCenter(borders.topLeft() + QPointF(0, borders.height() / 2));
     connections[7]->moveCenter(borders.topRight() + QPointF(0, borders.height() / 2));
+    foreach(ArrowConnection* conn, connections)
+      conn->setParentItem(this);
   }
-  
+
+  QRectF Complex_::boundingRect() const
+  {
+    return childrenBoundingRect();
+  }
+
+  // void Complex_::paint(QPainter *painter,
+  //                      const QStyleOptionGraphicsItem *option,
+  //                      QWidget *widget)
+  // {
+  //   {
+  //     QPen _pen;
+  //     _pen.setStyle(Qt::DotLine);
+  //     _pen.setWidth(4);
+  //     _pen.setBrush(Qt::magenta);
+  //     painter->setPen(_pen);
+  //     painter->drawRect(boundingRect());
+  //   }
+  //   {
+  //     QPen _pen;
+  //     _pen.setStyle(Qt::DotLine);
+  //     _pen.setWidth(4);
+  //     _pen.setBrush(Qt::cyan);
+  //     painter->setPen(_pen);
+  //     painter->drawRect(childrenBoundingRect());
+  //   }
+  // }
+
   void                  Complex_::updateGraphics(void)
   {
     int                 width;
@@ -97,9 +133,8 @@ namespace               Object
           width = attr->label->boundingRect().width();
         attrHeight += attr->label->boundingRect().height() + 4;
       }
-
     // Update operations, set parent, update label, width and height
-    opeHeight = 0;    
+    opeHeight = 0;
     for (Operation *ope : operations_)
       {
         ope->label->setParentItem(opeRect_);
@@ -108,7 +143,6 @@ namespace               Object
           width = ope->label->boundingRect().width();
         opeHeight += ope->label->boundingRect().height() + 4;
       }
-
     // Add padding
     if (width < 124)
       width = 124;
@@ -122,12 +156,10 @@ namespace               Object
     typeLabel_->setPos(x_ + width / 2 - typeLabel_->boundingRect().width() / 2 + 2, y_ + 2);
     titleLabel_->setPos(x_ + width / 2 - titleLabel_->boundingRect().width() / 2 + 2,
                         y_ + typeLabel_->boundingRect().height() + 2);
-
     // Update rects
     titleRect_->setRect(x_, y_, width, titleHeight);
     attrRect_->setRect(x_, y_ + titleHeight, width, attrHeight);
     opeRect_->setRect(x_, y_ + titleHeight + attrHeight, width, opeHeight);
-
     // Update labels pos
     ypos = 0;
     for (Attribute *attr : attributes_)
@@ -136,7 +168,6 @@ namespace               Object
         attr->label->setPos(x_ + 2, y_ + titleHeight + ypos + 2);
         ypos += attr->label->boundingRect().height() + 4;
       }
-
     ypos = 0;
     for (Operation *ope : operations_)
       {
@@ -144,12 +175,10 @@ namespace               Object
         ope->label->setPos(x_ + 2, y_ + titleHeight + attrHeight + ypos + 2);
         ypos += ope->label->boundingRect().height() + 4;
       }
-
     // Add rects again to group
     addToGroup(titleRect_);
     addToGroup(attrRect_);
     addToGroup(opeRect_);
-
     adjustConnections();
   }
 
@@ -202,7 +231,6 @@ namespace               Object
           item->member_ = ope;
         operations_.push_back(ope);
       }
-
     updateGraphics();
   }
 }

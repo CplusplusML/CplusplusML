@@ -4,12 +4,12 @@
 
 #include "object/arrow_connection.hh"
 
-Object::ArrowConnection::ArrowConnection(QGraphicsItem* parent) :
+Object::ArrowConnection::ArrowConnection(QGraphicsItem* parent, int size) :
   QGraphicsObject(parent)
 {
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
   setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-  rect.setRect(0, 0, 10, 10);
+  rect.setRect(0, 0, size, size);
 }
 
 bool Object::ArrowConnection::sceneEvent(QEvent* event)

@@ -28,6 +28,7 @@ namespace               Object
     Complex_();
     virtual ~Complex_();
 
+    QRectF boundingRect() const;
 
     void                AddArrow(Arrow_ *arrow);
     void                RemoveArrow(Arrow_ *arrow);
@@ -51,6 +52,7 @@ namespace               Object
     std::list<Members::Operation *> operations_;
 
   protected:
+
     void                updateGraphics(void);
 
     // QT
