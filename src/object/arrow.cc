@@ -143,6 +143,23 @@ void Object::Arrow_::paint(QPainter *painter,
   painter->setPen(pen);
   painter->drawLine(QLineF(tail, head));
 
+  // Arrow head
+  {
+    const double Pi = std::atan(1.0) * 4;
+    qreal arrowSize = 20.0;
+    QLineF arrowLine(tail, head);
+    double angle = ::acos(arrowLine().dx() / arrowLine().length());
+    if (arrowLine().dy() >= 0)
+      angle = (Pi * 2) - angle;
+
+    QPointF arrowP1 = arrowLine().p1() + QPointF(sin(angle + Pi / 3) * arrowSize,
+                                            cos(angle + Pi / 3) * arrowSize);
+    QPointF arrowP2 = arrowLine().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
+                                            cos(angle + Pi - Pi / 3) * arrowSize);
+
+    arrowHead << arrowLine().p1() << arrowP1 << arrowP2;
+    painter->drawPolygon(arrowHead);
+  }
   if (false) // When hovered
     {
       painter->setPen(outlinePen);
@@ -167,6 +184,8 @@ QPainterPath Object::Arrow_::shape() const
 
   path.moveTo(head);
   path.lineTo(tail);
+  //  path.moveTo(head);
+  path.addPolygon(arrowHead);
   stroker.setWidth(pen.width());
   stroker.setCapStyle(Qt::RoundCap);
   stroker.setJoinStyle(Qt::RoundJoin);
@@ -261,12 +280,12 @@ void Object::Arrow_::connectionMoved(ArrowConnection* connection)
 
   Q_ASSERT(iterator != pointLookup.end());
   QPointF* point = iterator.value();
-  qDebug() << "this->pos()" << this->pos();
-  qDebug() << "connection->pos()" << connection->pos();
-  qDebug() << "conn->center(): " << connection->center();
-  qDebug() << "conn->center().mapped(): " << mapFromItem(connection, connection->center());
-  qDebug() << "scene(): " << scene();
-  qDebug() << "parentItem(): " << parentItem();
+  // qDebug() << "this->pos()" << this->pos();
+  // qDebug() << "connection->pos()" << connection->pos();
+  // qDebug() << "conn->center(): " << connection->center();
+  // qDebug() << "conn->center().mapped(): " << mapFromItem(connection, connection->center());
+  // qDebug() << "scene(): " << scene();
+  // qDebug() << "parentItem(): " << parentItem();
   *point = mapFromItem(connection, connection->center());
   adjustConnections();
   adjustHandles();

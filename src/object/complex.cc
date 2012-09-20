@@ -44,7 +44,14 @@ namespace               Object
     setFlag(QGraphicsItem::ItemIsMovable, true);
 
     for (int i = 0; i < 8; ++i)
-      connections.append(new ArrowConnection(this));
+      {
+        auto conn = new ArrowConnection(this);
+
+        conn->moveCenter(QPointF(0, 0));
+        connections.append(conn);
+      }
+    //    adjustConnections();
+    updateGraphics();
   }
 
   Complex_::~Complex_()
@@ -73,7 +80,7 @@ namespace               Object
   QRectF Complex_::boundingRect() const
   {
     QRectF cbr = childrenBoundingRect();
-    int offset = 0;
+    int offset = 1;
 
     return QRectF(cbr.topLeft() - QPointF(offset, offset),
                   cbr.bottomRight() + QPointF(offset, offset));

@@ -67,6 +67,7 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/diagram_scene.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/complex_property_window.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/template_param.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc
