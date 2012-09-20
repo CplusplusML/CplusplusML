@@ -40,21 +40,29 @@ namespace AST
     boost::variant<std::shared_ptr<Struct>, std::shared_ptr<Class> > _class;
     Visibility _visibility;
 
-    struct NameVisitor : public boost::static_visitor<const std::string&>
+    struct PrintNameVisitor : public boost::static_visitor<void>
     {
+      PrintNameVisitor(std::ostream &o) : o_(o)
+      {}
+
       template <typename T>
-      const std::string& operator()(const std::shared_ptr<T> t) const
+      void operator()(const std::shared_ptr<T> t) const
       {
-	return (t->name());
+	o_ << t->name();
+	o_ << static_cast<Specializeable>(*t);
       }
+
+    private:
+      std::ostream &o_;
     };
 
     friend std::ostream& operator<<(std::ostream &o,
   				    Inheritance inh)
     {
+      PrintNameVisitor p(o);
       o << inh._visibility;
       o << " ";
-      o << boost::apply_visitor(Inheritance::NameVisitor(), inh._class);
+      boost::apply_visitor(p, inh._class);
       return (o);
     }
   };

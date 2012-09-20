@@ -18,6 +18,60 @@ int main(void)
   //   return (0);
   // }
 
+  {
+    AST::Typedef i("int", "Integer");
+
+    std::cout << "// Simple Example 1:" << std::endl << i << std::endl;
+  }
+
+  {
+    AST::Class w("Wolf"), h("Head");
+    w.Insert(h, AST::Visibility::PUBLIC);
+
+    std::cout << "// Simple Example 2:" << std::endl << w << std::endl;
+  }
+
+  {
+    AST::Class w("Wolf"), h("Head");
+    w.Insert(h, AST::Visibility::PUBLIC);
+
+    std::cout << "// Simple Example 2:" << std::endl << w << std::endl;
+  }
+
+  {
+    AST::Class w("Wolf");
+    AST::Typedef p("std::list<Wolf>", "Pack");
+    w.Insert(p, AST::Visibility::PUBLIC);
+
+    std::cout << "// Simple Example 3:" << std::endl << w << std::endl;
+  }
+
+  {
+    AST::Struct c("Commonplace");
+    c.Templates(AST::Template::Type("T"));
+    AST::Typedef t("T", "Type");
+    c.Insert(t);
+
+    std::cout << "// Simple Example 4:" << std::endl << c << std::endl;
+  }
+
+  {
+    AST::Class crtp("CRTP"), commonplace("Commonplace");
+    crtp.Templates(AST::Template::Type("T"));
+    std::shared_ptr<AST::Class> temp(new AST::Class(crtp));
+    temp->Specialize(AST::Specialization("Commonplace"));
+    commonplace.Inherit(AST::Inheritance(temp, AST::Visibility::PUBLIC));
+
+    std::cout << "// Simple Example 5:" << std::endl
+	      << crtp << std::endl
+	      << commonplace << std::endl;
+  }
+
+  return (0);
+
+  /*
+  // example 2
+
   AST::AST ast;
 
   ast.Insert(AST::Namespace("::"));
@@ -64,4 +118,5 @@ int main(void)
   }
 
   std::cout << ast << std::endl;
+  */
 }

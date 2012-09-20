@@ -249,7 +249,6 @@ namespace AST
 	}
       return (o);
     }
-
   };
 
   namespace Template
