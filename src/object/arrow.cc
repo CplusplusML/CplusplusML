@@ -173,7 +173,7 @@ void Object::Arrow_::paint(QPainter *painter,
       painter->drawPath(shape());
     }
 
-  if (true) // When debugging =D
+  if (false) // When debugging =D
     {
       QPen _pen;
       _pen.setStyle(Qt::DotLine);
