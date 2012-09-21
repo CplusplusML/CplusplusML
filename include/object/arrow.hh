@@ -7,19 +7,33 @@
 
 namespace Object
 {
-  class GrabHandle : public QGraphicsRectItem
-  {
-  public:
-    GrabHandle(QGraphicsItem* parent);
+  class ArrowConnection;
 
+  class GrabHandle : public QObject, public QGraphicsRectItem
+  {
+    Q_OBJECT
+
+  public:
+    GrabHandle(QGraphicsItem* parent, QPointF* boundPoint);
+
+    bool sceneEvent(QEvent *event);
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 
     void moveCenter(QPointF const& center);
-  };
+    ArrowConnection* searchConnection(QPointF const& point);
 
-  class ArrowConnection;
+  signals:
+    void moved(QPointF const& newPos, QPointF* boundPoint);
+
+  public slots:
+    void connectionMoved(ArrowConnection* connection);
+
+  private:
+    QPointF* boundPoint;
+    ArrowConnection* currentConnection;
+  };
 
   class Arrow_ : public QGraphicsObject
   {
@@ -37,7 +51,7 @@ namespace Object
     void enableHandles();
 
     void adjustConnections();
-    ArrowConnection* searchConnection(QPointF const& point);
+    void adjustArrowTip();
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
@@ -47,9 +61,13 @@ namespace Object
     QPainterPath shape() const;
     QRectF boundingRect() const;
 
-    bool sceneEvent(QEvent* event);
-    bool sceneEventFilter(QGraphicsItem *watched,
-                          QEvent *event);
+    //DEBUG
+    bool sceneEvent(QEvent *event);
+    bool eventFilter(QObject* obj, QEvent *event);
+    //    bool sceneEventFilter(QObject *obj, QEvent *ev);
+
+  public slots:
+    void        onGrabHandleMove(QPointF const& newPos, QPointF* boundPoint);
 
   private:
     QPen        pen;
@@ -59,14 +77,8 @@ namespace Object
     QPolygonF   arrowHead;
 
     GrabHandle*  handles[2];
-    GrabHandle*  pressedHandle;
 
     QList<ArrowConnection*> connections;
-    QMap<ArrowConnection*, QPointF*> pointLookup;
-    QMap<ArrowConnection*, QPointF*> pointReverseLookup;
-
-  public slots:
-    void connectionMoved(ArrowConnection* connection);
   };
 }
 
