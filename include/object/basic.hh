@@ -1,14 +1,14 @@
-#ifndef _BASIC_H_
-#define _BASIC_H_
+#ifndef		_CPLUSPLUSML_OBJECT_BASIC_HH_
+# define	_CPLUSPLUSML_OBJECT_BASIC_HH_
 
-#include <QGraphicsItem>
-
-namespace Object
+namespace               CplusplusML
 {
-  // TODO: Change this to a class enum (c++11), and remove 'object' prefix
-  enum ObjectType
+  namespace             Object
+  {
+    // All objects type
+    enum class Type
     {
-      objectCursor = 0,
+      objectCursor,
       objectNamespace,
       objectClass,
       objectStruct,
@@ -25,13 +25,14 @@ namespace Object
       objectCount_
     };
 
-  class Basic_ : public QGraphicsItemGroup
-  {
-  public:
-    Basic_() { }
-    virtual ~Basic_() { }
-  };
+    // Basic object, inherited by all other objects
+    class Basic
+    {
+    public:
+      Basic_() { }
+      virtual ~Basic_() { }
+    };
 }
 
 
-#endif /* _BASIC_H_ */
+#endif // _CPLUSPLUSML_OBJECT_BASIC_H_

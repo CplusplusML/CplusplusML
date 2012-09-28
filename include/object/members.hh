@@ -5,101 +5,99 @@
 # include       <string>
 # include       <map>
 
-# include       <QGraphicsSimpleTextItem>
-
-class                   Complex_;
-
-namespace               Object
+namespace               CplusplusML
 {
-  namespace             Members
+  namespace             Object
   {
-    // Visibility utilities
-    enum                Visibility
-      {
-        PUBLIC = 0,
-        PROTECTED = 1,
-        PRIVATE = 2,
-        UNKNOWN
-      };
-
-    inline const char   *visibilityName(Visibility v)
+    namespace           Members
     {
-      static std::map<Visibility, char const *>	visibilities = {
-        {PUBLIC, "+"},
-        {PROTECTED, "#"},
-        {PRIVATE, "-"}
-      };
-
-      return (visibilities[v]);
-    };
-
-    // AMember
-    struct              AMember
-    {
-      AMember(bool tmpMember);
-      virtual ~AMember();
-
-      void              operator=(AMember const &m);
-      inline void       updateLabel(void)
-      {
-        if (label)
-          label->setText(this->toString().c_str());
-      }
-
-      virtual std::string	toString(void) const = 0;
-
-      std::string       name;
-      std::string       type;
-      Visibility        visibility;
-      bool              isStatic;
-
-      // Qt
-      QGraphicsSimpleTextItem   *label;
-      bool              deleted;
-    };
-
-    // Attribute
-    struct              Attribute: public AMember
-    {
-      Attribute(bool tmpMember = false);
-
-      void              operator=(Attribute const &a);
-      std::string       toString(void) const;
-
-      std::string       defaultValue;
-    };
-
-    // Operation
-    struct              Operation: public AMember
-    {
-      enum              InheritanceType
+      // Visibility utilities
+      enum              Visibility
         {
-          LEAF,
-          VIRTUAL,
-          PURE
+          PUBLIC = 0,
+          PROTECTED = 1,
+          PRIVATE = 2,
+          UNKNOWN
         };
 
-      Operation(bool tmpMember = false);
-
-      void              operator=(Operation const &o);
-      std::string       toString(void) const;
-
-      bool              isConst;
-      InheritanceType   inhType;
-
-      // Structure for parameters
-      struct            Parameter
+      inline const char *visibilityName(Visibility v)
       {
-        std::string     toString(bool inList = false) const;
+        static std::map<Visibility, char const *>	visibilities = {
+          {PUBLIC, "+"},
+          {PROTECTED, "#"},
+          {PRIVATE, "-"}
+        };
 
-        std::string     name;
-        std::string     type;
-        std::string     defValue;
+        return (visibilities[v]);
       };
+
+      // AMember
+      struct                    AMember
+      {
+        AMember(bool tmpMember);
+        virtual ~AMember();
+
+        void                    operator=(AMember const &m);
+        inline void             updateLabel(void)
+        {
+          if (label)
+            label->setText(this->toString().c_str());
+        }
+
+        virtual char const      *toString(void) const = 0;
+
+        std::string             name;
+        std::string             type;
+        Visibility              visibility;
+        bool                    isStatic;
+      };
+
+      // Attribute
+      struct              Attribute: public AMember
+      {
+        Attribute(bool tmpMember = false);
+
+        void              operator=(Attribute const &a);
+        char const        *toString(void) const;
+
+        std::string       defaultValue;
+      };
+
+      // Operation
+      struct              Operation: public AMember
+      {
+        enum              InheritanceType
+          {
+            LEAF,
+            VIRTUAL,
+            PURE
+          };
+
+        Operation(bool tmpMember = false);
+
+        void              operator=(Operation const &o);
+        char const        *toString(void) const;
+
+        bool              isConst;
+        InheritanceType   inhType;
+
+        // Structure for parameters
+        struct            Parameter
+        {
+          char const      *toString(bool inList = false) const;
+
+          std::string     name;
+          std::string     type;
+          std::string     defValue;
+        };
 	
-      std::list<Parameter>      parameters;
-    };
+        std::list<Parameter>      parameters;
+      };
+
+      typedef std::list<Attribute *>    attrList;
+      typedef std::list<Operation *>    opeList;
+    }
   }
 }
 
-#endif		// _CPLUSPLUSML_MEMBERS_HH_
+#endif		// _CPLUSPLUSML_OBJECT_MEMBERS_HH_

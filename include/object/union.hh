@@ -1,16 +1,20 @@
-#ifndef         _CPLUSPLUSML_OBJECT_UNION_H_
-# define        _CPLUSPLUSML_OBJECT_UNION_H_
+#ifndef         _CPLUSPLUSML_OBJECT_UNION_HH_
+# define        _CPLUSPLUSML_OBJECT_UNION_HH_
 
-# include       "complex.hh"
+# include       "classificator.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  class                 Union : public Complex_
+  namespace             Object
   {
-  public:
-    Union();
-    ~Union() { }
-  };
+    // Union object
+    class               Union : public Classificator
+    {
+    public:
+      Union();
+      ~Union() { }
+    };
+  }
 }
 
-#endif // _CPLUSPLUSML_OBJECT_UNION_H_
+#endif // _CPLUSPLUSML_OBJECT_UNION_HH_

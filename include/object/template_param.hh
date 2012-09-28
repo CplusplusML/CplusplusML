@@ -1,16 +1,20 @@
 #ifndef         _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_
 # define        _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_
 
-# include       "complex.hh"
+# include       "classificator.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  class                 TemplateParam: public Complex_
+  namespace             Object
   {
-  public:
-    TemplateParam();
-    ~TemplateParam() {}
-  };
+    // Template parameter object
+    class               TemplateParam: public Classificator
+    {
+    public:
+      TemplateParam();
+      ~TemplateParam() {}
+    };
+  }
 }
 
 #endif          // _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_

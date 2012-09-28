@@ -1,16 +1,20 @@
-#ifndef         _CPLUSPLUSML_OBJECT_STRUCT_H_
-# define        _CPLUSPLUSML_OBJECT_STRUCT_H_
+#ifndef         _CPLUSPLUSML_OBJECT_STRUCT_HH_
+# define        _CPLUSPLUSML_OBJECT_STRUCT_HH_
 
-# include       "complex.hh"
+# include       "classificator.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  class                 Struct : public Complex_
+  namespace             Object
   {
-  public:
-    Struct();
-    ~Struct() { }
-  };
+    // Structure object
+    class               Struct : public Classificator
+    {
+    public:
+      Struct();
+      ~Struct() { }
+    };
+  }
 }
 
-#endif // _CPLUSPLUSML_OBJECT_STRUCT_H_
+#endif // _CPLUSPLUSML_OBJECT_STRUCT_HH_
