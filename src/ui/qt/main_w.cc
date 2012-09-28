@@ -4,12 +4,12 @@
 #include <QtGui>
 #include <QDesktopServices>
 
-#include "ui/main_w.h"
+#include "ui/qt/main_w.h"
 #include "ui_AboutWindow.h"
 #include "ui_HelpWindow.h"
 
 #include "object/class.hh"
-#include "object/dependency.hh"
+//#include "object/dependency.hh"
 
 
 namespace CplusplusML
@@ -92,24 +92,24 @@ namespace CplusplusML
 
   void Main_W::manageToolbarActions(QAction *action)
   {
-    static const std::map<QAction *, Object::ObjectType> objectMap = {
-      {actionCursor, Object::objectCursor},
-      {actionNamespace, Object::objectNamespace},
-      {actionClass, Object::objectClass},
-      {actionStruct, Object::objectStruct},
-      {actionEnum, Object::objectEnum},
-      {actionUnion, Object::objectUnion},
-      {actionTypedef, Object::objectTypedef},
-      {actionAggregation, Object::objectAggregation},
-      {actionDependency, Object::objectDependency},
-      {actionComposition, Object::objectComposition},
-      {actionInheritance, Object::objectInheritance},
-      {actionFreeFunction, Object::objectFreeFunction},
-      {actionTemplate, Object::objectTemplate},
-      {actionLibrary, Object::objectLibrary}
+    static const std::map<QAction *, Object::Type> objectMap = {
+      {actionCursor, Object::Type::objectCursor},
+      {actionNamespace, Object::Type::objectNamespace},
+      {actionClass, Object::Type::objectClass},
+      {actionStruct, Object::Type::objectStruct},
+      {actionEnum, Object::Type::objectEnum},
+      {actionUnion, Object::Type::objectUnion},
+      {actionTypedef, Object::Type::objectTypedef},
+      {actionAggregation, Object::Type::objectAggregation},
+      {actionDependency, Object::Type::objectDependency},
+      {actionComposition, Object::Type::objectComposition},
+      {actionInheritance, Object::Type::objectInheritance},
+      {actionFreeFunction, Object::Type::objectFreeFunction},
+      {actionTemplate, Object::Type::objectTemplate},
+      {actionLibrary, Object::Type::objectLibrary}
     };
 
-    std::map<QAction *, Object::ObjectType>::const_iterator found;
+    std::map<QAction *, Object::Type>::const_iterator found;
     found = objectMap.find(action);
 
     if (found == objectMap.end())
@@ -117,7 +117,7 @@ namespace CplusplusML
         std::cerr << "Action not found" << std::endl;
         return;
       }
-    if (found->second == Object::objectCursor)
+    if (found->second == Object::Type::objectCursor)
       scene_.setMode(DiagramScene::modeMoveItem);
     else
       {

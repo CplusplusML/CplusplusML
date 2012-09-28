@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ComplexProperty</class>
- <widget class="QDialog" name="ComplexProperty">
+ <class>ClassificatorProperty</class>
+ <widget class="QDialog" name="ClassificatorProperty">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -578,7 +578,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ComplexProperty</receiver>
+   <receiver>ClassificatorProperty</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -594,7 +594,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ComplexProperty</receiver>
+   <receiver>ClassificatorProperty</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

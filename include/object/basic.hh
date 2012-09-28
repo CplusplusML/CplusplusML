@@ -29,9 +29,10 @@ namespace               CplusplusML
     class Basic
     {
     public:
-      Basic_() { }
-      virtual ~Basic_() { }
+      Basic() { }
+      virtual ~Basic() { }
     };
+  }
 }
 
 

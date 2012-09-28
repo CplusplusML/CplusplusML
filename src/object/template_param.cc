@@ -1,17 +1,13 @@
 #include "object/template_param.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  TemplateParam::TemplateParam()
+  namespace             Object
   {
-    QPen                pen(Qt::DashDotLine);
-
-    title_ = "Param";
-    typeLabel_->setParentItem(0);
-    titleRect_->setPen(pen);
-    attrRect_->setPen(pen);
-    opeRect_->setPen(pen);
-
-    updateGraphics();
+    // CTOR/DTORS
+    TemplateParam::TemplateParam()
+    {
+      name_ = "Param";
+    }
   }
 }

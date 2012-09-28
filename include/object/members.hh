@@ -20,7 +20,7 @@ namespace               CplusplusML
           UNKNOWN
         };
 
-      inline const char *visibilityName(Visibility v)
+      inline const char *VisibilityName(Visibility v)
       {
         static std::map<Visibility, char const *>	visibilities = {
           {PUBLIC, "+"},
@@ -34,31 +34,33 @@ namespace               CplusplusML
       // AMember
       struct                    AMember
       {
-        AMember(bool tmpMember);
-        virtual ~AMember();
-
-        void                    operator=(AMember const &m);
-        inline void             updateLabel(void)
+        AMember():
+          visibility(PUBLIC),
+          isStatic(false),
+          deleted(false)
         {
-          if (label)
-            label->setText(this->toString().c_str());
         }
 
-        virtual char const      *toString(void) const = 0;
+        virtual ~AMember()
+        {
+        }
+
+        void                    operator=(AMember const &m);
+
+        virtual std::string     ToString(void) const = 0;
 
         std::string             name;
         std::string             type;
         Visibility              visibility;
         bool                    isStatic;
+        bool                    deleted;
       };
 
       // Attribute
       struct              Attribute: public AMember
       {
-        Attribute(bool tmpMember = false);
-
         void              operator=(Attribute const &a);
-        char const        *toString(void) const;
+        std::string       ToString(void) const;
 
         std::string       defaultValue;
       };
@@ -73,10 +75,14 @@ namespace               CplusplusML
             PURE
           };
 
-        Operation(bool tmpMember = false);
+        Operation():
+          isConst(false),
+          inhType(LEAF)
+        {
+        }
 
         void              operator=(Operation const &o);
-        char const        *toString(void) const;
+        std::string       ToString(void) const;
 
         bool              isConst;
         InheritanceType   inhType;
@@ -84,7 +90,7 @@ namespace               CplusplusML
         // Structure for parameters
         struct            Parameter
         {
-          char const      *toString(bool inList = false) const;
+          std::string     ToString(bool inList = false) const;
 
           std::string     name;
           std::string     type;

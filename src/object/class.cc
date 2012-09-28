@@ -1,13 +1,13 @@
 #include "object/class.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  Class::Class()
+  namespace             Object
   {
-    title_ = "Class";
-    typeLabel_->setText("class");
-    //    typeLabel_->setPen(QPen(Qt::red));
-
-    updateGraphics();
+    // CTOR for Class object
+    Class::Class()
+    {
+      name_ = "Class";
+    }
   }
 }

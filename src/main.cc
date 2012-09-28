@@ -1,4 +1,4 @@
-#include "ui/main_w.h"
+#include "ui/qt/main_w.h"
 
 int main(int argc, char *argv[])
 {

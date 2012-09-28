@@ -1,12 +1,12 @@
-#ifndef		_CPLUSPLUSML_UI_DIAGRAM_SCENE_HH_
-# define	_CPLUSPLUSML_UI_DIAGRAM_SCENE_HH_
+#ifndef		_CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
+# define	_CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
 
 #include	<QGraphicsScene>
 #include	<QGraphicsItem>
 
 #include	"object/basic.hh"
 
-#include	"ui/complex_property_window.hh"
+#include	"ui/qt/classificator_property_window.hh"
 
 namespace			CplusplusML
 {
@@ -24,12 +24,12 @@ namespace			CplusplusML
 
     DiagramScene();
 
-    inline void			setCurrentItem(Object::ObjectType item)
+    inline void			setCurrentItem(Object::Type item)
     {
       currentItem_ = item;
     }
 
-    inline Object::ObjectType	getCurrentItem(void) const
+    inline Object::Type	getCurrentItem(void) const
     {
       return (currentItem_);
     }
@@ -62,10 +62,10 @@ namespace			CplusplusML
 
   private:
 
-    Object::ObjectType		currentItem_;
+    Object::Type		currentItem_;
     Mode			currentMode_;
-    ComplexPropertyWindow	complexProperties_;
+    ClassificatorPropertyWindow	classificatorProperties_;
   };
 }
 
-#endif		// _CPLUSPLUSML_UI_DIAGRAM_SCENE_HH_
+#endif		// _CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_

@@ -1,98 +1,94 @@
-#include        <iostream> //DEBUG
-
-#include        "ui/complex_property_window.hh"
-#include        "object/complex.hh"
-
-using namespace std; //DEBUG
+#include        "ui/qt/classificator_property_window.hh"
+#include        "object/classificator.hh"
 
 namespace               CplusplusML
 {
   using namespace       Object::Members;
   // CTORS
-  ComplexPropertyWindow::ComplexPropertyWindow():
-    ui(new Ui::ComplexProperty),
-    complex_(NULL)
+  ClassificatorPropertyWindow::ClassificatorPropertyWindow():
+    ui(new Ui::ClassificatorProperty),
+    classificator_(NULL)
   {
     ui->setupUi(this);
 
     // Connection for apply button
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)),
-            this, SLOT(checkApply(QAbstractButton *)));
+            this, SLOT(CheckApply_(QAbstractButton *)));
     // Connections for attributes
     //   Buttons
     connect(ui->attrNewButton, SIGNAL(clicked()),
-            this, SLOT(createAttr()));
+            this, SLOT(CreateAttr_()));
     connect(ui->attrDelButton, SIGNAL(clicked()),
-            this, SLOT(deleteAttr()));
+            this, SLOT(DeleteAttr_()));
     connect(ui->attrUpButton, SIGNAL(clicked()),
-            this, SLOT(moveUpAttrItem()));
+            this, SLOT(MoveUpAttrItem_()));
     connect(ui->attrDownButton, SIGNAL(clicked()),
-            this, SLOT(moveDownAttrItem()));
+            this, SLOT(MoveDownAttrItem_()));
     //   Edition
     connect(ui->attrName, SIGNAL(editingFinished()),
-            this, SLOT(updateAttrListItem()));
+            this, SLOT(UpdateAttrListItem_()));
     connect(ui->attrType, SIGNAL(editingFinished()),
-            this, SLOT(updateAttrListItem()));
+            this, SLOT(UpdateAttrListItem_()));
     connect(ui->attrValue, SIGNAL(editingFinished()),
-            this, SLOT(updateAttrListItem()));
+            this, SLOT(UpdateAttrListItem_()));
     connect(ui->attrVisibility, SIGNAL(activated(int)),
-            this, SLOT(updateAttrListItem()));
+            this, SLOT(UpdateAttrListItem_()));
     connect(ui->attrIsStatic, SIGNAL(stateChanged(int)),
-            this, SLOT(updateAttrListItem()));
+            this, SLOT(UpdateAttrListItem_()));
     connect(ui->attrList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-            this, SLOT(updateAttrData()));
+            this, SLOT(UpdateAttrData_()));
     // Connection for operations
     //   Buttons
     //     Operations
     connect(ui->opeNewButton, SIGNAL(clicked()),
-            this, SLOT(createOpe()));
+            this, SLOT(CreateOpe_()));
     connect(ui->opeDelButton, SIGNAL(clicked()),
-            this, SLOT(deleteOpe()));
+            this, SLOT(DeleteOpe_()));
     connect(ui->opeUpButton, SIGNAL(clicked()),
-            this, SLOT(moveUpOpeItem()));
+            this, SLOT(MoveUpOpeItem_()));
     connect(ui->opeDownButton, SIGNAL(clicked()),
-            this, SLOT(moveDownOpeItem()));
+            this, SLOT(MoveDownOpeItem_()));
     //     Parameters
     connect(ui->opeParamNewButton, SIGNAL(clicked()),
-            this, SLOT(createOpeParam()));
+            this, SLOT(CreateOpeParam_()));
     connect(ui->opeParamDelButton, SIGNAL(clicked()),
-            this, SLOT(deleteOpeParam()));
+            this, SLOT(DeleteOpeParam_()));
     connect(ui->opeParamUpButton, SIGNAL(clicked()),
-            this, SLOT(moveUpOpeParamItem()));
+            this, SLOT(MoveUpOpeParamItem_()));
     connect(ui->opeParamDownButton, SIGNAL(clicked()),
-            this, SLOT(moveDownOpeParamItem()));
+            this, SLOT(MoveDownOpeParamItem_()));
     //   Edition
     //     Operations
     connect(ui->opeName, SIGNAL(editingFinished()),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeType, SIGNAL(editingFinished()),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeVisibility, SIGNAL(activated(int)),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeInheritance, SIGNAL(activated(int)),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeIsStatic, SIGNAL(stateChanged(int)),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeIsConst, SIGNAL(stateChanged(int)),
-            this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeListItem_()));
     connect(ui->opeList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-            this, SLOT(updateOpeData()));
+            this, SLOT(UpdateOpeData_()));
     //     Parameters
     connect(ui->opeParamName, SIGNAL(editingFinished()),
-            this, SLOT(updateOpeParamListItem()));
+            this, SLOT(UpdateOpeParamListItem_()));
     connect(ui->opeParamType, SIGNAL(editingFinished()),
-            this, SLOT(updateOpeParamListItem()));
+            this, SLOT(UpdateOpeParamListItem_()));
     connect(ui->opeParamValue, SIGNAL(editingFinished()),
-            this, SLOT(updateOpeParamListItem()));
+            this, SLOT(UpdateOpeParamListItem_()));
     connect(ui->opeParamList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-            this, SLOT(updateOpeParamData()));
-    connect(this, SIGNAL(updateOpeAndParam()), this, SLOT(updateOpeListItem()));
+            this, SLOT(UpdateOpeParamData_()));
+    connect(this, SIGNAL(UpdateOpeAndParam()), this, SLOT(UpdateOpeListItem_()));
     
   }
   // !CTORS
 
   // DTORS
-  ComplexPropertyWindow::~ComplexPropertyWindow()
+  ClassificatorPropertyWindow::~ClassificatorPropertyWindow()
   {
     delete ui;
   }
@@ -100,14 +96,14 @@ namespace               CplusplusML
 
   // PRIVATE SLOTS
   // ATTRIBUTES
-  void          ComplexPropertyWindow::checkApply(QAbstractButton *button)
+  void          ClassificatorPropertyWindow::CheckApply_(QAbstractButton *button)
   {
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Apply ||
         ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok)
-      emit applied();
+      emit Applied();
   }
 
-  void          ComplexPropertyWindow::moveUpAttrItem()
+  void          ClassificatorPropertyWindow::MoveUpAttrItem_()
   {
     int         currentRow = ui->attrList->currentRow();
 
@@ -120,7 +116,7 @@ namespace               CplusplusML
     ui->attrUpButton->setEnabled(currentRow - 1 > 0);
   }
 
-  void          ComplexPropertyWindow::moveDownAttrItem()
+  void          ClassificatorPropertyWindow::MoveDownAttrItem_()
   {
     int         currentRow = ui->attrList->currentRow();
 
@@ -134,7 +130,7 @@ namespace               CplusplusML
   }
 
   // Update the list view, get data from form and make a string displayed into the list item
-  void                  ComplexPropertyWindow::updateAttrListItem()
+  void                  ClassificatorPropertyWindow::UpdateAttrListItem_()
   {
     MemberListItem      *item;
     Attribute           *attr;
@@ -151,11 +147,11 @@ namespace               CplusplusML
     attr->defaultValue = ui->attrValue->text().toStdString();
     attr->visibility = static_cast<Visibility>(ui->attrVisibility->currentIndex());
     attr->isStatic = ui->attrIsStatic->checkState();
-    item->setText(attr->toString().c_str());
+    item->setText(attr->ToString().c_str());
   }
 
   // When the selection change, update the attribute's data from the item in the list
-  void                  ComplexPropertyWindow::updateAttrData()
+  void                  ClassificatorPropertyWindow::UpdateAttrData_()
   {
     MemberListItem      *item;
     Attribute           *attr;
@@ -163,7 +159,7 @@ namespace               CplusplusML
     if (ui->attrList->currentRow() < 0)
       return;
 
-    clearAttrData();
+    ClearAttrData_();
     if (!(item = static_cast<MemberListItem *>(ui->attrList->currentItem())))
       return;
     attr = static_cast<Attribute *>(item->tmpMember_);
@@ -177,12 +173,12 @@ namespace               CplusplusML
     ui->attrName->setFocus(Qt::OtherFocusReason);    
   }
 
-  void                  ComplexPropertyWindow::createAttr()
+  void                  ClassificatorPropertyWindow::CreateAttr_()
   {
     MemberListItem      *item;
     
-    item = new MemberListItem("+", new Attribute(true));
-    clearAttrData();
+    item = new MemberListItem("+", new Attribute());
+    ClearAttrData_();
     ui->attrList->addItem(item);
     if (!ui->attrGroupBox->isEnabled())
       {
@@ -195,12 +191,12 @@ namespace               CplusplusML
     ui->attrDownButton->setEnabled(ui->attrList->currentRow() + 1 < ui->attrList->count());
   }
 
-  void                  ComplexPropertyWindow::deleteAttr()
+  void                  ClassificatorPropertyWindow::DeleteAttr_()
   {
     int                 row = ui->attrList->currentRow();
     MemberListItem      *item;
 
-    clearAttrData();
+    ClearAttrData_();
     item = static_cast<MemberListItem *>(ui->attrList->takeItem(row));
     if (item->member_)
       item->member_->deleted = true;
@@ -217,12 +213,12 @@ namespace               CplusplusML
   
   // OPERATIONS
 
-  void                  ComplexPropertyWindow::createOpe()
+  void                  ClassificatorPropertyWindow::CreateOpe_()
   {
     MemberListItem      *item;
     
-    item = new MemberListItem("+()", new Operation(true));
-    clearOpeData();
+    item = new MemberListItem("+()", new Operation());
+    ClearOpeData_();
     ui->opeList->addItem(item);
     if (!ui->opeGroupBox->isEnabled())
       {
@@ -235,12 +231,12 @@ namespace               CplusplusML
     ui->opeDownButton->setEnabled(ui->opeList->currentRow() + 1 < ui->opeList->count());
   }
 
-  void                  ComplexPropertyWindow::deleteOpe()
+  void                  ClassificatorPropertyWindow::DeleteOpe_()
   {
     int                 row = ui->opeList->currentRow();
     MemberListItem      *item;
 
-    clearOpeData();
+    ClearOpeData_();
     item = static_cast<MemberListItem *>(ui->opeList->takeItem(row));
     if (item->member_)
       item->member_->deleted = true;
@@ -258,7 +254,7 @@ namespace               CplusplusML
     ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
-  void                  ComplexPropertyWindow::updateOpeListItem()
+  void                  ClassificatorPropertyWindow::UpdateOpeListItem_()
   {
     MemberListItem      *item;
     Operation           *ope;
@@ -275,10 +271,10 @@ namespace               CplusplusML
     ope->inhType = static_cast<Operation::InheritanceType>(ui->opeInheritance->currentIndex());
     ope->isStatic = ui->opeIsStatic->checkState();
     ope->isConst = ui->opeIsConst->checkState();
-    item->setText(ope->toString().c_str());
+    item->setText(ope->ToString().c_str());
   }
 
-  void          ComplexPropertyWindow::moveUpOpeItem()
+  void          ClassificatorPropertyWindow::MoveUpOpeItem_()
   {
     int         currentRow = ui->opeList->currentRow();
 
@@ -291,7 +287,7 @@ namespace               CplusplusML
     ui->opeUpButton->setEnabled(currentRow - 1 > 0);
   }
 
-  void          ComplexPropertyWindow::moveDownOpeItem()
+  void          ClassificatorPropertyWindow::MoveDownOpeItem_()
   {
     int         currentRow = ui->opeList->currentRow();
 
@@ -304,7 +300,7 @@ namespace               CplusplusML
     ui->opeDownButton->setEnabled(currentRow + 2 < ui->opeList->count());
   }
 
-  void                  ComplexPropertyWindow::updateOpeData()
+  void                  ClassificatorPropertyWindow::UpdateOpeData_()
   {
     MemberListItem      *item;
     Operation           *ope;
@@ -312,7 +308,7 @@ namespace               CplusplusML
     if (ui->opeList->currentRow() < 0)
       return;
 
-    clearOpeData();
+    ClearOpeData_();
     if (!(item = static_cast<MemberListItem *>(ui->opeList->currentItem())))
       return;
 
@@ -332,7 +328,7 @@ namespace               CplusplusML
       {
         ui->opeParamList->blockSignals(true);
         for (Operation::Parameter &p : ope->parameters)
-          ui->opeParamList->addItem(new QListWidgetItem(p.toString(true).c_str()));
+          ui->opeParamList->addItem(new QListWidgetItem(p.ToString(true).c_str()));
         ui->opeParamList->setCurrentItem(ui->opeParamList->item(0));
         ui->opeParamName->setText(ope->parameters.front().name.c_str());
         ui->opeParamType->setText(ope->parameters.front().type.c_str());
@@ -351,14 +347,14 @@ namespace               CplusplusML
     ui->opeName->setFocus(Qt::OtherFocusReason);
   }
 
-  void                  ComplexPropertyWindow::createOpeParam()
+  void                  ClassificatorPropertyWindow::CreateOpeParam_()
   {
     QListWidgetItem     *param;
     MemberListItem      *item;
     Operation           *ope;
     
     param = new QListWidgetItem(":");
-    clearOpeParamData();
+    ClearOpeParamData_();
     ui->opeParamList->addItem(param);
     item = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(item->tmpMember_);
@@ -374,14 +370,14 @@ namespace               CplusplusML
     ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
-  void                  ComplexPropertyWindow::deleteOpeParam()
+  void                  ClassificatorPropertyWindow::DeleteOpeParam_()
   {
     int                 row = ui->opeParamList->currentRow();
     MemberListItem      *item;
     Operation           *ope;
     int                 i;
 
-    clearOpeParamData();
+    ClearOpeParamData_();
     delete ui->opeParamList->takeItem(row);
     item = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(item->tmpMember_);
@@ -397,7 +393,7 @@ namespace               CplusplusML
     ui->opeParamDownButton->setEnabled(ui->opeParamList->currentRow() + 1 < ui->opeParamList->count());
   }
 
-  void                  ComplexPropertyWindow::updateOpeParamListItem()
+  void                  ClassificatorPropertyWindow::UpdateOpeParamListItem_()
   {
     QListWidgetItem     *item;
     MemberListItem      *opeItem;
@@ -418,11 +414,11 @@ namespace               CplusplusML
     param.name = ui->opeParamName->text().toStdString();
     param.type = ui->opeParamType->text().toStdString();
     param.defValue = ui->opeParamValue->text().toStdString();
-    item->setText(param.toString(true).c_str());
-    emit updateOpeAndParam();
+    item->setText(param.ToString(true).c_str());
+    emit UpdateOpeAndParam();
   }
 
-  void                          ComplexPropertyWindow::moveUpOpeParamItem()
+  void                          ClassificatorPropertyWindow::MoveUpOpeParamItem_()
   {
     MemberListItem              *opeItem;
     Operation                   *ope;
@@ -447,7 +443,7 @@ namespace               CplusplusML
     ui->opeParamUpButton->setEnabled(currentRow - 1 > 0);
   }
 
-  void                          ComplexPropertyWindow::moveDownOpeParamItem()
+  void                          ClassificatorPropertyWindow::MoveDownOpeParamItem_()
   {
     MemberListItem              *opeItem;
     Operation                   *ope;
@@ -472,7 +468,7 @@ namespace               CplusplusML
     ui->opeParamDownButton->setEnabled(currentRow + 2 < ui->opeParamList->count());
   }
 
-  void                  ComplexPropertyWindow::updateOpeParamData()
+  void                  ClassificatorPropertyWindow::UpdateOpeParamData_()
   {
     MemberListItem      *opeItem;
     Operation           *ope;
@@ -481,7 +477,7 @@ namespace               CplusplusML
     if (!ui->opeParamList->count())
       return;
 
-    clearOpeParamData();
+    ClearOpeParamData_();
     opeItem = static_cast<MemberListItem *>(ui->opeList->currentItem());
     ope = static_cast<Operation *>(opeItem->tmpMember_);
     auto it = ope->parameters.begin();
@@ -499,11 +495,11 @@ namespace               CplusplusML
   // !PRIVATE SLOTS
 
   // PUBLIC FUNCTIONS
-  void          ComplexPropertyWindow::clearAll()
+  void          ClassificatorPropertyWindow::ClearAll()
   {
     // Attributes
-    clearAttrData();
-    clearOpeData();
+    ClearAttrData_();
+    ClearOpeData_();
     ui->attrList->blockSignals(true);
     ui->attrList->clear();
     ui->attrList->blockSignals(false);
@@ -527,42 +523,44 @@ namespace               CplusplusML
     ui->opeParamDownButton->setEnabled(false);
   }
 
-  void          ComplexPropertyWindow::show(Object::Complex_ *complex)
+  void          ClassificatorPropertyWindow::Show(Object::Classificator *classificator)
   {
-    clearAll();
-    if ((complex_ = complex) != NULL)
+    ClearAll();
+    if ((classificator_ = classificator) != NULL)
       {
-        ui->name->setText(complex->title_.c_str());
-        ui->isAbstract->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->isAbstract_) * 2));
-        ui->isAttrVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getAttrVisible()) * 2));
-        ui->isOpeVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(complex->getOpeVisible()) * 2));
-        auto it = complex->attributes_.begin();
+        ui->name->setText(classificator->GetName().c_str());
+        ui->isAbstract->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(classificator->GetIsAbstract()) * 2));
+        ui->isAttrVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(classificator->GetAttrVisible()) * 2));
+        ui->isOpeVisible->setCheckState(static_cast<Qt::CheckState>(static_cast<int>(classificator->GetOpeVisible()) * 2));
+        auto it = classificator->GetAttributes().begin();
+        auto itEnd = classificator->GetAttributes().end();
         MemberListItem  *item;
-        for (; it != complex->attributes_.end(); ++it)
+        for (; it != itEnd; ++it)
           {
-            item = new MemberListItem((*it)->toString().c_str(),
-                                      new Attribute(true),
+            item = new MemberListItem((*it)->ToString().c_str(),
+                                      new Attribute(),
                                       *it);
             *(static_cast<Attribute *>(item->tmpMember_)) = *(*it);
             ui->attrList->addItem(item);
           }
-        if (complex->attributes_.size())
+        if (classificator->GetAttributes().size())
           {
             ui->attrGroupBox->setEnabled(true);
             ui->attrDelButton->setEnabled(true);
             ui->attrName->setFocus(Qt::OtherFocusReason);
             ui->attrList->setCurrentItem(ui->attrList->item(0));
           }
-        auto it2 = complex->operations_.begin();
-        for (; it2 != complex->operations_.end(); ++it2)
+        auto it2 = classificator->GetOperations().begin();
+        auto it2End = classificator->GetOperations().end();
+        for (; it2 != it2End; ++it2)
           {
-            item = new MemberListItem((*it2)->toString().c_str(),
-                                      new Operation(true),
+            item = new MemberListItem((*it2)->ToString().c_str(),
+                                      new Operation(),
                                       *it2);
             *(static_cast<Operation *>(item->tmpMember_)) = *(*it2);
             ui->opeList->addItem(item);
           }
-        if (complex->operations_.size())
+        if (classificator->GetOperations().size())
           {
             ui->opeGroupBox->setEnabled(true);
             ui->opeDelButton->setEnabled(true);
@@ -575,7 +573,7 @@ namespace               CplusplusML
   // !PUBLIC FUNCTIONS
 
   // PRIVATE FUNCTION
-  void          ComplexPropertyWindow::clearAttrData()
+  void          ClassificatorPropertyWindow::ClearAttrData_()
   {
     ui->attrName->clear();
     ui->attrType->clear();
@@ -583,16 +581,16 @@ namespace               CplusplusML
     ui->attrVisibility->setCurrentIndex(0);
   }
 
-  void          ComplexPropertyWindow::clearOpeData()
+  void          ClassificatorPropertyWindow::ClearOpeData_()
   {
     ui->opeName->clear();
     ui->opeType->clear();
     ui->opeVisibility->setCurrentIndex(0);
     ui->opeInheritance->setCurrentIndex(0);
-    clearOpeParamData();
+    ClearOpeParamData_();
   }
 
-  void				ComplexPropertyWindow::clearOpeParamData()
+  void				ClassificatorPropertyWindow::ClearOpeParamData_()
   {
     ui->opeParamName->clear();
     ui->opeParamType->clear();

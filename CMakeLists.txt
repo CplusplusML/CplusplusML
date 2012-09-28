@@ -50,7 +50,7 @@ SET(${PROJECT_NAME}_QTUI
         ui/MainWindow.ui
         ui/AboutWindow.ui
         ui/HelpWindow.ui
-	ui/ComplexProperty.ui)
+	      ui/ClassificatorProperty.ui)
 
 # UI RESSOURCES
 SET(${PROJECT_NAME}_RESOURCES ui/ressources.qrc)
@@ -63,19 +63,20 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/Inheritance.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/AST.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_w.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/diagram_scene.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/complex_property_window.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/complex.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/main_w.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/diagram_scene.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_property_window.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_graphic_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/template_param.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow_connection.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/dependency.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/members.cc
     )
+#    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow.cc
+#    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow_connection.cc
+#    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/dependency.cc
 
 SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x -g3")
 
@@ -85,11 +86,13 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 
 #QT Compilation
 QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/main_w.h
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/diagram_scene.hh
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/complex_property_window.hh
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow.hh
-        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow_connection.hh)
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/main_w.h
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/diagram_scene.hh
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/classificator_property_window.hh
+             )
+
+#        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow.hh
+#        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow_connection.hh)
 
 #Compilation Section
 add_executable(${PROJECT_NAME}

@@ -1,5 +1,5 @@
-#ifndef         _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_
-# define        _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_
+#ifndef         _CPLUSPLUSML_OBJECT_TEMPLATE_U_PARAM_HH_
+# define        _CPLUSPLUSML_OBJECT_TEMPLATE_U_PARAM_HH_
 
 # include       "classificator.hh"
 
@@ -17,4 +17,4 @@ namespace               CplusplusML
   }
 }
 
-#endif          // _CPLUSPLUSML_OBJECT_TEMPLATE_PARAM_HH_
+#endif          // _CPLUSPLUSML_OBJECT_TEMPLATE_U_PARAM_HH_

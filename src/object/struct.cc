@@ -1,13 +1,13 @@
 #include "object/struct.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  Struct::Struct()
+  namespace             Object
   {
-    title_ = "Struct";
-    typeLabel_->setText("struct");
-    // typeLabel_->setPen(QPen(Qt::green));
-
-    updateGraphics();
+    // CTOR for Struct object
+    Struct::Struct()
+    {
+      name_ = "Struct";
+    }
   }
 }

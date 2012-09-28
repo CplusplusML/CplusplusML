@@ -5,7 +5,7 @@
 #include "ui_MainWindow.h"
 #include "ui_AboutWindow.h"
 
-#include "ui/diagram_scene.hh"
+#include "ui/qt/diagram_scene.hh"
 #include "object/basic.hh"
 
 namespace CplusplusML

@@ -1,13 +1,13 @@
 #include "object/union.hh"
 
-namespace               Object
+namespace               CplusplusML
 {
-  Union::Union()
+  namespace             Object
   {
-    title_ = "Union";
-    typeLabel_->setText("Union");
-    //    typeLabel_->setPen(QPen(Qt::blue));
-
-    updateGraphics();
+    // CTOR for Union object
+    Union::Union()
+    {
+      name_ = "Union";
+    }
   }
 }
