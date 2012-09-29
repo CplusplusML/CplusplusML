@@ -3,6 +3,7 @@
 #include        <QPainter>
 
 #include        "ui/qt/classificator_graphic_item.hh"
+#include        "object/template_param.hh"
 #include        "object/members.hh"
 
 using namespace std; //DEBUG
@@ -76,13 +77,20 @@ namespace               CplusplusML
                                              QWidget *)
       {
         QFont           font = QFont("Sans", 8);
+        QPen            pen = painter->pen();
 
         int             attrSize = object_->GetAttributes().size();
         int             opeSize = object_->GetOperations().size();
         int             totHeight;
         int             totWidth;
         int             tmp;
+        ::Qt::PenStyle  penStyle = ::Qt::SolidLine;
         
+        if (dynamic_cast<Object::TemplateParam *>(object_))
+          penStyle = ::Qt::DashDotLine;
+
+        pen.setStyle(penStyle);
+        pen.setColor(0xb4b4b4);
         // Compute total height;
         totHeight = QFontMetrics(font).height() + 4;
         font.setPointSize(15);
@@ -127,7 +135,7 @@ namespace               CplusplusML
           totWidth = 120;
 
         // Draw Rect
-        painter->setPen(QPen(0xc4c4c4));
+        painter->setPen(pen);
         painter->setBrush(QBrush(0xfafafa));
         painter->drawRoundedRect(0, 0, totWidth, totHeight, 5, 5);
         totHeight = 0;
@@ -161,7 +169,7 @@ namespace               CplusplusML
         totHeight += 5;
         if (attrSize)
           {
-            painter->setPen(QPen(0xc4c4c4));
+            painter->setPen(pen);
             painter->drawLine(0, totHeight, totWidth, totHeight);
             totHeight += 1;
             painter->setPen(QPen(0x393939));
@@ -175,7 +183,7 @@ namespace               CplusplusML
         if (opeSize)
           {
             totHeight += 5;
-            painter->setPen(QPen(0xc4c4c4));
+            painter->setPen(pen);
             painter->drawLine(0, totHeight, totWidth, totHeight);
             totHeight += 1;
             painter->setPen(QPen(0x393939));
