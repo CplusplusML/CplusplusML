@@ -136,7 +136,7 @@ namespace               CplusplusML
         font.setPointSize(8);
         tmp = QFontMetrics(font).height() + 4;
         totHeight += tmp;
-        painter->setPen(QPen(0x494949));
+        painter->setPen(QPen(0x696969));
         painter->setFont(font);
         painter->drawText(QRectF(0, 5, totWidth, tmp),
                           ::Qt::AlignHCenter | ::Qt::AlignVCenter,
@@ -146,6 +146,7 @@ namespace               CplusplusML
         font.setPointSize(15);
         font.setBold(true);
         painter->setFont(font);
+        painter->setPen(QPen(0x494949));
         tmp = QFontMetrics(font).height() + 4;
         painter->drawText(QRectF(0, totHeight, totWidth, tmp),
                           ::Qt::AlignHCenter | ::Qt::AlignBottom,
