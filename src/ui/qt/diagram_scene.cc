@@ -14,94 +14,101 @@
 #include        "assed.hpp"
 
 
-namespace			CplusplusML
+namespace               CplusplusML
 {
-  DiagramScene::DiagramScene():
-    currentItem_(Object::Type::objectClass),
-    currentMode_(modeMoveItem)
+  namespace             Ui
   {
-    connect(&classificatorProperties_, SIGNAL(Applied()), this, SLOT(applyProperties()));
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(myItemSelected()));
-  }
-
-  void				DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
-  {
-    Ui::Qt::Classificator *classificator;
-
-    if (mouseEvent->button() != Qt::LeftButton)
-      return;
-
-    if (!selectedItems().empty())
+    namespace           Qt
+    {
+      DiagramScene::DiagramScene():
+        currentItem_(Object::Type::objectClass),
+        currentMode_(modeMoveItem)
       {
-        if ((classificator = qgraphicsitem_cast<Ui::Qt::Classificator *>(selectedItems().first())))
-          classificatorProperties_.Show(classificator->GetObject());
+        connect(&classificatorProperties_, SIGNAL(Applied()),
+                this, SLOT(ApplyProperties_()));
+        connect(this, SIGNAL(selectionChanged()),
+                this, SLOT(MyItemSelected_()));
       }
 
-    QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-  }
-
-  void                  DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
-  {
-    QGraphicsItem      *item = NULL;
-
-    if (mouseEvent->button() != Qt::LeftButton)
-      return;
-
-    if (currentMode_ == modeInsertItem)
+      void              DiagramScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
       {
-        switch (currentItem_)
+        Classificator   *classificator;
+
+        if (mouseEvent->button() != ::Qt::LeftButton)
+          return;
+
+        if (!selectedItems().empty())
           {
-          case (Object::Type::objectClass):
-            item = new Ui::Qt::Classificator(new Object::Class());
-            break;
-          case (Object::Type::objectStruct):
-            item = new Ui::Qt::Classificator(new Object::Struct());
-            break;
-          case (Object::Type::objectUnion):
-            item = new Ui::Qt::Classificator(new Object::Union());
-            break;
-          case (Object::Type::objectTemplate):
-            item = new Ui::Qt::Classificator(new Object::TemplateParam());
-            break;
-            // case (Object::Type::objectDependency):
-            //   item = new Object::Dependency();
-            //   break;
-          default:
-            break;
-          };
-        if (item != NULL)
+            if ((classificator = qgraphicsitem_cast<Classificator *>(selectedItems().first())))
+              classificatorProperties_.Show(classificator->GetObject());
+          }
+
+        QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
+      }
+
+      void              DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+      {
+        QGraphicsItem   *item = NULL;
+
+        if (mouseEvent->button() != ::Qt::LeftButton)
+          return;
+
+        if (currentMode_ == modeInsertItem)
           {
-            item->setSelected(true);
-            item->setFlag(Ui::Qt::Classificator::ItemIsSelectable, true);
-            item->setPos(mouseEvent->scenePos());
-            addItem(item);
-            setMode(modeMoveItem);
-            emit itemInserted(item);
+            switch (currentItem_)
+              {
+              case (Object::Type::objectClass):
+                item = new Classificator(new Object::Class());
+                break;
+              case (Object::Type::objectStruct):
+                item = new Classificator(new Object::Struct());
+                break;
+              case (Object::Type::objectUnion):
+                item = new Classificator(new Object::Union());
+                break;
+              case (Object::Type::objectTemplate):
+                item = new Classificator(new Object::TemplateParam());
+                break;
+                // case (Object::Type::objectDependency):
+                //   item = new Object::Dependency();
+                //   break;
+              default:
+                break;
+              };
+            if (item != NULL)
+              {
+                item->setSelected(true);
+                item->setFlag(Classificator::ItemIsSelectable, true);
+                item->setPos(mouseEvent->scenePos());
+                addItem(item);
+                SetMode(modeMoveItem);
+                emit ItemInserted(item);
+              }
+          }
+
+        QGraphicsScene::mousePressEvent(mouseEvent);
+      }
+
+      void              DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+      {
+        if (currentMode_ == modeMoveItem)
+          QGraphicsScene::mouseMoveEvent(mouseEvent);
+      }
+
+      void              DiagramScene::ApplyProperties_()
+      {
+        Classificator   *clGrItem;
+
+        if (!selectedItems().empty())
+          {
+            if ((clGrItem = qgraphicsitem_cast<Classificator *>(selectedItems().first())))
+              clGrItem->GetObject()->UpdateFromForm(*classificatorProperties_.ui);
           }
       }
 
-    QGraphicsScene::mousePressEvent(mouseEvent);
-  }
-
-  void				DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
-  {
-    if (currentMode_ == modeMoveItem)
-      QGraphicsScene::mouseMoveEvent(mouseEvent);
-  }
-
-  void				DiagramScene::applyProperties()
-  {
-    Ui::Qt::Classificator       *clGrItem;
-
-    if (!selectedItems().empty())
+      void              DiagramScene::MyItemSelected_()
       {
-        if ((clGrItem = qgraphicsitem_cast<Ui::Qt::Classificator *>(selectedItems().first())))
-          clGrItem->GetObject()->UpdateFromForm(*classificatorProperties_.ui);
       }
+    }
   }
-
-  void				DiagramScene::myItemSelected()
-  {
-  }
-
 }

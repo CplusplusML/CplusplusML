@@ -1,71 +1,80 @@
-#ifndef		_CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
-# define	_CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
+#ifndef         _CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
+# define        _CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_
 
-#include	<QGraphicsScene>
-#include	<QGraphicsItem>
+# include       <QGraphicsScene>
+# include       <QGraphicsItem>
 
-#include	"object/basic.hh"
+# include       "object/basic.hh"
 
-#include	"ui/qt/classificator_property_window.hh"
+# include       "ui/qt/classificator_property_window.hh"
 
-namespace			CplusplusML
+namespace               CplusplusML
 {
-  class				DiagramScene: public QGraphicsScene
+  namespace             Ui
   {
-    Q_OBJECT
+    namespace           Qt
+    {
+      namespace         Object = ::CplusplusML::Object;
 
-  public:
-    
-    enum			Mode
+      class             DiagramScene: public QGraphicsScene
       {
-        modeInsertItem,
-        modeMoveItem
-      };
+        Q_OBJECT
 
-    DiagramScene();
+      public:
+    
+        enum            Mode
+          {
+            modeInsertItem,
+            modeMoveItem
+          };
 
-    inline void			setCurrentItem(Object::Type item)
-    {
-      currentItem_ = item;
-    }
+        DiagramScene();
 
-    inline Object::Type	getCurrentItem(void) const
-    {
-      return (currentItem_);
-    }
+        inline void     SetCurrentItem(Object::Type item)
+        {
+          currentItem_ = item;
+        }
 
-    inline void			setMode(Mode mode)
-    {
-      currentMode_ = mode;
-    }
+        inline Object::Type     GetCurrentItem(void) const
+        {
+          return (currentItem_);
+        }
 
-    inline Mode			getMode(void) const
-    {
-      return (currentMode_);
-    }
+        inline void			SetMode(Mode mode)
+        {
+          currentMode_ = mode;
+        }
 
-  signals:
+        inline Mode			GetMode(void) const
+        {
+          return (currentMode_);
+        }
 
-    void			itemInserted(QGraphicsItem *item);
+      signals:
 
-  private slots:
+        void			ItemInserted(QGraphicsItem *item);
 
-    void			applyProperties();
-    void			myItemSelected();
+      private slots:
 
-  protected:
+        void			ApplyProperties_();
+        void			MyItemSelected_();
 
-    void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void			mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+        // Redefine Qt slot, no coding norm here
+      protected:
+
+        void			mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+        void			mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+        void			mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     
 
-  private:
+      private:
 
-    Object::Type		currentItem_;
-    Mode			currentMode_;
-    ClassificatorPropertyWindow	classificatorProperties_;
-  };
+        Object::Type                    currentItem_;
+        Mode                            currentMode_;
+        ClassificatorPropertyWindow     classificatorProperties_;
+      };
+    }
+  }
 }
 
 #endif		// _CPLUSPLUSML_UI_QT_DIAGRAM_U_SCENE_HH_

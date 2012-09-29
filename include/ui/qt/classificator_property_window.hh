@@ -1,90 +1,101 @@
-#ifndef		_CPLUSPLUSML_UI_CLASSIFICATOR_U_PROPERTY_U_WINDOW_HH_
-# define	_CPLUSPLUSML_UI_CLASSIFICATOR_U_PROPERTY_U_WINDOW_HH_
+#ifndef         _CPLUSPLUSML_UI_CLASSIFICATOR_U_PROPERTY_U_WINDOW_HH_
+# define        _CPLUSPLUSML_UI_CLASSIFICATOR_U_PROPERTY_U_WINDOW_HH_
 
-# include	<map>
+# include       <map>
 
-# include	"ui_ClassificatorProperty.h"
-# include	"object/members.hh"
+# include       "ui_ClassificatorProperty.h"
+# include       "object/members.hh"
 
-namespace			CplusplusML
+namespace               CplusplusML
 {
-  namespace Object
+  // Forward declaration of Object::Classificator
+  namespace             Object
   {
-    class Classificator;
+    class               Classificator;
   }
 
-  class				MemberListItem: public QListWidgetItem
+  namespace             Ui
   {
-  public:
-    MemberListItem(QString const &text,
-		   Object::Members::AMember *tmpMember,
-		   Object::Members::AMember *member = NULL,
-		   QListWidget *parent = 0):
-      QListWidgetItem(text, parent),
-      member_(member),
-      tmpMember_(tmpMember)
-    {}
+    namespace           Qt
+    {
+      namespace         Object = ::CplusplusML::Object;
+      // Struct which make link between Object::Member and QListWidgetItem
+      struct             MemberListItem: public QListWidgetItem
+      {
+        MemberListItem(QString const &text,
+                       Object::Members::AMember *tmpMember,
+                       Object::Members::AMember *member = NULL,
+                       QListWidget *parent = 0):
+          QListWidgetItem(text, parent),
+          member_(member),
+          tmpMember_(tmpMember)
+        {
+        }
 
-    ~MemberListItem()
-    { delete tmpMember_; }
+        ~MemberListItem() {
+          delete tmpMember_;
+        }
 
-    Object::Members::AMember	*member_;
-    Object::Members::AMember	*tmpMember_;
-  };
+        Object::Members::AMember        *member_;
+        Object::Members::AMember        *tmpMember_;
+      };
 
-  class				ClassificatorPropertyWindow: public QDialog
-  {
-    Q_OBJECT
+      // The property window of classificators
+      class             ClassificatorPropertyWindow: public QDialog
+      {
+        Q_OBJECT
 
-  public:
-    ClassificatorPropertyWindow();
-    ~ClassificatorPropertyWindow();
+      public:
+        ClassificatorPropertyWindow();
+        ~ClassificatorPropertyWindow();
 
-    void			Show(Object::Classificator *classificator = NULL);
-    void			ClearAll();
+        void            Show(Object::Classificator *classificator = NULL);
+        void            ClearAll();
 
-  signals:
-    void			Applied();
-    void			UpdateOpeAndParam();
+      signals:
+        void            Applied();
+        void            UpdateOpeAndParam();
 
-  private slots:
-    void			CheckApply_(QAbstractButton *button);
+      private slots:
+        void            CheckApply_(QAbstractButton *button);
 
-    // Attributes slots
-    void			CreateAttr_();
-    void			DeleteAttr_();
-    void			UpdateAttrListItem_();
-    void			MoveUpAttrItem_();
-    void			MoveDownAttrItem_();
-    void			UpdateAttrData_();
+        // Attributes slots
+        void            CreateAttr_();
+        void            DeleteAttr_();
+        void            UpdateAttrListItem_();
+        void            MoveUpAttrItem_();
+        void            MoveDownAttrItem_();
+        void            UpdateAttrData_();
 
-    // Operations slots
-    void			CreateOpe_();
-    void			DeleteOpe_();
-    void			UpdateOpeListItem_();
-    void			MoveUpOpeItem_();
-    void			MoveDownOpeItem_();
-    void			UpdateOpeData_();
+        // Operations slots
+        void            CreateOpe_();
+        void            DeleteOpe_();
+        void            UpdateOpeListItem_();
+        void            MoveUpOpeItem_();
+        void            MoveDownOpeItem_();
+        void            UpdateOpeData_();
 
-    // Operation param slots
-    void			CreateOpeParam_();
-    void			DeleteOpeParam_();
-    void			UpdateOpeParamListItem_();
-    void			MoveUpOpeParamItem_();
-    void			MoveDownOpeParamItem_();
-    void			UpdateOpeParamData_();
+        // Operation param slots
+        void            CreateOpeParam_();
+        void            DeleteOpeParam_();
+        void            UpdateOpeParamListItem_();
+        void            MoveUpOpeParamItem_();
+        void            MoveDownOpeParamItem_();
+        void            UpdateOpeParamData_();
 
-  public:
-    Ui::ClassificatorProperty		*ui;
+      public:
+        ::Ui::ClassificatorProperty     *ui;
 
-  private:
-    void			ClearAttrData_();
-    void			ClearOpeData_();
-    void			ClearOpeParamData_();
+      private:
+        void            ClearAttrData_();
+        void            ClearOpeData_();
+        void            ClearOpeParamData_();
 
-  private:
-    Object::Classificator		*classificator_;
-  };
+      private:
+        Object::Classificator   *classificator_;
+      };
+    }
+  }
 }
 
 #endif		// _CPLUSPLUSML_UI_CLASSIFICATOR_U_PROPERTY_U_WINDOW_HH_

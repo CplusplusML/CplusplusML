@@ -5,13 +5,15 @@
 
 # include       "object/classificator.hh"
 
-namespace                       CplusplusML
+namespace               CplusplusML
 {
-  namespace                     Ui
+  namespace             Ui
   {
-    namespace                   Qt
+    namespace           Qt
     {
-      class                     Classificator: public QGraphicsItem
+      namespace         Object = ::CplusplusML::Object;
+
+      class             Classificator: public QGraphicsItem
       {
       public:
         Classificator(Object::Classificator *object = 0,
@@ -27,10 +29,10 @@ namespace                       CplusplusML
         {
         }
 
-        QRectF                  boundingRect() const;
-        void                    paint(QPainter *painter,
-                                      const QStyleOptionGraphicsItem *option,
-                                      QWidget *widget);
+        QRectF          boundingRect() const;
+        void            paint(QPainter *painter,
+                              const QStyleOptionGraphicsItem *option,
+                              QWidget *widget);
 
         inline Object::Classificator    *GetObject(void) const {
           return object_;

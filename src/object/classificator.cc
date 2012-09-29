@@ -1,3 +1,4 @@
+#include        "ui/qt/classificator_property_window.hh"
 #include        "object/classificator.hh"
 
 namespace               CplusplusML
@@ -6,8 +7,10 @@ namespace               CplusplusML
   {
     using namespace     Members;
 
-    void                Classificator::UpdateFromForm(Ui::ClassificatorProperty const &ui)
+    void                Classificator::UpdateFromForm(::Ui::ClassificatorProperty const &ui)
     {
+      using ::CplusplusML::Ui::Qt::MemberListItem;
+
       MemberListItem    *item;
       Attribute         *attr;
       Operation         *ope;

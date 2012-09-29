@@ -91,7 +91,7 @@ namespace                       CplusplusML
       }
 
       // Update data from form
-      void                      UpdateFromForm(Ui::ClassificatorProperty const &ui);
+      void                      UpdateFromForm(::Ui::ClassificatorProperty const &ui);
 
       // Attributes of classificator
     protected:
