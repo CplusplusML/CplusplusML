@@ -7,7 +7,7 @@ namespace               CplusplusML
     // CTOR/DTORS
     TemplateParam::TemplateParam()
     {
-      name_ = "Param";
+      name_ = type_ = "Param";
     }
   }
 }

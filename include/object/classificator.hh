@@ -22,7 +22,7 @@ namespace                       CplusplusML
 
       // CTORS/DTORS
       Classificator():
-        name_("Classificator"),
+        isAbstract_(false),
         isAttrVisible_(true),
         isOpeVisible_(true)
       {
@@ -58,6 +58,13 @@ namespace                       CplusplusML
       }
       inline void               SetName(std::string const &name) {
         name_ = name;
+      }
+      //   Type of the classificator
+      inline std::string const	&GetType(void) const {
+        return type_;
+      }
+      inline void               SetType(std::string const &type) {
+        type_ = type;
       }
       //   Attributes of the classificator
       inline Members::attrList const    &GetAttributes(void) const {
@@ -95,6 +102,7 @@ namespace                       CplusplusML
 
       // Attributes of classificator
     protected:
+      std::string               type_;
       std::string               name_;
       bool                      isAbstract_;
       Members::attrList         attributes_;

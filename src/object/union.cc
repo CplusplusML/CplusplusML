@@ -7,7 +7,7 @@ namespace               CplusplusML
     // CTOR for Union object
     Union::Union()
     {
-      name_ = "Union";
+      name_ = type_ = "Union";
     }
   }
 }

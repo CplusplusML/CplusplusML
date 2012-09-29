@@ -7,7 +7,7 @@ namespace               CplusplusML
     // CTOR for Class object
     Class::Class()
     {
-      name_ = "Class";
+      name_ = type_ = "Class";
     }
   }
 }

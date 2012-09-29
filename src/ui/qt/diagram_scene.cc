@@ -79,6 +79,7 @@ namespace               CplusplusML
               {
                 item->setSelected(true);
                 item->setFlag(Classificator::ItemIsSelectable, true);
+                item->setFlag(Classificator::ItemIsMovable, true);
                 item->setPos(mouseEvent->scenePos());
                 addItem(item);
                 SetMode(modeMoveItem);
