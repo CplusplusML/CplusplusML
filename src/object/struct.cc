@@ -7,7 +7,8 @@ namespace               CplusplusML
     // CTOR for Struct object
     Struct::Struct()
     {
-      name_ = type_ = "Struct";
+      type_ = Type::objectStruct;
+      name = typeName = "Struct";
     }
   }
 }

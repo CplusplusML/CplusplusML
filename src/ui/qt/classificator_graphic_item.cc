@@ -20,8 +20,8 @@ namespace               CplusplusML
       {
         QFont           font = QFont("Sans", 8);
 
-        int             attrSize = object_->GetAttributes().size();
-        int             opeSize = object_->GetOperations().size();
+        int             attrSize = object_->attributes.size();
+        int             opeSize = object_->operations.size();
         int             totHeight;
         int             totWidth;
         int             tmp;
@@ -33,38 +33,44 @@ namespace               CplusplusML
         totHeight += QFontMetrics(font).height() + 4;
         font.setPointSize(10);
         font.setBold(false);
-        totHeight += attrSize ? (1 + (opeSize ? 1 : 0)) : 0;
-        totHeight += (QFontMetrics(font).height() + 2) * (attrSize + opeSize);
-        if (attrSize)
+        totHeight += (attrSize && object_->isAttrVisible) ?
+          (1 + ((opeSize && object_->isOpeVisible) ? 1 : 0)) : 0;
+        if (object_->isAttrVisible)
+          totHeight += (QFontMetrics(font).height() + 2) * attrSize;
+        if (object_->isOpeVisible)
+          totHeight += (QFontMetrics(font).height() + 2) * opeSize;
+        if (attrSize && object_->isAttrVisible)
           totHeight += 5;
-        if (opeSize)
+        if (opeSize && object_->isOpeVisible)
           totHeight += 5;
         totHeight += 5;
 
         // Compute total width
         font.setPointSize(8);
-        totWidth = QFontMetrics(font).width(object_->GetType().c_str()) + 4;
+        totWidth = QFontMetrics(font).width(object_->typeName.c_str()) + 4;
         font.setPointSize(15);
         font.setBold(true);
-        tmp = QFontMetrics(font).width(object_->GetName().c_str()) + 4;
+        tmp = QFontMetrics(font).width(object_->name.c_str()) + 4;
         if (tmp > totWidth)
           totWidth = tmp;
         font.setPointSize(10);
         font.setBold(false);
 
         QFontMetrics fm(font);
-        for (Object::Members::Attribute *attr : object_->GetAttributes())
-          {
-            tmp = fm.width(attr->ToString().c_str()) + 4;
-            if (tmp > totWidth)
-              totWidth = tmp;
-          }
-        for (Object::Members::Operation *ope : object_->GetOperations())
-          {
-            tmp = fm.width(ope->ToString().c_str()) + 4;
-            if (tmp > totWidth)
-              totWidth = tmp;
-          }
+        if (object_->isAttrVisible)
+          for (Object::Members::Attribute *attr : object_->attributes)
+            {
+              tmp = fm.width(attr->ToString().c_str()) + 4;
+              if (tmp > totWidth)
+                totWidth = tmp;
+            }
+        if (object_->isOpeVisible)
+          for (Object::Members::Operation *ope : object_->operations)
+            {
+              tmp = fm.width(ope->ToString().c_str()) + 4;
+              if (tmp > totWidth)
+                totWidth = tmp;
+            }
 
         if (totWidth < 120)
           totWidth = 120;
@@ -79,14 +85,14 @@ namespace               CplusplusML
         QFont           font = QFont("Sans", 8);
         QPen            pen = painter->pen();
 
-        int             attrSize = object_->GetAttributes().size();
-        int             opeSize = object_->GetOperations().size();
+        int             attrSize = object_->attributes.size();
+        int             opeSize = object_->operations.size();
         int             totHeight;
         int             totWidth;
         int             tmp;
         ::Qt::PenStyle  penStyle = ::Qt::SolidLine;
         
-        if (dynamic_cast<Object::TemplateParam *>(object_))
+        if (object_->GetType() == Object::Type::objectTemplate)
           penStyle = ::Qt::DashDotLine;
 
         pen.setStyle(penStyle);
@@ -98,38 +104,44 @@ namespace               CplusplusML
         totHeight += QFontMetrics(font).height() + 4;
         font.setPointSize(10);
         font.setBold(false);
-        totHeight += attrSize ? (1 + (opeSize ? 1 : 0)) : 0;
-        totHeight += (QFontMetrics(font).height() + 2) * (attrSize + opeSize);
-        if (attrSize)
+        totHeight += (attrSize && object_->isAttrVisible) ?
+          (1 + ((opeSize && object_->isOpeVisible) ? 1 : 0)) : 0;
+        if (object_->isAttrVisible)
+          totHeight += (QFontMetrics(font).height() + 2) * attrSize;
+        if (object_->isOpeVisible)
+          totHeight += (QFontMetrics(font).height() + 2) * opeSize;
+        if (attrSize && object_->isAttrVisible)
           totHeight += 5;
-        if (opeSize)
+        if (opeSize && object_->isOpeVisible)
           totHeight += 5;
         totHeight += 5;
 
         // Compute total width
         font.setPointSize(8);
-        totWidth = QFontMetrics(font).width(object_->GetType().c_str()) + 4;
+        totWidth = QFontMetrics(font).width(object_->typeName.c_str()) + 4;
         font.setPointSize(15);
         font.setBold(true);
-        tmp = QFontMetrics(font).width(object_->GetName().c_str()) + 4;
+        tmp = QFontMetrics(font).width(object_->name.c_str()) + 4;
         if (tmp > totWidth)
           totWidth = tmp;
         font.setPointSize(10);
         font.setBold(false);
 
         QFontMetrics fm(font);
-        for (Object::Members::Attribute *attr : object_->GetAttributes())
-          {
-            tmp = fm.width(attr->ToString().c_str()) + 4;
-            if (tmp > totWidth)
-              totWidth = tmp;
-          }
-        for (Object::Members::Operation *ope : object_->GetOperations())
-          {
-            tmp = fm.width(ope->ToString().c_str()) + 4;
-            if (tmp > totWidth)
-              totWidth = tmp;
-          }
+        if (object_->isAttrVisible)
+          for (Object::Members::Attribute *attr : object_->attributes)
+            {
+              tmp = fm.width(attr->ToString().c_str()) + 4;
+              if (tmp > totWidth)
+                totWidth = tmp;
+            }
+        if (object_->isOpeVisible)
+          for (Object::Members::Operation *ope : object_->operations)
+            {
+              tmp = fm.width(ope->ToString().c_str()) + 4;
+              if (tmp > totWidth)
+                totWidth = tmp;
+            }
 
         if (totWidth < 120)
           totWidth = 120;
@@ -148,7 +160,7 @@ namespace               CplusplusML
         painter->setFont(font);
         painter->drawText(QRectF(0, 5, totWidth, tmp),
                           ::Qt::AlignHCenter | ::Qt::AlignVCenter,
-                          object_->GetType().c_str());
+                          object_->typeName.c_str());
 
         // Draw name
         font.setPointSize(15);
@@ -158,7 +170,7 @@ namespace               CplusplusML
         tmp = QFontMetrics(font).height() + 4;
         painter->drawText(QRectF(0, totHeight, totWidth, tmp),
                           ::Qt::AlignHCenter | ::Qt::AlignBottom,
-                          object_->GetName().c_str());
+                          object_->name.c_str());
         totHeight += tmp;
 
         // Draw attributes
@@ -166,34 +178,36 @@ namespace               CplusplusML
         font.setBold(false);
         painter->setFont(font);
         tmp = QFontMetrics(font).height() + 2;
-        totHeight += 5;
-        if (attrSize)
-          {
-            painter->setPen(pen);
-            painter->drawLine(0, totHeight, totWidth, totHeight);
-            totHeight += 1;
-            painter->setPen(QPen(0x393939));
-            for (Object::Members::Attribute *attr : object_->GetAttributes())
-              {
-                painter->drawText(2, totHeight + tmp - 2,
-                                  attr->ToString().c_str());
-                totHeight += tmp;
-              }
-          }
-        if (opeSize)
-          {
-            totHeight += 5;
-            painter->setPen(pen);
-            painter->drawLine(0, totHeight, totWidth, totHeight);
-            totHeight += 1;
-            painter->setPen(QPen(0x393939));
-            for (Object::Members::Operation *ope : object_->GetOperations())
-              {
-                painter->drawText(2, totHeight + tmp - 2,
-                                  ope->ToString().c_str());
-                totHeight += tmp;
-              }
-          }
+        if (object_->isAttrVisible)
+          if (attrSize)
+            {
+              totHeight += 5;
+              painter->setPen(pen);
+              painter->drawLine(0, totHeight, totWidth, totHeight);
+              totHeight += 1;
+              painter->setPen(QPen(0x393939));
+              for (Object::Members::Attribute *attr : object_->attributes)
+                {
+                  painter->drawText(2, totHeight + tmp - 2,
+                                    attr->ToString().c_str());
+                  totHeight += tmp;
+                }
+            }
+        if (object_->isOpeVisible)
+          if (opeSize)
+            {
+              totHeight += 5;
+              painter->setPen(pen);
+              painter->drawLine(0, totHeight, totWidth, totHeight);
+              totHeight += 1;
+              painter->setPen(QPen(0x393939));
+              for (Object::Members::Operation *ope : object_->operations)
+                {
+                  painter->drawText(2, totHeight + tmp - 2,
+                                    ope->ToString().c_str());
+                  totHeight += tmp;
+                }
+            }
       }
     }
   }

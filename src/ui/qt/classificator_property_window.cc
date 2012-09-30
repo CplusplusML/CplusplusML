@@ -536,12 +536,12 @@ namespace               CplusplusML
         ClearAll();
         if ((classificator_ = classificator) != NULL)
           {
-            ui->name->setText(classificator->GetName().c_str());
-            ui->isAbstract->setCheckState(static_cast< ::Qt::CheckState >(static_cast<int>(classificator->GetIsAbstract()) * 2));
-            ui->isAttrVisible->setCheckState(static_cast< ::Qt::CheckState >(static_cast<int>(classificator->GetAttrVisible()) * 2));
-            ui->isOpeVisible->setCheckState(static_cast< ::Qt::CheckState >(static_cast<int>(classificator->GetOpeVisible()) * 2));
-            auto it = classificator->GetAttributes().begin();
-            auto itEnd = classificator->GetAttributes().end();
+            ui->name->setText(classificator->name.c_str());
+            ui->isAbstract->setCheckState(static_cast< ::Qt::CheckState>(static_cast<int>(classificator->isAbstract) * 2));
+            ui->isAttrVisible->setCheckState(static_cast< ::Qt::CheckState >(static_cast<int>(classificator->isAttrVisible) * 2));
+            ui->isOpeVisible->setCheckState(static_cast< ::Qt::CheckState >(static_cast<int>(classificator->isOpeVisible) * 2));
+            auto it = classificator->attributes.begin();
+            auto itEnd = classificator->attributes.end();
             MemberListItem  *item;
             for (; it != itEnd; ++it)
               {
@@ -551,15 +551,15 @@ namespace               CplusplusML
                 *(static_cast<Attribute *>(item->tmpMember_)) = *(*it);
                 ui->attrList->addItem(item);
               }
-            if (classificator->GetAttributes().size())
+            if (classificator->attributes.size())
               {
                 ui->attrGroupBox->setEnabled(true);
                 ui->attrDelButton->setEnabled(true);
                 ui->attrName->setFocus(::Qt::OtherFocusReason);
                 ui->attrList->setCurrentItem(ui->attrList->item(0));
               }
-            auto it2 = classificator->GetOperations().begin();
-            auto it2End = classificator->GetOperations().end();
+            auto it2 = classificator->operations.begin();
+            auto it2End = classificator->operations.end();
             for (; it2 != it2End; ++it2)
               {
                 item = new MemberListItem((*it2)->ToString().c_str(),
@@ -568,7 +568,7 @@ namespace               CplusplusML
                 *(static_cast<Operation *>(item->tmpMember_)) = *(*it2);
                 ui->opeList->addItem(item);
               }
-            if (classificator->GetOperations().size())
+            if (classificator->operations.size())
               {
                 ui->opeGroupBox->setEnabled(true);
                 ui->opeDelButton->setEnabled(true);

@@ -6,8 +6,9 @@ namespace               CplusplusML
   namespace             Object
   {
     // All objects type
-    enum class Type
+    enum class          Type
     {
+      objectNone,
       objectCursor,
       objectNamespace,
       objectClass,
@@ -26,11 +27,18 @@ namespace               CplusplusML
     };
 
     // Basic object, inherited by all other objects
-    class Basic
+    class               Basic
     {
     public:
-      Basic() { }
+      Basic(): type_(Type::objectNone) { }
       virtual ~Basic() { }
+
+      inline Type       GetType(void) const {
+        return type_;
+      }
+
+    protected:
+      Type              type_;
     };
   }
 }

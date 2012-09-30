@@ -16,25 +16,25 @@ namespace               CplusplusML
       Operation         *ope;
 
       // Get informations
-      name_ = ui.name->text().toStdString();
-      isAbstract_ = ui.isAbstract->checkState();
-      isAttrVisible_ = ui.isAttrVisible->checkState();
-      isOpeVisible_ = ui.isOpeVisible->checkState();
+      name = ui.name->text().toStdString();
+      isAbstract = ui.isAbstract->checkState();
+      isAttrVisible = ui.isAttrVisible->checkState();
+      isOpeVisible = ui.isOpeVisible->checkState();
 
       // Erase deleted attributes
-      for (auto it = attributes_.begin(); it != attributes_.end();)
+      for (auto it = attributes.begin(); it != attributes.end();)
         {
           if ((*it)->deleted)
             delete *it;
-          it = attributes_.erase(it);
+          it = attributes.erase(it);
         }
 
       // Erase deleted operations
-      for (auto it = operations_.begin(); it != operations_.end();)
+      for (auto it = operations.begin(); it != operations.end();)
         {
           if ((*it)->deleted)
             delete *it;
-          it = operations_.erase(it);
+          it = operations.erase(it);
         }
 
       // For each attribute, push it in attr list
@@ -47,7 +47,7 @@ namespace               CplusplusML
           *attr = *(static_cast<Attribute *>(item->tmpMember_));
           if (!item->member_)
             item->member_ = attr;
-          attributes_.push_back(attr);
+          attributes.push_back(attr);
         }
 
       // For each operation, push it in attr list, updateLabel and get width
@@ -60,7 +60,7 @@ namespace               CplusplusML
           *ope = *(static_cast<Operation *>(item->tmpMember_));
           if (!item->member_)
             item->member_ = ope;
-          operations_.push_back(ope);
+          operations.push_back(ope);
         }
     }
   }
