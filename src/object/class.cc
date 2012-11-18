@@ -8,7 +8,7 @@ namespace               CplusplusML
     Class::Class()
     {
       type_ = Type::objectClass;
-      name = typeName = "Class";
+      name = typeName = "class";
     }
   }
 }

@@ -8,7 +8,7 @@ namespace               CplusplusML
     TemplateParam::TemplateParam()
     {
       type_ = Type::objectTemplate;
-      name = typeName = "Param";
+      name = typeName = "param";
     }
   }
 }

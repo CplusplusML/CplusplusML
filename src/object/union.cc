@@ -8,7 +8,7 @@ namespace               CplusplusML
     Union::Union()
     {
       type_ = Type::objectUnion;
-      name = typeName = "Union";
+      name = typeName = "union";
     }
   }
 }

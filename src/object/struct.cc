@@ -8,7 +8,7 @@ namespace               CplusplusML
     Struct::Struct()
     {
       type_ = Type::objectStruct;
-      name = typeName = "Struct";
+      name = typeName = "struct";
     }
   }
 }
