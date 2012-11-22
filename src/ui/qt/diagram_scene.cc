@@ -8,7 +8,7 @@
 #include        "object/class.hh"
 #include        "object/struct.hh"
 #include        "object/union.hh"
-#include        "object/template_param.hh"
+#include        "object/meta_classificator.hh"
 
 //#include	"object/dependency.hh"
 #include        "assed.hpp"
@@ -66,8 +66,8 @@ namespace               CplusplusML
               case (Object::Type::objectUnion):
                 item = new Classificator(new Object::Union());
                 break;
-              case (Object::Type::objectTemplate):
-                item = new Classificator(new Object::TemplateParam());
+              case (Object::Type::objectMetaClassificator):
+                item = new Classificator(new Object::MetaClassificator());
                 break;
                 // case (Object::Type::objectDependency):
                 //   item = new Object::Dependency();

@@ -68,7 +68,7 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_property_window.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_graphic_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/classificator.cc
-    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/template_param.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/meta_classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc

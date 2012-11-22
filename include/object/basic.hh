@@ -21,7 +21,7 @@ namespace               CplusplusML
       objectComposition,
       objectInheritance,
       objectFreeFunction,
-      objectTemplate,
+      objectMetaClassificator,
       objectLibrary,
       objectCount_
     };

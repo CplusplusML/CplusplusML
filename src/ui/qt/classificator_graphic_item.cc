@@ -3,7 +3,7 @@
 #include        <QPainter>
 
 #include        "ui/qt/classificator_graphic_item.hh"
-#include        "object/template_param.hh"
+#include        "object/meta_classificator.hh"
 #include        "object/members.hh"
 
 using namespace std; //DEBUG
@@ -92,7 +92,7 @@ namespace               CplusplusML
         int             tmp;
         ::Qt::PenStyle  penStyle = ::Qt::SolidLine;
         
-        if (object_->GetType() == Object::Type::objectTemplate)
+        if (object_->GetType() == Object::Type::objectMetaClassificator)
           penStyle = ::Qt::DashDotLine;
 
         pen.setStyle(penStyle);

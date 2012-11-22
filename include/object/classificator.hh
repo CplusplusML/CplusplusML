@@ -7,15 +7,11 @@
 
 # include       "basic.hh"
 # include       "members.hh"
-//# include       "arrow_connection.hh"
 
 namespace                       CplusplusML
 {
   namespace                     Object
   {
-    // class                       Arrow_;
-    // class                       ArrowConnection;
-
     class                       Classificator : public Basic
     {
     public:

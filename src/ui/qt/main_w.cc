@@ -110,7 +110,7 @@ namespace               CplusplusML
           {actionComposition, Object::Type::objectComposition},
           {actionInheritance, Object::Type::objectInheritance},
           {actionFreeFunction, Object::Type::objectFreeFunction},
-          {actionTemplate, Object::Type::objectTemplate},
+          {actionTemplate, Object::Type::objectMetaClassificator},
           {actionLibrary, Object::Type::objectLibrary}
         };
 
