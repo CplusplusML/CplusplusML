@@ -16,19 +16,12 @@ namespace               CplusplusML
       class             Classificator: public QGraphicsItem
       {
       public:
+
         Classificator(Object::Classificator *object = 0,
-                      QGraphicsItem *parent = 0):
-          QGraphicsItem(parent),
-          object_(object)
-        {
-        }
+                      QGraphicsItem *parent = 0);
+        Classificator(QGraphicsItem *parent = 0);
 
-        Classificator(QGraphicsItem *parent = 0):
-          QGraphicsItem(parent),
-          object_(NULL)
-        {
-        }
-
+      public:
         QRectF          boundingRect() const;
         void            paint(QPainter *painter,
                               const QStyleOptionGraphicsItem *option,

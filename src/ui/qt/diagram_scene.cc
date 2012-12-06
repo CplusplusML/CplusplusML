@@ -103,7 +103,10 @@ namespace               CplusplusML
         if (!selectedItems().empty())
           {
             if ((clGrItem = qgraphicsitem_cast<Classificator *>(selectedItems().first())))
-              clGrItem->GetObject()->UpdateFromForm(*classificatorProperties_.ui);
+              {
+                clGrItem->GetObject()->UpdateFromForm(*classificatorProperties_.ui);
+                clGrItem->update();
+              }
           }
       }
 

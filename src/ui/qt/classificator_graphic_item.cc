@@ -16,6 +16,22 @@ namespace               CplusplusML
     {
       namespace         Object = ::CplusplusML::Object;
 
+      //CTORS
+      Classificator::Classificator(Object::Classificator *object,
+                                   QGraphicsItem *parent):
+        QGraphicsItem(parent),
+        object_(object)
+      {
+        setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+      }
+
+      Classificator::Classificator(QGraphicsItem *parent):
+        QGraphicsItem(parent),
+        object_(NULL)
+      {
+      }
+      //!CTORS
+
       QRectF            Classificator::boundingRect() const
       {
         QFont           font = QFont("Sans", 8);
