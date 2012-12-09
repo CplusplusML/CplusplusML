@@ -25,7 +25,7 @@ namespace               CplusplusML
         int             totHeight;
         int             totWidth;
         int             tmp;
-        
+
         // Compute total height;
         totHeight = QFontMetrics(font).height() + 4;
         font.setPointSize(15);
@@ -208,6 +208,12 @@ namespace               CplusplusML
                   totHeight += tmp;
                 }
             }
+      }
+
+      void      Classificator::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+      {
+        QGraphicsItem::mouseMoveEvent(event);
+        emit moved();
       }
     }
   }

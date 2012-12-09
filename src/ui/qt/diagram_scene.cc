@@ -4,15 +4,15 @@
 
 #include        "ui/qt/diagram_scene.hh"
 #include        "ui/qt/classificator_graphic_item.hh"
+#include        "ui/qt/link_graphics_item.hh"
 
 #include        "object/class.hh"
 #include        "object/struct.hh"
 #include        "object/union.hh"
 #include        "object/meta_classificator.hh"
+#include        "object/dependency.hh"
 
-//#include	"object/dependency.hh"
 #include        "assed.hpp"
-
 
 namespace               CplusplusML
 {
@@ -39,7 +39,7 @@ namespace               CplusplusML
 
         if (!selectedItems().empty())
           {
-            if ((classificator = qgraphicsitem_cast<Classificator *>(selectedItems().first())))
+            if ((classificator = dynamic_cast<Classificator *>(selectedItems().first())))
               classificatorProperties_.Show(classificator->GetObject());
           }
 
@@ -69,9 +69,9 @@ namespace               CplusplusML
               case (Object::Type::objectMetaClassificator):
                 item = new Classificator(new Object::MetaClassificator());
                 break;
-                // case (Object::Type::objectDependency):
-                //   item = new Object::Dependency();
-                //   break;
+              case (Object::Type::objectDependency):
+                item = new Link(new Object::Dependency());
+                break;
               default:
                 break;
               };
@@ -83,6 +83,7 @@ namespace               CplusplusML
                 item->setPos(mouseEvent->scenePos());
                 addItem(item);
                 SetMode(modeMoveItem);
+                qDebug() << "Item created: " << item;
                 emit ItemInserted(item);
               }
           }

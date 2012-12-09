@@ -67,12 +67,16 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/diagram_scene.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_property_window.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_graphic_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/link_graphics_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/link_connection_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/meta_classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/struct.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/union.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/members.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/link.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/dependency.cc
     )
 #    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow.cc
 #    ${${PROJECT_NAME}_SRC_DIRECTORY}/object/arrow_connection.cc
@@ -88,7 +92,10 @@ QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS
 QT4_WRAP_CPP(${PROJECT_NAME}_QT_HEADERS_MOC
              ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/main_w.h
              ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/diagram_scene.hh
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/classificator_graphic_item.hh
              ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/classificator_property_window.hh
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/link_graphics_item.hh
+             ${${PROJECT_NAME}_HEADER_DIRECTORY}/ui/qt/link_connection_graphics_item.hh
              )
 
 #        ${${PROJECT_NAME}_HEADER_DIRECTORY}/object/arrow.hh

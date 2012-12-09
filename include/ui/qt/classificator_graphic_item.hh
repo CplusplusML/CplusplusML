@@ -13,18 +13,21 @@ namespace               CplusplusML
     {
       namespace         Object = ::CplusplusML::Object;
 
-      class             Classificator: public QGraphicsItem
+      class             Classificator: public QGraphicsObject
       {
+        Q_OBJECT
+
       public:
         Classificator(Object::Classificator *object = 0,
                       QGraphicsItem *parent = 0):
-          QGraphicsItem(parent),
+          QGraphicsObject(parent),
           object_(object)
         {
+          this->setZValue(1.0);
         }
 
         Classificator(QGraphicsItem *parent = 0):
-          QGraphicsItem(parent),
+          QGraphicsObject(parent),
           object_(NULL)
         {
         }
@@ -33,10 +36,14 @@ namespace               CplusplusML
         void            paint(QPainter *painter,
                               const QStyleOptionGraphicsItem *option,
                               QWidget *widget);
+        void      mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 
         inline Object::Classificator    *GetObject(void) const {
           return object_;
         }
+
+      signals:
+        void moved();
 
       protected:
         Object::Classificator   *object_;
