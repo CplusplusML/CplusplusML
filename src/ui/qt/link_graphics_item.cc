@@ -230,7 +230,7 @@ namespace CplusplusML
             QRectF tailItemRect = this->tailItem->boundingRect();
             QRectF headItemRect = this->headItem->boundingRect();
 
-            if ((::abs(linkLine.dy()) - (tailItemRect.height() / 2) - (headItemRect.height() / 2)) > 100.0)
+            if ((::abs(linkLine.dy()) - (tailItemRect.height() / 2) - (headItemRect.height() / 2)) > 20.0)
               {
                 if (linkLine.dy() > 0)
                   {
