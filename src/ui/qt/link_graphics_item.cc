@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <QDebug>
 
 #include <QGraphicsScene>
@@ -18,136 +20,176 @@ namespace CplusplusML
     {
       namespace Object = ::CplusplusML::Object;
 
-      Link::Link(Object::Link* /*linkObject*/)
+      Link::Link(Object::Link* /*linkObject*/) :
+        path(QPointF(0, 0))
       {
-        Render();
-      }
-
-      void Link::Render(void)
-      {
-        setFlag(QGraphicsItem::ItemIsMovable, true);
-        setFlag(QGraphicsItem::ItemIsSelectable, true);
-        setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
-        setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-        setZValue(2.0);
-
-        pen.setStyle(::Qt::DashDotLine);
-        pen.setWidth(2);
-        pen.setBrush(::Qt::black);
-        pen.setCapStyle(::Qt::FlatCap);
-        pen.setJoinStyle(::Qt::RoundJoin);
-
-        outlinePen.setStyle(::Qt::SolidLine);
-        outlinePen.setCapStyle(::Qt::RoundCap);
-        outlinePen.setJoinStyle(::Qt::RoundJoin);
-        outlinePen.setWidth(pen.width());
-        outlinePen.setBrush(::Qt::green);
-
-
         this->headItem = nullptr;
         this->tailItem = nullptr;
-        // handles[0] = new GrabHandle(this, &tail);
-        // handles[1] = new GrabHandle(this, &head);
-        // connect(handles[0], SIGNAL(moved(QPointF, QPointF*)),
-        //         this, SLOT(onGrabHandleMove(QPointF, QPointF*)));
-        // connect(handles[1], SIGNAL(moved(QPointF, QPointF*)),
-        //         this, SLOT(onGrabHandleMove(QPointF, QPointF*)));
-        // disableHandles();
+        this->hovered = false;
+        this->setFlags(0);
+        this->setZValue(2.0);
 
-        //        connections << new LinkConnection(this);
-        //        connections << new LinkConnection(this);
-        //        adjustConnections();
+        this->pen.setStyle(::Qt::DashDotLine);
+        this->pen.setWidth(2);
+        this->pen.setBrush(::Qt::black);
+        this->pen.setCapStyle(::Qt::FlatCap);
+        this->pen.setJoinStyle(::Qt::RoundJoin);
+
+        this->outlinePen.setStyle(::Qt::SolidLine);
+        this->outlinePen.setCapStyle(::Qt::RoundCap);
+        this->outlinePen.setJoinStyle(::Qt::RoundJoin);
+        this->outlinePen.setWidth(pen.width());
+        this->outlinePen.setBrush(::Qt::green);
+
+        this->path.lineTo(QPointF(5, 5));
       }
 
-      void Link::disableHandles()
+      QLineF Link::firstPathLine()
       {
-        //setZValue(1.0);
-        // handles[0]->hide();
-        // handles[1]->hide();
+        QPainterPath::Element const& e0 = this->path.elementAt(0);
+        QPainterPath::Element const& e1 = this->path.elementAt(1);
+
+        Q_ASSERT(e1.isLineTo() == true);
+        return (QLineF(e0, e1));
       }
 
-      void Link::enableHandles()
+      QLineF Link::lastPathLine()
       {
-        //setZValue(2.0);
-        // handles[0]->show();
-        // handles[1]->show();
-      }
+        Q_ASSERT(this->path);
 
-      void Link::adjustConnections()
-      {
-        int numSegments = connections.size() + 1;
-        qreal increment = 1.0 / numSegments;
-        qreal currentPos = increment;
-        QLineF line = QLineF(tail, head);
+        QPainterPath::Element const& e0 = this->path.elementAt(this->path.elementCount() - 2);
+        QPainterPath::Element const& e1 = this->path.elementAt(this->path.elementCount() - 1);
 
-        prepareGeometryChange();
-        foreach(LinkConnection* connection, connections)
-          {
-            connection->moveCenter(line.pointAt(currentPos));
-            currentPos += increment;
-          }
-      }
-
-      QVariant Link::itemChange(GraphicsItemChange change, const QVariant &value)
-      {
-        //  qDebug() << "ITEM CHANGE";
-        if (change == QGraphicsItem::ItemSelectedHasChanged)
-          {
-            bool selected = value.toBool();
-
-            if (selected)
-              enableHandles();
-            else
-              disableHandles();
-          }
-        return QGraphicsObject::itemChange(change, value);
+        Q_ASSERT(e1.isLineTo() == true);
+        return (QLineF(e0, e1));
       }
 
       void Link::adjustLinkTip()
       {
-        const double Pi = std::atan(1.0) * 4;
-        qreal arrowSize = 20.0;
-        QLineF linkLine = QLineF(tail, head);
-        QLineF arrowLine;
-        double angle;
 
-        if (this->orientation == LinkOrientation::Vertical)
+        // QLineF arrowLine;
+        // double angle;
+
+        // if (this->orientation == LinkOrientation::Vertical)
+        //   {
+        //     angle = M_PI / 2.0;
+        //     if (this->lastPathLine().dy() < 0)
+        //       angle = -angle;
+        //   }
+        // else
+        //   {
+        //     angle = M_PI;
+        //     if (this->lastPathLine().dx() < 0)
+        //       angle = 0;
+        //   }
+
+
+      }
+
+      double    Link::angle()
+      {
+        QLineF linkLine = QLineF(tailItem->scenePos(), headItem->scenePos());
+        double angle = std::acos(std::abs(linkLine.dx()) / linkLine.length());
+
+        if (linkLine.dx() < 0)
+          angle = M_PI - angle;
+        if (linkLine.dy() > 0)
+          angle = (2 * M_PI) - angle;
+        qDebug() << "Angle: " << angle;
+        return angle;
+      }
+
+      void        Link::adjustLink()
+      {
+        if (this->headItem && this->tailItem)
           {
-            angle = Pi / 2.0;
-            if (linkLine.dy() < 0)
-              angle = -angle;
+            prepareGeometryChange();
+            QRectF tailItemRect = this->tailItem->boundingRect();
+            QRectF headItemRect = this->headItem->boundingRect();
+            QPointF newPos = this->tailItem->scenePos() + this->tailItem->boundingRect().center();
+            QPointF head = headItemRect.center();
+            double angle = this->angle();
+            double arrowHeadAngle;
 
-          }
-        else
-          {
-            angle = Pi;
-            if (linkLine.dx() < 0)
-              angle = 0;
-          }
-        QPointF arrowP1 = head + QPointF(sin(angle + Pi / 3) * arrowSize,
-                                         cos(angle + Pi / 3) * arrowSize);
-        QPointF arrowP2 = head + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
-                                         cos(angle + Pi - Pi / 3) * arrowSize);
+            if (angle > (7.0 * M_PI) / 4.0 || angle < M_PI / 4)
+              {
+                newPos += QPointF(tailItemRect.width() / 2, 0);
+                head -= QPointF(headItemRect.width() / 2, 0);
+                orientation = LinkOrientation::Horizontal;
+                arrowHeadAngle = M_PI;
+              }
+            else if (angle < (3.0 * M_PI) / 4.0)
+              {
+                newPos -= QPointF(0, tailItemRect.height() / 2);
+                head += QPointF(0, headItemRect.height() / 2);
+                orientation = LinkOrientation::Vertical;
+                arrowHeadAngle = (3.0 * M_PI) / 2.0;
+              }
+            else if (angle < (5.0 * M_PI) / 4.0)
+              {
+                newPos -= QPointF(tailItemRect.width() / 2, 0);
+                head += QPointF(headItemRect.width() / 2, 0);
+                orientation = LinkOrientation::Horizontal;
+                arrowHeadAngle = 0;
+              }
+            else
+              {
+                newPos += QPointF(0, tailItemRect.height() / 2);
+                head -= QPointF(0, headItemRect.height() / 2);
+                orientation = LinkOrientation::Vertical;
+                arrowHeadAngle = M_PI / 2;
+              }
+            this->setPos(newPos);
+            head = this->mapFromItem(this->headItem, head);
+            qDebug() << "newPos: " << newPos;
 
-        arrowHead.clear();
-        arrowHead << head << arrowP1 << arrowP2 << head;
+            QPointF     p1;
+            QPointF     p2;
+
+            if (orientation == LinkOrientation::Vertical)
+              {
+                p1 = QPointF(0, head.y() / 2);
+                p2 = p1 + QPointF(head.x(), 0);
+              }
+            else
+              {
+                p1 = QPointF(head.x() / 2, 0);
+                p2 = p1 + QPointF(0, head.y());
+              }
+            this->path = QPainterPath(QPointF(0, 0));
+            this->path.lineTo(p1);
+            this->path.lineTo(p2);
+            this->path.lineTo(head);
+            {
+              qreal const arrowTipSize = 20.0;
+              QPointF endPoint = this->lastPathLine().p2();
+              QPointF arrowP1 = endPoint + QPointF(sin(arrowHeadAngle + M_PI / 3) * arrowTipSize,
+                                                   cos(arrowHeadAngle + M_PI / 3) * arrowTipSize);
+              QPointF arrowP2 = endPoint + QPointF(sin(arrowHeadAngle + M_PI - M_PI / 3) * arrowTipSize,
+                                                   cos(arrowHeadAngle + M_PI - M_PI / 3) * arrowTipSize);
+
+              this->arrowHead.clear();
+              this->arrowHead << endPoint << arrowP1 << arrowP2 << endPoint;
+            }
+          }
       }
 
       void Link::paint(QPainter *painter,
                                  const QStyleOptionGraphicsItem */*option*/,
                                  QWidget */*widget*/)
       {
+        //        qDebug() << "PAINT - path: " << this->path;
         painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
-        if (false) // When hovered
+        if (this->hovered) // When hovered
           {
             painter->setPen(outlinePen);
             painter->drawPath(shape());
           }
         painter->setPen(pen);
-        if (this->tailItem && this->headItem)
-          {
-            QLineF linkLine = QLineF(tail, head);
+        /*        if (this->tailItem && this->headItem)
+                  {*/
+            /*            QLineF linkLine = QLineF(tail, head);
             // Put all this crap in a QPainterPath/QPolygon or something
             QPointF p1;
             QPointF p2;
@@ -164,11 +206,13 @@ namespace CplusplusML
               }
             painter->drawLine(QLineF(tail, p1));
             painter->drawLine(QLineF(p1, p2));
-            painter->drawLine(QLineF(p2, head));
-            painter->drawPolygon(arrowHead);
-          }
+            painter->drawLine(QLineF(p2, head));*/
+            painter->drawPath(path);
+            if (this->tailItem && this->headItem)
+              painter->drawPolygon(arrowHead);
+            /*          }
         else
-          painter->drawLine(QLineF(tail, head));
+        painter->drawLine(QLineF(tail, head));*/
         if (true) // When debugging =D
           {
             QPen _pen;
@@ -186,12 +230,12 @@ namespace CplusplusML
             _pen.setWidth(2);
             _pen.setBrush(::Qt::red);
             painter->setPen(_pen);
-            prect.moveCenter(head);
+            prect.moveCenter(this->lastPathLine().p2());
             painter->drawRect(prect);
 
             _pen.setBrush(::Qt::blue);
             painter->setPen(_pen);
-            prect.moveCenter(tail);
+            prect.moveCenter(this->firstPathLine().p1());
             painter->drawRect(prect);
           }
       }
@@ -199,10 +243,8 @@ namespace CplusplusML
       QPainterPath Link::shape() const
       {
         QPainterPathStroker stroker;
-        QPainterPath path;
+        QPainterPath path = this->path;
 
-        path.moveTo(tail);
-        path.lineTo(head);
         path.addPolygon(arrowHead);
         stroker.setWidth(pen.width() * 2);
         stroker.setCapStyle(::Qt::RoundCap);
@@ -212,67 +254,8 @@ namespace CplusplusML
 
       QRectF Link::boundingRect() const
       {
-        // qreal extra = (pen.width() + 20.0) / 2.0;
-
-        // return (QRectF(tail, head).normalized().adjusted(-extra, -extra, extra, extra) |
-        //         childrenBoundingRect());
-
         // Not really optimized, but good enough for now
         return (shape().boundingRect());
-      }
-
-      void        Link::adjustLink()
-      {
-        if (this->headItem && this->tailItem)
-          {
-            prepareGeometryChange();
-            QLineF linkLine = QLineF(tailItem->scenePos(), headItem->scenePos());
-            QRectF tailItemRect = this->tailItem->boundingRect();
-            QRectF headItemRect = this->headItem->boundingRect();
-
-            if ((::abs(linkLine.dy()) - (tailItemRect.height() / 2) - (headItemRect.height() / 2)) > 20.0)
-              {
-                if (linkLine.dy() > 0)
-                  {
-                    this->setPos(this->tailItem->scenePos() +
-                                 tailItemRect.center() +
-                                 QPointF(0, tailItemRect.height() / 2));
-                    this->head = this->mapFromItem(this->headItem, headItemRect.center() -
-                                                   QPointF(0, headItemRect.height() / 2));
-                  }
-                else
-                  {
-                    this->setPos(this->tailItem->scenePos() +
-                                 tailItemRect.center() -
-                                 QPointF(0, tailItemRect.height() / 2));
-                    this->head = this->mapFromItem(this->headItem, headItemRect.center() +
-                                                   QPointF(0, headItemRect.height() / 2));
-                  }
-                orientation = LinkOrientation::Vertical;
-              }
-            else
-              {
-                if (linkLine.dx() > 0)
-                  {
-                    this->setPos(this->tailItem->scenePos() +
-                                 tailItemRect.center() +
-                                 QPointF(tailItemRect.width() / 2, 0));
-                    this->head = this->mapFromItem(this->headItem, headItemRect.center() -
-                                                   QPointF(headItemRect.width() / 2, 0));
-                  }
-                else
-                  {
-                    this->setPos(this->tailItem->scenePos() +
-                                 tailItemRect.center() -
-                                 QPointF(tailItemRect.width() / 2, 0));
-                    this->head = this->mapFromItem(this->headItem, headItemRect.center() +
-                                                   QPointF(headItemRect.width() / 2, 0));
-                  }
-                orientation = LinkOrientation::Horizontal;
-              }
-            this->tail = QPointF();
-            adjustLinkTip();
-          }
       }
 
       //DEBUG
@@ -280,6 +263,7 @@ namespace CplusplusML
       {
         bool handled = true;
 
+        qDebug() << "Link::sceneEvent - type: " << event->type();
         switch (event->type())
           {
           case QEvent::GraphicsSceneMousePress:
@@ -295,10 +279,10 @@ namespace CplusplusML
 
                   this->tailItem = classificator;
                   this->setPos(center);
-                  this->tail = QPointF();
-                  this->head = this->tail + QPointF(1.0, 1.0);
+                  this->path = QPainterPath(QPointF(0, 0));
+                  this->path.lineTo(QPointF(1.0, 1.0));
                   qDebug() << "Bounding rect: " << classificator->boundingRect();
-                  qDebug() << "Tail position changed: " << this->tail;
+                  qDebug() << "Path changed: " << this->path;
                   adjustLink();
                 }
               else
@@ -331,7 +315,8 @@ namespace CplusplusML
               QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
 
               prepareGeometryChange();
-              this->head = me->pos();
+              this->path = QPainterPath(QPointF(0, 0));
+              this->path.lineTo(me->pos());
             }
             break;
           default:

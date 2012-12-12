@@ -25,17 +25,6 @@ namespace CplusplusML
 
         virtual ~Link() { }
 
-        void Render(void);
-
-        void adjustHandles();
-        void disableHandles();
-        void enableHandles();
-
-        void adjustConnections();
-        void adjustLinkTip();
-
-        QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-
         void paint(QPainter *painter,
                    const QStyleOptionGraphicsItem *option,
                    QWidget *widget);
@@ -61,20 +50,22 @@ namespace CplusplusML
         T* searchSceneItem(QPointF const& pos);
 
         void    adjustLink();
+        void    adjustLinkTip();
+
+        QLineF firstPathLine();
+        QLineF lastPathLine();
+        double angle();
 
       private:
-        QPen        pen;
-        QPen        outlinePen;
-        QPointF     tail;
-        QPointF     head;
+        bool            hovered;
+        Object::Link*   object;
+        QPen            pen;
+        QPen            outlinePen;
+        QPainterPath    path;
         LinkOrientation orientation;
         QGraphicsObject* tailItem;
         QGraphicsObject* headItem;
         QPolygonF   arrowHead;
-
-        //    GrabHandle*  handles[2];
-
-        QList<LinkConnection*> connections;
       };
     }
   }
