@@ -68,6 +68,7 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_property_window.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/classificator_graphic_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/link_graphics_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/link_head_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/link_connection_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/meta_classificator.cc

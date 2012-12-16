@@ -5,6 +5,7 @@
 # include <QPen>
 
 # include "object/link.hh"
+# include "ui/qt/link_head_graphics_item.hh"
 
 namespace CplusplusML
 {
@@ -50,7 +51,6 @@ namespace CplusplusML
         T* searchSceneItem(QPointF const& pos);
 
         void    adjustLink();
-        void    adjustLinkTip();
 
         QLineF firstPathLine();
         QLineF lastPathLine();
@@ -66,6 +66,7 @@ namespace CplusplusML
         QGraphicsObject* tailItem;
         QGraphicsObject* headItem;
         QPolygonF   arrowHead;
+        LinkHead lhead;
       };
     }
   }

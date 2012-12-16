@@ -42,6 +42,8 @@ namespace CplusplusML
         this->outlinePen.setBrush(::Qt::green);
 
         this->path.lineTo(QPointF(5, 5));
+
+        this->lhead.setParentItem(this);
       }
 
       QLineF Link::firstPathLine()
@@ -62,28 +64,6 @@ namespace CplusplusML
 
         Q_ASSERT(e1.isLineTo() == true);
         return (QLineF(e0, e1));
-      }
-
-      void Link::adjustLinkTip()
-      {
-
-        // QLineF arrowLine;
-        // double angle;
-
-        // if (this->orientation == LinkOrientation::Vertical)
-        //   {
-        //     angle = M_PI / 2.0;
-        //     if (this->lastPathLine().dy() < 0)
-        //       angle = -angle;
-        //   }
-        // else
-        //   {
-        //     angle = M_PI;
-        //     if (this->lastPathLine().dx() < 0)
-        //       angle = 0;
-        //   }
-
-
       }
 
       double    Link::angle()
@@ -116,28 +96,28 @@ namespace CplusplusML
                 newPos += QPointF(tailItemRect.width() / 2, 0);
                 head -= QPointF(headItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
-                arrowHeadAngle = M_PI;
+                arrowHeadAngle = (3.0 * M_PI) / 2.0;
               }
             else if (angle < (3.0 * M_PI) / 4.0)
               {
                 newPos -= QPointF(0, tailItemRect.height() / 2);
                 head += QPointF(0, headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
-                arrowHeadAngle = (3.0 * M_PI) / 2.0;
+                arrowHeadAngle = M_PI;
               }
             else if (angle < (5.0 * M_PI) / 4.0)
               {
                 newPos -= QPointF(tailItemRect.width() / 2, 0);
                 head += QPointF(headItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
-                arrowHeadAngle = 0;
+                arrowHeadAngle = M_PI / 2;
               }
             else
               {
                 newPos += QPointF(0, tailItemRect.height() / 2);
                 head -= QPointF(0, headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
-                arrowHeadAngle = M_PI / 2;
+                arrowHeadAngle = 0;
               }
             this->setPos(newPos);
             head = this->mapFromItem(this->headItem, head);
@@ -160,17 +140,11 @@ namespace CplusplusML
             this->path.lineTo(p1);
             this->path.lineTo(p2);
             this->path.lineTo(head);
-            {
-              qreal const arrowTipSize = 20.0;
-              QPointF endPoint = this->lastPathLine().p2();
-              QPointF arrowP1 = endPoint + QPointF(sin(arrowHeadAngle + M_PI / 3) * arrowTipSize,
-                                                   cos(arrowHeadAngle + M_PI / 3) * arrowTipSize);
-              QPointF arrowP2 = endPoint + QPointF(sin(arrowHeadAngle + M_PI - M_PI / 3) * arrowTipSize,
-                                                   cos(arrowHeadAngle + M_PI - M_PI / 3) * arrowTipSize);
 
-              this->arrowHead.clear();
-              this->arrowHead << endPoint << arrowP1 << arrowP2 << endPoint;
-            }
+            lhead.setAngle(arrowHeadAngle);
+            lhead.setSize(3);
+            lhead.setType(LinkHead::Type::SIMPLE_FILLED);
+            lhead.setOrigin(head);
           }
       }
 
@@ -178,41 +152,15 @@ namespace CplusplusML
                                  const QStyleOptionGraphicsItem */*option*/,
                                  QWidget */*widget*/)
       {
-        //        qDebug() << "PAINT - path: " << this->path;
         painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
-        if (this->hovered) // When hovered
+        if (this->hovered)
           {
             painter->setPen(outlinePen);
             painter->drawPath(shape());
           }
         painter->setPen(pen);
-        /*        if (this->tailItem && this->headItem)
-                  {*/
-            /*            QLineF linkLine = QLineF(tail, head);
-            // Put all this crap in a QPainterPath/QPolygon or something
-            QPointF p1;
-            QPointF p2;
-
-            if (this->orientation == LinkOrientation::Vertical)
-              {
-                p1 = tail + QPointF(0, linkLine.dy() / 2);
-                p2 = p1 + QPointF(linkLine.dx(), 0);
-              }
-            else
-              {
-                p1 = tail + QPointF(linkLine.dx() / 2, 0);
-                p2 = p1 + QPointF(0, linkLine.dy());
-              }
-            painter->drawLine(QLineF(tail, p1));
-            painter->drawLine(QLineF(p1, p2));
-            painter->drawLine(QLineF(p2, head));*/
-            painter->drawPath(path);
-            if (this->tailItem && this->headItem)
-              painter->drawPolygon(arrowHead);
-            /*          }
-        else
-        painter->drawLine(QLineF(tail, head));*/
+        painter->drawPath(path);
         if (true) // When debugging =D
           {
             QPen _pen;
@@ -245,7 +193,8 @@ namespace CplusplusML
         QPainterPathStroker stroker;
         QPainterPath path = this->path;
 
-        path.addPolygon(arrowHead);
+        //        path.addPolygon(arrowHead);
+        path.addPath(lhead.shape());
         stroker.setWidth(pen.width() * 2);
         stroker.setCapStyle(::Qt::RoundCap);
         stroker.setJoinStyle(::Qt::RoundJoin);
@@ -268,56 +217,61 @@ namespace CplusplusML
           {
           case QEvent::GraphicsSceneMousePress:
             qDebug() << "Link::sceneEvent: QEvent::GraphicsSceneMousePress";
-            {
-              QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
-              Classificator* classificator = this->searchSceneItem<Classificator>(me->scenePos());
+            if (this->tailItem == nullptr)
+              {
+                QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
+                Classificator* classificator = this->searchSceneItem<Classificator>(me->scenePos());
 
-              if (classificator != nullptr)
-                {
-                  qDebug() << "Classificator found: " << classificator;
-                  QPointF center = classificator->scenePos() + classificator->boundingRect().center();
+                if (classificator != nullptr)
+                  {
+                    qDebug() << "Classificator found: " << classificator;
+                    QPointF center = classificator->scenePos() + classificator->boundingRect().center();
 
-                  this->tailItem = classificator;
-                  this->setPos(center);
-                  this->path = QPainterPath(QPointF(0, 0));
-                  this->path.lineTo(QPointF(1.0, 1.0));
-                  qDebug() << "Bounding rect: " << classificator->boundingRect();
-                  qDebug() << "Path changed: " << this->path;
-                  adjustLink();
-                }
-              else
-                delete this;
-            }
+                    this->tailItem = classificator;
+                    this->setPos(center);
+                    this->path = QPainterPath(QPointF(0, 0));
+                    this->path.lineTo(QPointF(1.0, 1.0));
+                    qDebug() << "Bounding rect: " << classificator->boundingRect();
+                    qDebug() << "Path changed: " << this->path;
+                    adjustLink();
+                  }
+                else
+                  delete this;
+              }
+            else
+              event->ignore();
             break;
           case QEvent::GraphicsSceneMouseRelease:
             qDebug() << "Link::sceneEvent: QEvent::GraphicsSceneMouseRelease";
-            {
-              QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
-              Classificator* classificator = this->searchSceneItem<Classificator>(me->scenePos());
+            if (this->headItem == nullptr)
+              {
+                QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
+                Classificator* classificator = this->searchSceneItem<Classificator>(me->scenePos());
 
-              if (classificator != nullptr)
-                {
-                  this->headItem = classificator;
-                  this->setZValue(0.0);
-                  adjustLink();
-                  connect(tailItem, SIGNAL(moved()),
-                          this, SLOT(itemMoved()));
-                  connect(headItem, SIGNAL(moved()),
-                          this, SLOT(itemMoved()));
-                }
-              else
-                delete this;
-            }
+                if (classificator != nullptr)
+                  {
+                    this->headItem = classificator;
+                    this->setZValue(0.0);
+                    adjustLink();
+                    connect(tailItem, SIGNAL(moved()),
+                            this, SLOT(itemMoved()));
+                    connect(headItem, SIGNAL(moved()),
+                            this, SLOT(itemMoved()));
+                  }
+                else
+                  delete this;
+              }
             break;
           case QEvent::GraphicsSceneMouseMove:
             qDebug() << "Link::sceneEvent: QEvent::GraphicsSceneMouseMove";
-            {
-              QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
+            if (this->headItem == nullptr)
+              {
+                QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
 
-              prepareGeometryChange();
-              this->path = QPainterPath(QPointF(0, 0));
-              this->path.lineTo(me->pos());
-            }
+                prepareGeometryChange();
+                this->path = QPainterPath(QPointF(0, 0));
+                this->path.lineTo(me->pos());
+              }
             break;
           default:
             handled = false;
