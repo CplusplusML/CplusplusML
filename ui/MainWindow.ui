@@ -102,9 +102,9 @@ padding: 0px;</string>
            </property>
            <item row="0" column="0">
             <widget class="QGraphicsView" name="graphicsView">
-              <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -127,7 +127,7 @@ padding: 0px;</string>
      <x>0</x>
      <y>0</y>
      <width>1168</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -693,6 +693,39 @@ padding: 0px;</string>
    </property>
    <property name="toolTip">
     <string>Inheritance</string>
+   </property>
+  </action>
+  <action name="actionTemplateParameter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Template Parameter</string>
+   </property>
+   <property name="toolTip">
+    <string>Template Parameter</string>
+   </property>
+  </action>
+  <action name="actionTemplateSpecialization">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Template Specialization</string>
+   </property>
+   <property name="toolTip">
+    <string>Template Specialization</string>
+   </property>
+  </action>
+  <action name="actionTemplateSpecializationParameter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Template Specialization Parameter</string>
+   </property>
+   <property name="toolTip">
+    <string>Template Specialization Parameter</string>
    </property>
   </action>
  </widget>

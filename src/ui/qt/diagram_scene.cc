@@ -8,6 +8,9 @@
 #include        "ui/qt/dependency_graphics_item.hh"
 #include        "ui/qt/composition_graphics_item.hh"
 #include        "ui/qt/inheritance_graphics_item.hh"
+#include        "ui/qt/template_parameter_graphics_item.hh"
+#include        "ui/qt/template_specialization_graphics_item.hh"
+#include        "ui/qt/template_specialization_parameter_graphics_item.hh"
 
 #include        "object/class.hh"
 #include        "object/struct.hh"
@@ -83,6 +86,15 @@ namespace               CplusplusML
                 break;
               case (Object::Type::objectInheritance):
                 item = new Inheritance();
+                break;
+              case (Object::Type::objectTemplateParameter):
+                item = new TemplateParameter();
+                break;
+              case (Object::Type::objectTemplateSpecialization):
+                item = new TemplateSpecialization();
+                break;
+              case (Object::Type::objectTemplateSpecializationParameter):
+                item = new TemplateSpecializationParameter();
                 break;
               default:
                 break;

@@ -47,10 +47,13 @@ namespace               CplusplusML
           toolbarActionGroup->addAction(actionTypedef);
           toolbarActionGroup->addAction(actionEnum);
           toolbarActionGroup->addAction(actionUnion);
+          toolbarActionGroup->addAction(actionInheritance);
+          toolbarActionGroup->addAction(actionComposition);
           toolbarActionGroup->addAction(actionAggregation);
           toolbarActionGroup->addAction(actionDependency);
-          toolbarActionGroup->addAction(actionComposition);
-          toolbarActionGroup->addAction(actionInheritance);
+          toolbarActionGroup->addAction(actionTemplateParameter);
+          toolbarActionGroup->addAction(actionTemplateSpecialization);
+          toolbarActionGroup->addAction(actionTemplateSpecializationParameter);
           toolbarActionGroup->addAction(actionFreeFunction);
           toolbarActionGroup->addAction(actionTemplate);
           toolbarActionGroup->addAction(actionLibrary);
@@ -59,7 +62,9 @@ namespace               CplusplusML
 
           toolBar->addActions(toolbarActionGroup->actions());
           toolBar->insertSeparator(actionNamespace);
-          toolBar->insertSeparator(actionAggregation);
+          toolBar->insertSeparator(actionDependency);
+          toolBar->insertSeparator(actionInheritance);
+          toolBar->insertSeparator(actionTemplateParameter);
           toolBar->insertSeparator(actionFreeFunction);
 
         }
@@ -109,6 +114,9 @@ namespace               CplusplusML
           {actionDependency, Object::Type::objectDependency},
           {actionComposition, Object::Type::objectComposition},
           {actionInheritance, Object::Type::objectInheritance},
+          {actionTemplateParameter, Object::Type::objectTemplateParameter},
+          {actionTemplateSpecialization, Object::Type::objectTemplateSpecialization},
+          {actionTemplateSpecializationParameter, Object::Type::objectTemplateSpecializationParameter},
           {actionFreeFunction, Object::Type::objectFreeFunction},
           {actionTemplate, Object::Type::objectMetaClassificator},
           {actionLibrary, Object::Type::objectLibrary}

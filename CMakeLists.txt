@@ -74,6 +74,9 @@ SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/dependency_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/composition_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/inheritance_graphics_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/template_parameter_graphics_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/template_specialization_graphics_item.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/qt/template_specialization_parameter_graphics_item.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/meta_classificator.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/object/class.cc
