@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
+#include <QKeyEvent>
 
 // Booh !
 #include "ui/qt/classificator_graphic_item.hh"
@@ -26,7 +27,8 @@ namespace CplusplusML
         this->headItem = nullptr;
         this->tailItem = nullptr;
         this->hovered = false;
-        this->setFlags(0);
+        this->setFlags(QGraphicsItem::ItemIsSelectable |
+                       QGraphicsItem::ItemIsFocusable);
         this->setZValue(2.0);
 
         this->pen.setStyle(::Qt::SolidLine);
@@ -277,8 +279,23 @@ namespace CplusplusML
             handled = false;
             break;
           }
-        return handled;
-        //        return QGraphicsObject::sceneEvent(ev);
+        qDebug() << "event handled: " << handled;
+        return handled || QGraphicsObject::sceneEvent(event);
+      }
+
+      void Link::keyReleaseEvent(QKeyEvent* event)
+      {
+        qDebug() << "Link::keyReleaseEvent";
+        switch (event->key())
+          {
+          case ::Qt::Key_Delete:
+            delete this;
+            event->accept();
+            break;
+          default:
+            event->ignore();
+            break;
+          }
       }
 
       bool Link::eventFilter(QObject *obj, QEvent *ev)

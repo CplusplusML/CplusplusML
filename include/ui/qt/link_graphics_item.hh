@@ -47,6 +47,8 @@ namespace CplusplusML
           Vertical
         };
 
+        void keyReleaseEvent(QKeyEvent* event);
+
         template <class T>
         T* searchSceneItem(QPointF const& pos);
 
