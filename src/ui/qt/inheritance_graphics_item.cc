@@ -9,7 +9,7 @@ namespace CplusplusML
       Inheritance::Inheritance() :
         Link(nullptr)
       {
-        this->backHead.setType(LinkHead::Type::SIMPLE_EMPTY);
+        this->frontHead.setType(LinkHead::Type::SIMPLE_EMPTY);
         this->pen.setStyle(::Qt::SolidLine);
       }
     }
