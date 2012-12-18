@@ -18,6 +18,7 @@ namespace CplusplusML
         enum class Type
         {
           NONE,
+          SMALL_TIP,
           SIMPLE_FILLED,
           SIMPLE_EMPTY,
           DOUBLE_FILLED,

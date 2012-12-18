@@ -56,17 +56,19 @@ namespace CplusplusML
         QLineF lastPathLine();
         double angle();
 
+        LinkHead frontHead;
+        LinkHead backHead;
+        QPen     pen;
+
       private:
         bool            hovered;
         Object::Link*   object;
-        QPen            pen;
         QPen            outlinePen;
         QPainterPath    path;
         LinkOrientation orientation;
         QGraphicsObject* tailItem;
         QGraphicsObject* headItem;
         QPolygonF   arrowHead;
-        LinkHead lhead;
       };
     }
   }

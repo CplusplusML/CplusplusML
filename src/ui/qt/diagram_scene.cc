@@ -4,7 +4,10 @@
 
 #include        "ui/qt/diagram_scene.hh"
 #include        "ui/qt/classificator_graphic_item.hh"
-#include        "ui/qt/link_graphics_item.hh"
+#include        "ui/qt/aggregation_graphics_item.hh"
+#include        "ui/qt/dependency_graphics_item.hh"
+#include        "ui/qt/composition_graphics_item.hh"
+#include        "ui/qt/inheritance_graphics_item.hh"
 
 #include        "object/class.hh"
 #include        "object/struct.hh"
@@ -69,8 +72,17 @@ namespace               CplusplusML
               case (Object::Type::objectMetaClassificator):
                 item = new Classificator(new Object::MetaClassificator());
                 break;
+              case (Object::Type::objectAggregation):
+                item = new Aggregation();
+                break;
               case (Object::Type::objectDependency):
-                item = new Link(new Object::Dependency());
+                item = new Dependency();
+                break;
+              case (Object::Type::objectComposition):
+                item = new Composition();
+                break;
+              case (Object::Type::objectInheritance):
+                item = new Inheritance();
                 break;
               default:
                 break;

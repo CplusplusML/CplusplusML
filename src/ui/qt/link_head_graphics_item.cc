@@ -1,5 +1,7 @@
 #include <cmath>
 
+#include <QDebug>
+
 #include <QPointF>
 #include <QTransform>
 #include <QPainter>
@@ -17,20 +19,55 @@ namespace CplusplusML
       {
         std::unordered_map<int, LinkHead::HeadData>   map;
         QPainterPath simpleHeadPath(QPointF(0, 0));
+        qreal simpleHeadWidth;
+        qreal slope = 2.5 * M_PI / 3;
+        static const int magic = 6;
+        QPointF p0 = QPointF(0, 0);
+        QPointF p1 = QPointF(-std::cos(slope) * magic, std::sin(slope) * magic);
+        QPointF p2 = QPointF(-std::cos(slope) * magic, -std::sin(slope) * magic);
 
+        simpleHeadPath.lineTo(p1);
+        simpleHeadPath.lineTo(p2);
+        simpleHeadPath.closeSubpath();
+        simpleHeadWidth = simpleHeadPath.boundingRect().width();
         {
-          qreal slope = 2.5 * M_PI / 3;
-          static const int magic = 6;
+          QPainterPath smallTipPath;
 
-          simpleHeadPath.lineTo(QPointF(std::sin(slope) * magic, std::cos(slope) * magic));
-          simpleHeadPath.lineTo(QPointF(std::sin(-slope) * magic, std::cos(-slope) * magic));
-          simpleHeadPath.closeSubpath();
+          smallTipPath.lineTo(p1);
+          smallTipPath.lineTo(p0);
+          smallTipPath.lineTo(p2);
+          map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::SMALL_TIP,
+            {smallTipPath, ::Qt::transparent}));
         }
-
-        // SIMPLE
+        map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::SIMPLE_FILLED,
+          {simpleHeadPath, ::Qt::black}));
+        map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::SIMPLE_EMPTY,
+          {simpleHeadPath, ::Qt::white}));
         {
-          map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::SIMPLE_FILLED,
-            {simpleHeadPath, ::Qt::black}));
+          QPainterPath doubleHeadPath = simpleHeadPath;
+          QTransform transform;
+
+          transform.translate(simpleHeadWidth, 0);
+          doubleHeadPath.addPath(transform.map(simpleHeadPath));
+          map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::DOUBLE_FILLED,
+            {doubleHeadPath, ::Qt::black}));
+        }
+        {
+          QPainterPath diamondHeadPath(p0);
+          QPointF p3 = p0 + QPointF(simpleHeadWidth * 2, 0);
+          QTransform transform;
+
+          transform.translate(simpleHeadWidth * 2, 0);
+          transform.rotateRadians(M_PI);
+          diamondHeadPath.lineTo(p1);
+          diamondHeadPath.lineTo(p3);
+          diamondHeadPath.lineTo(p2);
+          diamondHeadPath.closeSubpath();
+          qDebug() << "diamondHeadPath: " << diamondHeadPath;
+          map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::DIAMOND_FILLED,
+            {diamondHeadPath, ::Qt::black}));
+          map.insert(std::pair<int, LinkHead::HeadData>((int)LinkHead::Type::DIAMOND_EMPTY,
+            {diamondHeadPath, ::Qt::white}));
         }
         return map;
       }
@@ -56,8 +93,12 @@ namespace CplusplusML
       void LinkHead::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
       {
         HeadData headData = this->getHeadData();
+        QPen pen = painter->pen();
 
+        pen.setWidth(this->_size);
+        painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
         painter->setBrush(headData.brush);
+        painter->setPen(pen);
         painter->drawPath(headData.path);
       }
 
@@ -90,8 +131,8 @@ namespace CplusplusML
             QTransform transform;
 
             transform.translate(this->_origin.x(), this->_origin.y());
-            transform.scale(this->_size, this->_size);
             transform.rotateRadians(this->_angle);
+            transform.scale(this->_size, this->_size);
             return HeadData {transform.map(it->second.path), it->second.brush};
           }
         return HeadData();

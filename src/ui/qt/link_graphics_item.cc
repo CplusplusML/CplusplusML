@@ -29,7 +29,7 @@ namespace CplusplusML
         this->setFlags(0);
         this->setZValue(2.0);
 
-        this->pen.setStyle(::Qt::DashDotLine);
+        this->pen.setStyle(::Qt::SolidLine);
         this->pen.setWidth(2);
         this->pen.setBrush(::Qt::black);
         this->pen.setCapStyle(::Qt::FlatCap);
@@ -43,7 +43,8 @@ namespace CplusplusML
 
         this->path.lineTo(QPointF(5, 5));
 
-        this->lhead.setParentItem(this);
+        this->frontHead.setParentItem(this);
+        this->backHead.setParentItem(this);
       }
 
       QLineF Link::firstPathLine()
@@ -69,13 +70,10 @@ namespace CplusplusML
       double    Link::angle()
       {
         QLineF linkLine = QLineF(tailItem->scenePos(), headItem->scenePos());
-        double angle = std::acos(std::abs(linkLine.dx()) / linkLine.length());
+        double angle = std::acos(linkLine.dx() / linkLine.length());
 
-        if (linkLine.dx() < 0)
-          angle = M_PI - angle;
-        if (linkLine.dy() > 0)
-          angle = (2 * M_PI) - angle;
-        qDebug() << "Angle: " << angle;
+        if (linkLine.dy() < 0)
+          angle = (2.0 * M_PI) - angle;
         return angle;
       }
 
@@ -96,32 +94,31 @@ namespace CplusplusML
                 newPos += QPointF(tailItemRect.width() / 2, 0);
                 head -= QPointF(headItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
-                arrowHeadAngle = (3.0 * M_PI) / 2.0;
+                arrowHeadAngle = 0;
               }
             else if (angle < (3.0 * M_PI) / 4.0)
               {
-                newPos -= QPointF(0, tailItemRect.height() / 2);
-                head += QPointF(0, headItemRect.height() / 2);
+                newPos += QPointF(0, tailItemRect.height() / 2);
+                head -= QPointF(0, headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
-                arrowHeadAngle = M_PI;
+                arrowHeadAngle = M_PI / 2;
               }
             else if (angle < (5.0 * M_PI) / 4.0)
               {
                 newPos -= QPointF(tailItemRect.width() / 2, 0);
                 head += QPointF(headItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
-                arrowHeadAngle = M_PI / 2;
+                arrowHeadAngle = M_PI;
               }
             else
               {
-                newPos += QPointF(0, tailItemRect.height() / 2);
-                head -= QPointF(0, headItemRect.height() / 2);
+                newPos -= QPointF(0, tailItemRect.height() / 2);
+                head += QPointF(0, headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
-                arrowHeadAngle = 0;
+                arrowHeadAngle = 3.0 * M_PI / 2;
               }
             this->setPos(newPos);
             head = this->mapFromItem(this->headItem, head);
-            qDebug() << "newPos: " << newPos;
 
             QPointF     p1;
             QPointF     p2;
@@ -141,10 +138,13 @@ namespace CplusplusML
             this->path.lineTo(p2);
             this->path.lineTo(head);
 
-            lhead.setAngle(arrowHeadAngle);
-            lhead.setSize(3);
-            lhead.setType(LinkHead::Type::SIMPLE_FILLED);
-            lhead.setOrigin(head);
+            frontHead.setAngle(M_PI + arrowHeadAngle);
+            frontHead.setSize(2);
+            frontHead.setOrigin(head);
+
+            backHead.setAngle(arrowHeadAngle);
+            backHead.setSize(2);
+            backHead.setOrigin(QPointF(0, 0));
           }
       }
 
@@ -193,8 +193,8 @@ namespace CplusplusML
         QPainterPathStroker stroker;
         QPainterPath path = this->path;
 
-        //        path.addPolygon(arrowHead);
-        path.addPath(lhead.shape());
+        path.addPath(frontHead.shape());
+        path.addPath(backHead.shape());
         stroker.setWidth(pen.width() * 2);
         stroker.setCapStyle(::Qt::RoundCap);
         stroker.setJoinStyle(::Qt::RoundJoin);
