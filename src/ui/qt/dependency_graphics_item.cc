@@ -10,7 +10,7 @@ namespace CplusplusML
         Link(nullptr)
       {
         this->frontHead.setType(LinkHead::Type::SMALL_TIP);
-        this->pen.setStyle(::Qt::SolidLine);
+        this->pen.setStyle(::Qt::DotLine);
       }
     }
   }
