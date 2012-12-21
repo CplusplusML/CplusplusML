@@ -32,7 +32,7 @@ namespace CplusplusML
         this->setZValue(2.0);
 
         this->pen.setStyle(::Qt::SolidLine);
-        this->pen.setWidth(2);
+        this->pen.setWidth(1);
         this->pen.setBrush(::Qt::black);
         this->pen.setCapStyle(::Qt::FlatCap);
         this->pen.setJoinStyle(::Qt::RoundJoin);
@@ -91,36 +91,74 @@ namespace CplusplusML
             double angle = this->angle();
             double arrowHeadAngle;
 
+            //            QPointF origin = QPointF(0, 0);
+            QPointF headOffset;
+            QPointF tailOffset;
+
             if (angle > (7.0 * M_PI) / 4.0 || angle < M_PI / 4)
               {
-                newPos += QPointF(tailItemRect.width() / 2, 0);
-                head -= QPointF(headItemRect.width() / 2, 0);
+                tailOffset =  QPointF(tailItemRect.width() / 2, 0);
+                headOffset = QPointF(-headItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
                 arrowHeadAngle = 0;
               }
             else if (angle < (3.0 * M_PI) / 4.0)
               {
-                newPos += QPointF(0, tailItemRect.height() / 2);
-                head -= QPointF(0, headItemRect.height() / 2);
+                tailOffset = QPointF(0, tailItemRect.height() / 2);
+                headOffset = QPointF(0, -headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
                 arrowHeadAngle = M_PI / 2;
               }
             else if (angle < (5.0 * M_PI) / 4.0)
               {
-                newPos -= QPointF(tailItemRect.width() / 2, 0);
-                head += QPointF(headItemRect.width() / 2, 0);
+                tailOffset = QPointF(-tailItemRect.width() / 2, 0);
+                headOffset = QPointF(tailItemRect.width() / 2, 0);
                 orientation = LinkOrientation::Horizontal;
                 arrowHeadAngle = M_PI;
               }
             else
               {
-                newPos -= QPointF(0, tailItemRect.height() / 2);
-                head += QPointF(0, headItemRect.height() / 2);
+                tailOffset = QPointF(0, -tailItemRect.height() / 2);
+                headOffset = QPointF(0, headItemRect.height() / 2);
                 orientation = LinkOrientation::Vertical;
                 arrowHeadAngle = 3.0 * M_PI / 2;
               }
+            newPos += tailOffset;
+            head += headOffset;
+
             this->setPos(newPos);
             head = this->mapFromItem(this->headItem, head);
+
+
+            {
+              static const int borderSize = 2;
+              QString tailText = "private";
+              //              QFont f("Helvetica", 10);
+              QFont f;
+              QFontMetrics fm(f);
+              QLineF tailVector(QPointF(0, 0), tailOffset);
+              QPointF baseLine;
+              qreal rectOffset;
+
+              this->tailTextRect = fm.boundingRect(tailText);
+              this->tailTextRect.setWidth(this->tailTextRect.width() + borderSize * 2);
+              this->tailTextRect.setHeight(this->tailTextRect.height() + borderSize * 2);
+
+              rectOffset = std::abs(tailOffset.x() != 0 ? tailTextRect.width() / 2 : tailTextRect.height() / 2);
+              //(tailVector.unitVector().p2() * (tailTextRect.width() / 2))
+              this->tailTextRect.moveCenter(tailVector.unitVector().p2() * (rectOffset + 3));
+              baseLine = this->tailTextRect.bottomLeft() +
+                QPointF((this->tailTextRect.width() - fm.width(tailText)) / 2, -(fm.descent() + borderSize));
+              qDebug() << "tailTextRect: " << tailTextRect;
+              qDebug() << "baseLine: " << baseLine;
+              this->tailTextPath = QPainterPath();
+              this->tailTextPath.setFillRule(::Qt::WindingFill);
+              //              this->tailTextPath.addRect(tailTextRect);
+              this->tailTextPath.addText(baseLine, f, tailText);
+              this->tailTextPath.closeSubpath();
+
+              qDebug() << "fm.width: " << fm.width(tailText);
+            }
 
             QPointF     p1;
             QPointF     p2;
@@ -154,15 +192,33 @@ namespace CplusplusML
                                  const QStyleOptionGraphicsItem */*option*/,
                                  QWidget */*widget*/)
       {
-        painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
+        painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing);
+        //        painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
         if (this->hovered)
           {
             painter->setPen(outlinePen);
             painter->drawPath(shape());
           }
-        painter->setPen(pen);
-        painter->drawPath(path);
+        painter->setPen(this->pen);
+        painter->drawPath(this->path);
+
+        {
+          QPen _pen;
+
+          painter->fillRect(this->tailTextRect, ::Qt::white);
+
+          _pen.setStyle(::Qt::DotLine);
+          _pen.setWidth(1);
+          _pen.setColor(::Qt::black);
+          painter->setPen(_pen);
+          painter->drawRect(this->tailTextRect);
+
+          _pen.setStyle(::Qt::SolidLine);
+          painter->setPen(_pen);
+          painter->drawPath(this->tailTextPath);
+        }
+
         if (true) // When debugging =D
           {
             QPen _pen;
@@ -197,6 +253,8 @@ namespace CplusplusML
 
         path.addPath(frontHead.shape());
         path.addPath(backHead.shape());
+        path.addRect(tailTextRect);
+        path.addPath(tailTextPath);
         stroker.setWidth(pen.width() * 2);
         stroker.setCapStyle(::Qt::RoundCap);
         stroker.setJoinStyle(::Qt::RoundJoin);

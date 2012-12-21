@@ -67,6 +67,8 @@ namespace CplusplusML
         Object::Link*   object;
         QPen            outlinePen;
         QPainterPath    path;
+        QPainterPath    tailTextPath;
+        QRectF          tailTextRect;
         LinkOrientation orientation;
         QGraphicsObject* tailItem;
         QGraphicsObject* headItem;
