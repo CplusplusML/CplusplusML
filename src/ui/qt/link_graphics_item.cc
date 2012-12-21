@@ -41,7 +41,7 @@ namespace CplusplusML
         this->outlinePen.setCapStyle(::Qt::RoundCap);
         this->outlinePen.setJoinStyle(::Qt::RoundJoin);
         this->outlinePen.setWidth(pen.width());
-        this->outlinePen.setBrush(::Qt::green);
+        this->outlinePen.setBrush(::Qt::blue);
 
         this->path.lineTo(QPointF(5, 5));
 
@@ -179,11 +179,11 @@ namespace CplusplusML
             this->path.lineTo(head);
 
             frontHead.setAngle(M_PI + arrowHeadAngle);
-            frontHead.setSize(2);
+            frontHead.setSize(this->pen.width());
             frontHead.setOrigin(head);
 
             backHead.setAngle(arrowHeadAngle);
-            backHead.setSize(2);
+            backHead.setSize(this->pen.width());
             backHead.setOrigin(QPointF(0, 0));
           }
       }
@@ -195,7 +195,7 @@ namespace CplusplusML
         painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing);
         //        painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
 
-        if (this->hovered)
+        if (this->isSelected())
           {
             painter->setPen(outlinePen);
             painter->drawPath(shape());
@@ -299,7 +299,7 @@ namespace CplusplusML
                   delete this;
               }
             else
-              event->ignore();
+              handled = false;
             break;
           case QEvent::GraphicsSceneMouseRelease:
             qDebug() << "Link::sceneEvent: QEvent::GraphicsSceneMouseRelease";

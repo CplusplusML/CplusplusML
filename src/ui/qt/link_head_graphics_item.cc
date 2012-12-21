@@ -90,6 +90,13 @@ namespace CplusplusML
         return (headData.path.boundingRect());
       }
 
+      QPainterPath LinkHead::shape() const
+      {
+        HeadData headData = this->getHeadData();
+
+        return headData.path;
+      }
+
       void LinkHead::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
       {
         HeadData headData = this->getHeadData();
@@ -132,7 +139,7 @@ namespace CplusplusML
 
             transform.translate(this->_origin.x(), this->_origin.y());
             transform.rotateRadians(this->_angle);
-            transform.scale(this->_size, this->_size);
+            transform.scale(this->_size + 1, this->_size + 1);
             return HeadData {transform.map(it->second.path), it->second.brush};
           }
         return HeadData();

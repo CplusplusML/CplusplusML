@@ -30,6 +30,7 @@ namespace CplusplusML
         virtual ~LinkHead();
 
         virtual QRectF boundingRect() const;
+        QPainterPath shape() const;
         virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
         void    setAngle(qreal const& angle);
