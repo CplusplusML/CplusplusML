@@ -129,37 +129,6 @@ namespace CplusplusML
             this->setPos(newPos);
             head = this->mapFromItem(this->headItem, head);
 
-
-            {
-              static const int borderSize = 2;
-              QString tailText = "private";
-              //              QFont f("Helvetica", 10);
-              QFont f;
-              QFontMetrics fm(f);
-              QLineF tailVector(QPointF(0, 0), tailOffset);
-              QPointF baseLine;
-              qreal rectOffset;
-
-              this->tailTextRect = fm.boundingRect(tailText);
-              this->tailTextRect.setWidth(this->tailTextRect.width() + borderSize * 2);
-              this->tailTextRect.setHeight(this->tailTextRect.height() + borderSize * 2);
-
-              rectOffset = std::abs(tailOffset.x() != 0 ? tailTextRect.width() / 2 : tailTextRect.height() / 2);
-              //(tailVector.unitVector().p2() * (tailTextRect.width() / 2))
-              this->tailTextRect.moveCenter(tailVector.unitVector().p2() * (rectOffset + 3));
-              baseLine = this->tailTextRect.bottomLeft() +
-                QPointF((this->tailTextRect.width() - fm.width(tailText)) / 2, -(fm.descent() + borderSize));
-              qDebug() << "tailTextRect: " << tailTextRect;
-              qDebug() << "baseLine: " << baseLine;
-              this->tailTextPath = QPainterPath();
-              this->tailTextPath.setFillRule(::Qt::WindingFill);
-              //              this->tailTextPath.addRect(tailTextRect);
-              this->tailTextPath.addText(baseLine, f, tailText);
-              this->tailTextPath.closeSubpath();
-
-              qDebug() << "fm.width: " << fm.width(tailText);
-            }
-
             QPointF     p1;
             QPointF     p2;
 
@@ -185,6 +154,44 @@ namespace CplusplusML
             backHead.setAngle(arrowHeadAngle);
             backHead.setSize(this->pen.width());
             backHead.setOrigin(QPointF(0, 0));
+
+            {
+              static const int borderSize = 2;
+              QString tailText = "private";
+              //              QFont f("Helvetica", 10);
+              QFont f;
+              QFontMetrics fm(f);
+              QLineF tailVector(QPointF(0, 0), tailOffset);
+              QPointF baseLine;
+              qreal rectOffset;
+
+              this->tailTextRect = fm.boundingRect(tailText);
+              this->tailTextRect.setWidth(this->tailTextRect.width() + borderSize * 2);
+              this->tailTextRect.setHeight(this->tailTextRect.height() + borderSize * 2);
+
+              rectOffset = std::abs(tailOffset.x() != 0 ? tailTextRect.width() / 2 : tailTextRect.height() / 2);
+              if (!this->backHead.boundingRect().isNull())
+                {
+                  QRectF bRect = this->backHead.boundingRect();
+
+                  rectOffset += std::max(bRect.width(), bRect.height());
+                  qDebug() << "backHead.bRect(): " << this->backHead.boundingRect();
+                }
+              qDebug() << "rectOffset: " << rectOffset;
+              //(tailVector.unitVector().p2() * (tailTextRect.width() / 2))
+              this->tailTextRect.moveCenter(tailVector.unitVector().p2() * (rectOffset + 3));
+              baseLine = this->tailTextRect.bottomLeft() +
+                QPointF((this->tailTextRect.width() - fm.width(tailText)) / 2, -(fm.descent() + borderSize));
+              qDebug() << "tailTextRect: " << tailTextRect;
+              qDebug() << "baseLine: " << baseLine;
+              this->tailTextPath = QPainterPath();
+              this->tailTextPath.setFillRule(::Qt::WindingFill);
+              //              this->tailTextPath.addRect(tailTextRect);
+              this->tailTextPath.addText(baseLine, f, tailText);
+              this->tailTextPath.closeSubpath();
+
+              qDebug() << "fm.width: " << fm.width(tailText);
+            }
           }
       }
 
