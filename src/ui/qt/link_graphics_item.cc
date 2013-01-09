@@ -315,7 +315,7 @@ namespace CplusplusML
                 QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
                 Classificator* classificator = this->searchSceneItem<Classificator>(me->scenePos());
 
-                if (classificator != nullptr)
+                if (classificator != nullptr && classificator != this->tailItem)
                   {
                     this->headItem = classificator;
                     this->setZValue(0.0);
