@@ -5,6 +5,7 @@
 # include <QPen>
 
 # include "object/link.hh"
+# include "ui/qt/diagram_graphics_item.hh"
 # include "ui/qt/link_head_graphics_item.hh"
 
 namespace CplusplusML
@@ -17,7 +18,7 @@ namespace CplusplusML
 
       class LinkConnection;
 
-      class Link : public QGraphicsObject
+      class Link : public DiagramGraphicsItem
       {
         Q_OBJECT
 
@@ -35,10 +36,10 @@ namespace CplusplusML
         //DEBUG
         bool sceneEvent(QEvent *event);
         bool eventFilter(QObject* obj, QEvent *event);
-        //    bool sceneEventFilter(QObject *obj, QEvent *ev);
 
       public slots:
         void itemMoved();
+        void itemRemoved();
 
       protected:
         enum class LinkOrientation
@@ -46,8 +47,6 @@ namespace CplusplusML
           Horizontal,
           Vertical
         };
-
-        void keyReleaseEvent(QKeyEvent* event);
 
         template <class T>
         T* searchSceneItem(QPointF const& pos);

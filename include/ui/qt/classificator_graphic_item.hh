@@ -4,6 +4,7 @@
 # include       <QGraphicsItem>
 
 # include       "object/classificator.hh"
+# include       "ui/qt/diagram_graphics_item.hh"
 
 namespace               CplusplusML
 {
@@ -13,21 +14,23 @@ namespace               CplusplusML
     {
       namespace         Object = ::CplusplusML::Object;
 
-      class             Classificator: public QGraphicsObject
+      class             Classificator: public DiagramGraphicsItem
       {
         Q_OBJECT
 
       public:
         Classificator(Object::Classificator *object = 0,
                       QGraphicsItem *parent = 0):
-          QGraphicsObject(parent),
+          DiagramGraphicsItem(parent),
           object_(object)
         {
           this->setZValue(1.0);
+          this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+          this->setFlag(QGraphicsItem::ItemIsFocusable, true);
         }
 
         Classificator(QGraphicsItem *parent = 0):
-          QGraphicsObject(parent),
+          DiagramGraphicsItem(parent),
           object_(NULL)
         {
         }

@@ -27,8 +27,8 @@ namespace CplusplusML
         this->headItem = nullptr;
         this->tailItem = nullptr;
         this->hovered = false;
-        this->setFlags(QGraphicsItem::ItemIsSelectable |
-                       QGraphicsItem::ItemIsFocusable);
+        this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+        this->setFlag(QGraphicsItem::ItemIsFocusable, true);
         this->setZValue(2.0);
 
         this->pen.setStyle(::Qt::SolidLine);
@@ -324,6 +324,10 @@ namespace CplusplusML
                             this, SLOT(itemMoved()));
                     connect(headItem, SIGNAL(moved()),
                             this, SLOT(itemMoved()));
+                    connect(tailItem, SIGNAL(removed()),
+                            this, SLOT(itemRemoved()));
+                    connect(headItem, SIGNAL(removed()),
+                            this, SLOT(itemRemoved()));
                   }
                 else
                   delete this;
@@ -346,21 +350,6 @@ namespace CplusplusML
           }
         qDebug() << "event handled: " << handled;
         return handled || QGraphicsObject::sceneEvent(event);
-      }
-
-      void Link::keyReleaseEvent(QKeyEvent* event)
-      {
-        qDebug() << "Link::keyReleaseEvent";
-        switch (event->key())
-          {
-          case ::Qt::Key_Delete:
-            delete this;
-            event->accept();
-            break;
-          default:
-            event->ignore();
-            break;
-          }
       }
 
       bool Link::eventFilter(QObject *obj, QEvent *ev)
@@ -388,6 +377,12 @@ namespace CplusplusML
       void      Link::itemMoved()
       {
         this->adjustLink();
+      }
+
+      void      Link::itemRemoved()
+      {
+        qDebug() << "Classificator removed: Removing self";
+        delete this;
       }
     }
   }
