@@ -226,7 +226,7 @@ namespace CplusplusML
           painter->drawPath(this->tailTextPath);
         }
 
-        if (true) // When debugging =D
+        if (false) // When debugging =D
           {
             QPen _pen;
             _pen.setStyle(::Qt::DotLine);
