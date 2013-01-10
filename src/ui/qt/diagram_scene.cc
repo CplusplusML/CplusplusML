@@ -98,7 +98,7 @@ namespace               CplusplusML
                 break;
               default:
                 break;
-              };
+              }
             if (item != NULL)
               {
                 item->setSelected(true);
@@ -109,10 +109,20 @@ namespace               CplusplusML
                 SetMode(modeMoveItem);
                 qDebug() << "Item created: " << item;
                 emit ItemInserted(item);
+                if (dynamic_cast<Link*>(item) != nullptr)
+                  return QGraphicsScene::mousePressEvent(mouseEvent);
               }
           }
+        else
+          return QGraphicsScene::mousePressEvent(mouseEvent);
+      }
 
-        QGraphicsScene::mousePressEvent(mouseEvent);
+      void      DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
+      {
+        qDebug() << "Mouse release - Clearing item selection";
+        qDebug() << "Selected items: " << this->selectedItems();
+        this->clearSelection();
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
       }
 
       void              DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
