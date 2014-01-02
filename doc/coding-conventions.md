@@ -82,7 +82,8 @@ Implementation details
 
 Keep your block opening curly bracket to the line wich define the executing condition of your block :
 
-Examples: ```
+Examples:
+```
   /* The following block will be executed dependently of the previous "if".
   Also, you have to keep your '{' juste after your condition */
   if (1 == 1) {
@@ -103,7 +104,8 @@ Examples: ```
 Put a comment /* */ before your functions declaration to explain what are their inputs and outputs,
 what they do and a least one example of their utilisation.
 
-Example: ```
+Example:
+```
 
 /* Draw a line from point x to point y (included).
   Arguments :
