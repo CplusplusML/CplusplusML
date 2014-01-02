@@ -40,33 +40,86 @@ Naming
 ### Files & Folders
 
 - Names of files or folders have to be lowercase with each word separated by underscores.<br/>
-  Example : `cplusplusml/include/cplusplusml/nuclear_reactor/combustion_chamber.h`
+  Example: `cplusplusml/include/cplusplusml/nuclear_reactor/combustion_chamber.h`
 
 - C++ source files have as extension `.cc`
 
 - C++ header files have as extension `.h`
 
 - The folders have to be nammed like the namespace in it.<br/>
-  Example : definitions inside the namespace `cplusplusml::` are in the folder `cplusplusml/include/cplusplusml` and implementations are in `cplusplusml/src/cplusplusml`
+  Example: definitions inside the namespace `cplusplusml::` are in the folder `cplusplusml/include/cplusplusml` and implementations are in `cplusplusml/src/cplusplusml`
 
 - The files have to be nammed like the class in it.<br/>
-  Example : definition of class `::cplusplusml::Arrow` is in `cplusplusml/include/cplusplusml/arrow.h` and its implementation is in `cplusplusml/src/cplusplusml/arrow.cc`
+  Example: definition of class `::cplusplusml::Arrow` is in `cplusplusml/include/cplusplusml/arrow.h` and its implementation is in `cplusplusml/src/cplusplusml/arrow.cc`
 
 ### Namespaces
 
 - Namespaces names have to be lowercase with each word separated by underscores.<br/>
-  Example : `::cplusplusml::contraint`
+  Example: `::cplusplusml::contraint`
 
 ### Types
 
 - Types names have to be upper CamelCase (start by an capital letter and have a capital letter for each new word).<br/>
-  Example : `::cplusplusml::Arrow`
+  Example: `::cplusplusml::Arrow`
 
 ### Variables
 
 - Variables names have to be lowercase with underscores separating each word.<br/>
-  Example : `int previous_value;`
+  Example: `int previous_value;`
 
 ### Exceptions
 
 - Those conventions could be bypass when you follow an existing naming convention scheme.
+
+Implementation details
+----------------------
+
+### Blocks
+
+#### Opening curly bracket postion
+
+##### Rule:
+
+Keep your block opening curly bracket to the line wich define the executing condition of your block :
+
+Examples: ```
+  /* The following block will be executed dependently of the previous "if".
+  Also, you have to keep your '{' juste after your condition */
+  if (1 == 1) {
+    // content of your block
+  }
+
+  /* The following block is a unconditional block.
+  Also, you should put your '{' in a newline */
+  {
+    // block without executing condition
+  }
+  ```
+
+### Functions
+
+#### Comments
+
+Put a comment /* */ before your functions declaration to explain what are their inputs and outputs,
+what they do and a least one example of their utilisation.
+
+Example: ```
+
+/* Draw a line from point x to point y (included).
+  Arguments :
+  Coord x: coord of the begining of the line
+  Coord y: coord of the end of the line
+  Brush brush: brush used to draw the line
+  DrawingCallback: callback wich will be executed right after the drawing of the line
+
+  Examples: ```
+    // Draw a line from {0, 0} to {10, 10}
+    DrawLine({0, 0}, {10, 10}, Pencil(2));
+
+    // Draw a line from {10, 42} to {42, 10} and log it
+    DrawLine({10, 42}, {42, 10}, [] (Coord x, Coord y, Brush brush) {
+      Log("Draw line from x: % to y: % with brush % (%px)", x, y, brush.Name(), brush.Size()); });
+ ```
+*/
+void DrawLine(Coord x, Coord y, Brush brush);
+void DrawLine(Coord x, Coord y, Brush brush, DrawingCallback);
