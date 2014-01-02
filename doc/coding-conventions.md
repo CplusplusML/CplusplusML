@@ -105,8 +105,8 @@ Put a comment /* */ before your functions declaration to explain what are their 
 what they do and a least one example of their utilisation.
 
 Example:
-```
 
+```
 /* Draw a line from point x to point y (included).
   Arguments :
   Coord x: coord of the begining of the line
@@ -114,14 +114,14 @@ Example:
   Brush brush: brush used to draw the line
   DrawingCallback: callback wich will be executed right after the drawing of the line
 
-  Examples: ```
+  Examples: ``````
     // Draw a line from {0, 0} to {10, 10}
     DrawLine({0, 0}, {10, 10}, Pencil(2));
 
     // Draw a line from {10, 42} to {42, 10} and log it
     DrawLine({10, 42}, {42, 10}, [] (Coord x, Coord y, Brush brush) {
       Log("Draw line from x: % to y: % with brush % (%px)", x, y, brush.Name(), brush.Size()); });
- ```
+ ``````
 */
 void DrawLine(Coord x, Coord y, Brush brush);
 void DrawLine(Coord x, Coord y, Brush brush, DrawingCallback);
