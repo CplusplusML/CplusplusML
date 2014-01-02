@@ -123,3 +123,4 @@ Example: ```
 */
 void DrawLine(Coord x, Coord y, Brush brush);
 void DrawLine(Coord x, Coord y, Brush brush, DrawingCallback);
+```
