@@ -121,7 +121,7 @@ Example:
     // Draw a line from {10, 42} to {42, 10} and log it
     DrawLine({10, 42}, {42, 10}, [] (Coord x, Coord y, Brush brush) {
       Log("Draw line from x: % to y: % with brush % (%px)", x, y, brush.Name(), brush.Size()); });
- ```
+  ```
 */
 void DrawLine(Coord x, Coord y, Brush brush);
 void DrawLine(Coord x, Coord y, Brush brush, DrawingCallback);
