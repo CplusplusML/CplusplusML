@@ -102,9 +102,9 @@ padding: 0px;</string>
            </property>
            <item row="0" column="0">
             <widget class="QGraphicsView" name="graphicsView">
-              <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -127,7 +127,7 @@ padding: 0px;</string>
      <x>0</x>
      <y>0</y>
      <width>1168</width>
-     <height>27</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -139,12 +139,12 @@ padding: 0px;</string>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <widget class="QMenu" name="menuFichier">
+   <widget class="QMenu" name="menuFiles">
     <property name="title">
      <string>Files</string>
     </property>
     <addaction name="actionNew"/>
-    <addaction name="actionOPe"/>
+    <addaction name="actionOPen"/>
     <addaction name="actionOpen_As"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
@@ -195,7 +195,7 @@ padding: 0px;</string>
     <addaction name="actionAbout_C_Ml"/>
     <addaction name="actionC_Website"/>
    </widget>
-   <widget class="QMenu" name="menuInsert">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>Tools</string>
     </property>
@@ -207,12 +207,13 @@ padding: 0px;</string>
      <addaction name="actionProtected"/>
      <addaction name="actionPrivate"/>
     </widget>
+    <addaction name="actionCursor"/>
     <addaction name="actionClass"/>
     <addaction name="actionStruct"/>
     <addaction name="actionUnion"/>
-    <addaction name="actionTypedef"/>
     <addaction name="actionEnum"/>
     <addaction name="actionNamespace"/>
+    <addaction name="actionTypedef"/>
     <addaction name="separator"/>
     <addaction name="menuInheritance"/>
     <addaction name="actionComposition"/>
@@ -248,17 +249,17 @@ padding: 0px;</string>
     <addaction name="actionFit_On_Screen"/>
     <addaction name="actionFullscreen"/>
     <addaction name="separator"/>
-    <addaction name="actionAfficher_la_grille"/>
+    <addaction name="actionShow_grid"/>
     <addaction name="actionMagnetic_Grid"/>
     <addaction name="separator"/>
     <addaction name="actionScreenshot"/>
     <addaction name="actionActualize"/>
     <addaction name="actionSelf_organization"/>
    </widget>
-   <addaction name="menuFichier"/>
+   <addaction name="menuFiles"/>
    <addaction name="menuEdit"/>
    <addaction name="menuDisplay"/>
-   <addaction name="menuInsert"/>
+   <addaction name="menuTools"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -279,13 +280,26 @@ padding: 0px;</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionCursor"/>
+   <addaction name="actionClass"/>
+   <addaction name="actionStruct"/>
+   <addaction name="actionUnion"/>
+   <addaction name="actionEnum"/>
+   <addaction name="separator"/>
+   <addaction name="actionNamespace"/>
+   <addaction name="separator"/>
+   <addaction name="actionInheritance"/>
+   <addaction name="actionComposition"/>
+   <addaction name="actionAggregation"/>
+   <addaction name="actionDependency"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionNew">
    <property name="text">
     <string>New...</string>
    </property>
   </action>
-  <action name="actionOPe">
+  <action name="actionOPen">
    <property name="text">
     <string>Open...</string>
    </property>
@@ -390,7 +404,7 @@ padding: 0px;</string>
     <string>Fullscreen</string>
    </property>
   </action>
-  <action name="actionAfficher_la_grille">
+  <action name="actionShow_grid">
    <property name="text">
     <string>Show Grid</string>
    </property>
@@ -416,7 +430,7 @@ padding: 0px;</string>
    </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icons/icons/ToolClass.png</normaloff>:/icons/icons/ToolClass.png</iconset>
+     <normaloff>:/icons/icons/newClass.png</normaloff>:/icons/icons/newClass.png</iconset>
    </property>
    <property name="text">
     <string>Class</string>
@@ -431,7 +445,7 @@ padding: 0px;</string>
    </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icons/icons/ToolStruct.png</normaloff>:/icons/icons/ToolStruct.png</iconset>
+     <normaloff>:/icons/icons/newStruct.png</normaloff>:/icons/icons/newStruct.png</iconset>
    </property>
    <property name="text">
     <string>Structure</string>
@@ -446,7 +460,7 @@ padding: 0px;</string>
    </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icons/icons/ToolUnion.png</normaloff>:/icons/icons/ToolUnion.png</iconset>
+     <normaloff>:/icons/icons/newUnion.png</normaloff>:/icons/icons/newUnion.png</iconset>
    </property>
    <property name="text">
     <string>union</string>
@@ -458,7 +472,7 @@ padding: 0px;</string>
    </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icons/icons/ToolEnum.png</normaloff>:/icons/icons/ToolEnum.png</iconset>
+     <normaloff>:/icons/icons/newEnum.png</normaloff>:/icons/icons/newEnum.png</iconset>
    </property>
    <property name="text">
     <string>Enum</string>
@@ -473,7 +487,7 @@ padding: 0px;</string>
    </property>
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icons/icons/ToolNamespace.png</normaloff>:/icons/icons/ToolNamespace.png</iconset>
+     <normaloff>:/icons/icons/newNamespace.png</normaloff>:/icons/icons/newNamespace.png</iconset>
    </property>
    <property name="text">
     <string>Namespace</string>
