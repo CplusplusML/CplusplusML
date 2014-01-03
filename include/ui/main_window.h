@@ -23,7 +23,7 @@ namespace     cplusplusml {
 
     private slots:
 
-      void    on_actionExit_triggered();
+      void    on_action_exit_triggered();
 
     private:
 

@@ -23,7 +23,7 @@ namespace     cplusplusml {
       When the button exit from the file menu is triggered,
       close the main window.
     */
-    void      MainWindow::on_actionExit_triggered() {
+    void      MainWindow::on_action_exit_triggered() {
       close();
     }
 

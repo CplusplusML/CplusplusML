@@ -153,7 +153,7 @@ padding: 0px;</string>
     <addaction name="actionClose"/>
     <addaction name="actionClose_All"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="action_exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -226,7 +226,7 @@ padding: 0px;</string>
     <addaction name="separator"/>
     <addaction name="actionLibrary"/>
    </widget>
-   <widget class="QMenu" name="menuDisplay">
+   <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
@@ -258,7 +258,7 @@ padding: 0px;</string>
    </widget>
    <addaction name="menuFiles"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuDisplay"/>
+   <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
@@ -329,7 +329,7 @@ padding: 0px;</string>
     <string>Close All</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="action_exit">
    <property name="text">
     <string>Exit</string>
    </property>
