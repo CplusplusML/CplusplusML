@@ -139,132 +139,132 @@ padding: 0px;</string>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <widget class="QMenu" name="menuFiles">
+   <widget class="QMenu" name="menu_files">
     <property name="title">
      <string>Files</string>
     </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionOPen"/>
-    <addaction name="actionOpen_As"/>
+    <addaction name="action_new"/>
+    <addaction name="action_open"/>
+    <addaction name="action_open_as"/>
     <addaction name="separator"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_As"/>
+    <addaction name="action_save"/>
+    <addaction name="action_save_as"/>
     <addaction name="separator"/>
-    <addaction name="actionClose"/>
-    <addaction name="actionClose_All"/>
+    <addaction name="action_close"/>
+    <addaction name="action_close_all"/>
     <addaction name="separator"/>
     <addaction name="action_exit"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menu_edit">
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="menuPreferences">
+    <widget class="QMenu" name="menu_preferences">
      <property name="title">
       <string>Preferences</string>
      </property>
-     <addaction name="actionGeneral"/>
+     <addaction name="action_general"/>
      <addaction name="separator"/>
-     <addaction name="actionInterface"/>
-     <addaction name="actionShotcuts"/>
-     <addaction name="actionAutocomplete"/>
-     <addaction name="actionPlug_in"/>
+     <addaction name="action_interface"/>
+     <addaction name="action_shotcuts"/>
+     <addaction name="action_autocomplete"/>
+     <addaction name="action_plug_in"/>
     </widget>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
+    <addaction name="action_undo"/>
+    <addaction name="action_redo"/>
     <addaction name="separator"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionCopy"/>
-    <addaction name="actionPaste"/>
+    <addaction name="action_cut"/>
+    <addaction name="action_copy"/>
+    <addaction name="action_paste"/>
     <addaction name="separator"/>
-    <addaction name="menuPreferences"/>
+    <addaction name="menu_preferences"/>
    </widget>
-   <widget class="QMenu" name="menuWindow">
+   <widget class="QMenu" name="menu_window">
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionTools"/>
-    <addaction name="actionHistory"/>
-    <addaction name="actionFiles"/>
+    <addaction name="action_tools"/>
+    <addaction name="action_history"/>
+    <addaction name="action_files"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp"/>
-    <addaction name="actionAbout_C_Ml"/>
-    <addaction name="actionC_Website"/>
+    <addaction name="action_help"/>
+    <addaction name="action_about_cppml"/>
+    <addaction name="action_website"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuInheritance">
+    <widget class="QMenu" name="menu_inheritance">
      <property name="title">
       <string>Inheritance</string>
      </property>
-     <addaction name="actionPublic"/>
-     <addaction name="actionProtected"/>
-     <addaction name="actionPrivate"/>
+     <addaction name="action_public"/>
+     <addaction name="action_protected"/>
+     <addaction name="action_private"/>
     </widget>
-    <addaction name="actionCursor"/>
-    <addaction name="actionClass"/>
-    <addaction name="actionStruct"/>
-    <addaction name="actionUnion"/>
-    <addaction name="actionEnum"/>
-    <addaction name="actionNamespace"/>
-    <addaction name="actionTypedef"/>
+    <addaction name="action_cursor"/>
+    <addaction name="action_class"/>
+    <addaction name="action_struct"/>
+    <addaction name="action_union"/>
+    <addaction name="action_enum"/>
+    <addaction name="action_namespace"/>
+    <addaction name="action_typedef"/>
     <addaction name="separator"/>
-    <addaction name="menuInheritance"/>
-    <addaction name="actionComposition"/>
-    <addaction name="actionAggregation"/>
-    <addaction name="actionDependency"/>
+    <addaction name="menu_inheritance"/>
+    <addaction name="action_composition"/>
+    <addaction name="action_aggregation"/>
+    <addaction name="action_dependency"/>
     <addaction name="separator"/>
-    <addaction name="actionFreeFunction"/>
+    <addaction name="action_free_function"/>
     <addaction name="separator"/>
-    <addaction name="actionTemplate"/>
+    <addaction name="action_template"/>
     <addaction name="separator"/>
-    <addaction name="actionLibrary"/>
+    <addaction name="action_library"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menu_view">
     <property name="title">
      <string>View</string>
     </property>
-    <widget class="QMenu" name="menuZoom">
+    <widget class="QMenu" name="menu_zoom">
      <property name="title">
       <string>Zoom</string>
      </property>
-     <addaction name="action200"/>
-     <addaction name="action175"/>
-     <addaction name="action150"/>
-     <addaction name="action125"/>
-     <addaction name="action100"/>
-     <addaction name="action85"/>
-     <addaction name="action50"/>
-     <addaction name="action25"/>
+     <addaction name="action_zoom_200"/>
+     <addaction name="action_zoom_175"/>
+     <addaction name="action_zoom_150"/>
+     <addaction name="action_zoom_125"/>
+     <addaction name="action_zoom_100"/>
+     <addaction name="action_zoom_85"/>
+     <addaction name="action_zoom_50"/>
+     <addaction name="action_zoom_25"/>
     </widget>
-    <addaction name="actionZoom"/>
-    <addaction name="actionZoom_2"/>
-    <addaction name="menuZoom"/>
-    <addaction name="actionFit_On_Screen"/>
-    <addaction name="actionFullscreen"/>
+    <addaction name="action_zoom"/>
+    <addaction name="action_zoom_2"/>
+    <addaction name="menu_zoom"/>
+    <addaction name="action_fit_on_screen"/>
+    <addaction name="action_fullscreen"/>
     <addaction name="separator"/>
-    <addaction name="actionShow_grid"/>
-    <addaction name="actionMagnetic_Grid"/>
+    <addaction name="action_show_grid"/>
+    <addaction name="action_magnetic_grid"/>
     <addaction name="separator"/>
-    <addaction name="actionScreenshot"/>
-    <addaction name="actionActualize"/>
-    <addaction name="actionSelf_organization"/>
+    <addaction name="action_screenshot"/>
+    <addaction name="action_actualize"/>
+    <addaction name="action_self_organization"/>
    </widget>
-   <addaction name="menuFiles"/>
-   <addaction name="menuEdit"/>
-   <addaction name="menuView"/>
+   <addaction name="menu_files"/>
+   <addaction name="menu_edit"/>
+   <addaction name="menu_view"/>
    <addaction name="menuTools"/>
-   <addaction name="menuWindow"/>
-   <addaction name="menuHelp"/>
+   <addaction name="menu_window"/>
+   <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolbar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -280,51 +280,51 @@ padding: 0px;</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionCursor"/>
-   <addaction name="actionClass"/>
-   <addaction name="actionStruct"/>
-   <addaction name="actionUnion"/>
-   <addaction name="actionEnum"/>
+   <addaction name="action_cursor"/>
+   <addaction name="action_class"/>
+   <addaction name="action_struct"/>
+   <addaction name="action_union"/>
+   <addaction name="action_enum"/>
    <addaction name="separator"/>
-   <addaction name="actionNamespace"/>
+   <addaction name="action_namespace"/>
    <addaction name="separator"/>
    <addaction name="actionInheritance"/>
-   <addaction name="actionComposition"/>
-   <addaction name="actionAggregation"/>
-   <addaction name="actionDependency"/>
+   <addaction name="action_composition"/>
+   <addaction name="action_aggregation"/>
+   <addaction name="action_dependency"/>
    <addaction name="separator"/>
   </widget>
-  <action name="actionNew">
+  <action name="action_new">
    <property name="text">
     <string>New...</string>
    </property>
   </action>
-  <action name="actionOPen">
+  <action name="action_open">
    <property name="text">
     <string>Open...</string>
    </property>
   </action>
-  <action name="actionOpen_As">
+  <action name="action_open_as">
    <property name="text">
     <string>Open As...</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="action_save">
    <property name="text">
     <string>Save</string>
    </property>
   </action>
-  <action name="actionSave_As">
+  <action name="action_save_as">
    <property name="text">
     <string>Save As...</string>
    </property>
   </action>
-  <action name="actionClose">
+  <action name="action_close">
    <property name="text">
     <string>Close</string>
    </property>
   </action>
-  <action name="actionClose_All">
+  <action name="action_close_all">
    <property name="text">
     <string>Close All</string>
    </property>
@@ -334,97 +334,97 @@ padding: 0px;</string>
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionUndo">
+  <action name="action_undo">
    <property name="text">
     <string>Undo</string>
    </property>
   </action>
-  <action name="actionRedo">
+  <action name="action_redo">
    <property name="text">
     <string>Redo</string>
    </property>
   </action>
-  <action name="actionCut">
+  <action name="action_cut">
    <property name="text">
     <string>Cut</string>
    </property>
   </action>
-  <action name="actionCopy">
+  <action name="action_copy">
    <property name="text">
     <string>Copy</string>
    </property>
   </action>
-  <action name="actionPaste">
+  <action name="action_paste">
    <property name="text">
     <string>Paste</string>
    </property>
   </action>
-  <action name="actionGeneral">
+  <action name="action_general">
    <property name="text">
     <string>General</string>
    </property>
   </action>
-  <action name="actionInterface">
+  <action name="action_interface">
    <property name="text">
     <string>Interface</string>
    </property>
   </action>
-  <action name="actionShotcuts">
+  <action name="action_shotcuts">
    <property name="text">
     <string>Shotcuts</string>
    </property>
   </action>
-  <action name="actionPlug_in">
+  <action name="action_plug_in">
    <property name="text">
     <string>Plug-Ins</string>
    </property>
   </action>
-  <action name="actionZoom">
+  <action name="action_zoom">
    <property name="text">
     <string>Zoom In</string>
    </property>
   </action>
-  <action name="actionZoom_2">
+  <action name="action_zoom_2">
    <property name="text">
     <string>Zoom Out</string>
    </property>
   </action>
-  <action name="actionScreenshot">
+  <action name="action_screenshot">
    <property name="text">
     <string>Screenshot</string>
    </property>
   </action>
-  <action name="actionFit_On_Screen">
+  <action name="action_fit_on_screen">
    <property name="text">
     <string>Fit On Screen</string>
    </property>
   </action>
-  <action name="actionFullscreen">
+  <action name="action_fullscreen">
    <property name="text">
     <string>Fullscreen</string>
    </property>
   </action>
-  <action name="actionShow_grid">
+  <action name="action_show_grid">
    <property name="text">
     <string>Show Grid</string>
    </property>
   </action>
-  <action name="actionMagnetic_Grid">
+  <action name="action_magnetic_grid">
    <property name="text">
     <string>Magnetic Grid</string>
    </property>
   </action>
-  <action name="actionActualize">
+  <action name="action_actualize">
    <property name="text">
     <string>Actualize</string>
    </property>
   </action>
-  <action name="actionSelf_organization">
+  <action name="action_self_organization">
    <property name="text">
     <string>Self-organization</string>
    </property>
   </action>
-  <action name="actionClass">
+  <action name="action_class">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -439,7 +439,7 @@ padding: 0px;</string>
     <string>Class</string>
    </property>
   </action>
-  <action name="actionStruct">
+  <action name="action_struct">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -454,7 +454,7 @@ padding: 0px;</string>
     <string>Structure</string>
    </property>
   </action>
-  <action name="actionUnion">
+  <action name="action_union">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -466,7 +466,7 @@ padding: 0px;</string>
     <string>union</string>
    </property>
   </action>
-  <action name="actionEnum">
+  <action name="action_enum">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -481,7 +481,7 @@ padding: 0px;</string>
     <string>Enum</string>
    </property>
   </action>
-  <action name="actionNamespace">
+  <action name="action_namespace">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -496,47 +496,47 @@ padding: 0px;</string>
     <string>Namespace</string>
    </property>
   </action>
-  <action name="action100">
+  <action name="action_zoom_100">
    <property name="text">
     <string>100 %</string>
    </property>
   </action>
-  <action name="action85">
+  <action name="action_zoom_85">
    <property name="text">
     <string>75 %</string>
    </property>
   </action>
-  <action name="action50">
+  <action name="action_zoom_50">
    <property name="text">
     <string>50 %</string>
    </property>
   </action>
-  <action name="action125">
+  <action name="action_zoom_125">
    <property name="text">
     <string>125 %</string>
    </property>
   </action>
-  <action name="action150">
+  <action name="action_zoom_150">
    <property name="text">
     <string>150 %</string>
    </property>
   </action>
-  <action name="action25">
+  <action name="action_zoom_25">
    <property name="text">
     <string>25%</string>
    </property>
   </action>
-  <action name="action175">
+  <action name="action_zoom_175">
    <property name="text">
     <string>175 %</string>
    </property>
   </action>
-  <action name="action200">
+  <action name="action_zoom_200">
    <property name="text">
     <string>200 %</string>
    </property>
   </action>
-  <action name="actionPublic">
+  <action name="action_public">
    <property name="text">
     <string>public</string>
    </property>
@@ -544,17 +544,17 @@ padding: 0px;</string>
     <enum>QAction::TextHeuristicRole</enum>
    </property>
   </action>
-  <action name="actionProtected">
+  <action name="action_protected">
    <property name="text">
     <string>protected</string>
    </property>
   </action>
-  <action name="actionPrivate">
+  <action name="action_private">
    <property name="text">
     <string>private</string>
    </property>
   </action>
-  <action name="actionComposition">
+  <action name="action_composition">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -566,7 +566,7 @@ padding: 0px;</string>
     <string>Composition</string>
    </property>
   </action>
-  <action name="actionAggregation">
+  <action name="action_aggregation">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -581,7 +581,7 @@ padding: 0px;</string>
     <string>Aggregation</string>
    </property>
   </action>
-  <action name="actionDependency">
+  <action name="action_dependency">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -593,7 +593,7 @@ padding: 0px;</string>
     <string>Dependency</string>
    </property>
   </action>
-  <action name="actionFreeFunction">
+  <action name="action_free_function">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -605,7 +605,7 @@ padding: 0px;</string>
     <string>Free Function</string>
    </property>
   </action>
-  <action name="actionTemplate">
+  <action name="action_template">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -617,7 +617,7 @@ padding: 0px;</string>
     <string>template</string>
    </property>
   </action>
-  <action name="actionTypedef">
+  <action name="action_typedef">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -629,7 +629,7 @@ padding: 0px;</string>
     <string>typedef / template alias</string>
    </property>
   </action>
-  <action name="actionAutocomplete">
+  <action name="action_autocomplete">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -637,7 +637,7 @@ padding: 0px;</string>
     <string>Autocomplete</string>
    </property>
   </action>
-  <action name="actionLibrary">
+  <action name="action_library">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -649,37 +649,37 @@ padding: 0px;</string>
     <string>Library</string>
    </property>
   </action>
-  <action name="actionTools">
+  <action name="action_tools">
    <property name="text">
     <string>Tools</string>
    </property>
   </action>
-  <action name="actionHistory">
+  <action name="action_history">
    <property name="text">
     <string>History</string>
    </property>
   </action>
-  <action name="actionFiles">
+  <action name="action_files">
    <property name="text">
     <string>Files</string>
    </property>
   </action>
-  <action name="actionHelp">
+  <action name="action_help">
    <property name="text">
     <string>C++ML Help</string>
    </property>
   </action>
-  <action name="actionAbout_C_Ml">
+  <action name="action_about_cppml">
    <property name="text">
     <string>About C++ML</string>
    </property>
   </action>
-  <action name="actionC_Website">
+  <action name="action_website">
    <property name="text">
     <string>C++ Website</string>
    </property>
   </action>
-  <action name="actionCursor">
+  <action name="action_cursor">
    <property name="checkable">
     <bool>true</bool>
    </property>
