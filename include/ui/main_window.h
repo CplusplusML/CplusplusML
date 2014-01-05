@@ -7,6 +7,8 @@
 # include "ui_main_window.h"
 # include "ui/diagram_scene.h"
 
+class               QAction;
+
 namespace           cplusplusml {
   namespace         ui {
 
@@ -18,16 +20,14 @@ namespace           cplusplusml {
       Q_OBJECT
 
     public:
-
       MainWindow();
       ~MainWindow();
 
     private slots:
-
       void          on_action_exit_triggered();
+      void          ToolbarActionTriggered(QAction* action);
 
     private:
-
       void          closeEvent(QCloseEvent* event);
 
     private:

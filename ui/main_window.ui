@@ -270,8 +270,8 @@ padding: 0px;</string>
    </property>
    <property name="iconSize">
     <size>
-     <width>25</width>
-     <height>25</height>
+     <width>30</width>
+     <height>30</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -280,19 +280,6 @@ padding: 0px;</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="action_cursor"/>
-   <addaction name="action_class"/>
-   <addaction name="action_struct"/>
-   <addaction name="action_union"/>
-   <addaction name="action_enum"/>
-   <addaction name="separator"/>
-   <addaction name="action_namespace"/>
-   <addaction name="separator"/>
-   <addaction name="actionInheritance"/>
-   <addaction name="action_composition"/>
-   <addaction name="action_aggregation"/>
-   <addaction name="action_dependency"/>
-   <addaction name="separator"/>
   </widget>
   <action name="action_new">
    <property name="text">
@@ -694,7 +681,7 @@ padding: 0px;</string>
     <string>Cursor</string>
    </property>
   </action>
-  <action name="actionInheritance">
+  <action name="action_inheritance">
    <property name="checkable">
     <bool>true</bool>
    </property>

@@ -9,25 +9,14 @@ namespace         cplusplusml {
     */
     DiagramScene::DiagramScene(QObject* parent=0):
       QGraphicsScene{parent},
-      current_mode_{Select} {
+      current_mode_{mode_select},
+      current_item_{DiagramItem::item_cursor} {
       }
 
     /*
       Destructor of the scene, do nothing
     */
     DiagramScene::~DiagramScene() {
-    }
-
-    /*
-      Set the current mode to use.
-      Arguments:
-      Mode mode: the mode to set
-
-      Ex:
-      scene->setMode(DiagramScene::Select);
-    */
-    inline void   DiagramScene::setMode(Mode mode) {
-      current_mode_ = mode;
     }
   }
 }
