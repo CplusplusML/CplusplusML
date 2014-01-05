@@ -48,9 +48,7 @@ INCLUDE(${QT_USE_FILE}
 #UI QT
 SET(${PROJECT_NAME}_QTUI
         ui/main_window.ui
-        ui/AboutWindow.ui
-        ui/HelpWindow.ui
-	ui/ComplexProperty.ui)
+  )
 
 # UI RESSOURCES
 SET(${PROJECT_NAME}_RESOURCES ui/ressources.qrc)
@@ -62,9 +60,10 @@ SET(${PROJECT_NAME}_SRC_DIRECTORY src/)
 SET(${PROJECT_NAME}_SRCS
     ${${PROJECT_NAME}_SRC_DIRECTORY}/main.cc
     ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/main_window.cc
+    ${${PROJECT_NAME}_SRC_DIRECTORY}/ui/diagram_scene.cc
     )
 
-SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++0x -g3")
+SET(CMAKE_CXX_FLAGS "-Wextra -Wall -std=c++11 -g3")
 
 #QT Compilation
 QT4_WRAP_UI(${PROJECT_NAME}_QTUI_HEADERS

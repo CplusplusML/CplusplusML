@@ -9,7 +9,9 @@ namespace     cplusplusml {
       Constructor of MainWindow, initialize the User Interface.
     */
     MainWindow::MainWindow() {
+
       setupUi(this);
+      diagram_scene_ = new DiagramScene(this);
     }
 
     /*
